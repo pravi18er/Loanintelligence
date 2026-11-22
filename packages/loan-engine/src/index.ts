@@ -1,13 +1,13 @@
 /**
  * Loan Intelligence calculation engine.
  *
- * Phase 0 contains only the package boundary. The calculation rules
- * (A-01 to A-08 in PRODUCT_DECISIONS.md) are implemented in Phase 1 and must
- * match the golden scenarios in reference/scenarios/ exactly, to the paisa.
+ * Implements the approved Release 1.0 calculation rules (PRODUCT_DECISIONS.md
+ * section 3). Every result must match the golden scenarios in
+ * reference/scenarios/ exactly, to the paisa.
  */
 
 /** Version of the engine. Bumped whenever any calculated output changes. */
-export const ENGINE_VERSION = "0.0.0";
+export const ENGINE_VERSION = "0.1.0";
 
 /** Approved calculation rules this engine is required to implement. */
 export const APPROVED_RULES = [
@@ -22,3 +22,15 @@ export const APPROVED_RULES = [
 ] as const;
 
 export type ApprovedRule = (typeof APPROVED_RULES)[number];
+
+export { amortise, MAX_MONTHS } from "./amortise.ts";
+export { addMonths, isValidIsoDate, type IsoDate } from "./dates.ts";
+export { calculateEmi, monthlyInterest } from "./emi.ts";
+export { displayRupees, paise, rupeesToPaise, sumPaise, type Paise } from "./money.ts";
+export type * from "./types.ts";
+export {
+  InvalidLoanInputError,
+  validateLoan,
+  type Issue,
+  type IssueSeverity,
+} from "./validation.ts";
