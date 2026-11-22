@@ -16,17 +16,24 @@ import { InvalidLoanInputError, validateLoan } from "./validation.ts";
 /** Longest schedule the engine will produce (50 years), so a loan that never closes still ends. */
 export const MAX_MONTHS = 600;
 
-/** Months needed to clear `balance` at a fixed rate and EMI, or null if it never clears. */
-function monthsToClear(balance: Paise, rate: Decimal, emi: Paise): number | null {
-  let b: number = balance;
-  let months = 0;
-  while (b > 0) {
-    months += 1;
-    const interest = monthlyInterest(paise(b), rate);
-    if (emi <= interest || months > MAX_MONTHS) return null;
-    b = b + interest - emi;
-  }
-  return months;
+/**
+ * Whole months to clear a balance at a fixed rate and EMI, or null if it never
+ * clears: n = -ln(1 - r*B/E) / ln(1 + r) rounded up, r = rate / 1200 (B / E at
+ * 0%). Used when the tenure is "kept" after it has been moving; the
+ * spreadsheet computes the same with ROUNDUP(NPER(...)).
+ */
+export function monthsToClear(
+  balance: Paise,
+  annualRatePercent: Decimal,
+  emi: Paise,
+): number | null {
+  const b = new Decimal(balance);
+  const e = new Decimal(emi);
+  if (annualRatePercent.isZero()) return b.dividedBy(e).ceil().toNumber();
+  const r = annualRatePercent.dividedBy(1200);
+  if (e.lessThanOrEqualTo(r.times(b))) return null;
+  const n = new Decimal(1).minus(r.times(b).dividedBy(e)).ln().negated().dividedBy(r.plus(1).ln());
+  return n.ceil().toNumber();
 }
 
 /**
@@ -37,8 +44,10 @@ function monthsToClear(balance: Paise, rate: Decimal, emi: Paise): number | null
  * - A-03/B-02 a rate change applies from the first period (EMI date to EMI
  *   date) starting on or after its effective date.
  * - A-04 keep EMI (default), keep tenure, or the bank's new EMI.
- * - A-06 a dated bank outstanding restarts the projection; the modelled
- *   history is untouched and the difference is reported.
+ * - A-06 a dated bank outstanding is the balance after every EMI due on or
+ *   before its date, so it becomes the opening balance of the first EMI due
+ *   after that date; the modelled history is untouched and the difference
+ *   (against the model on the same date) is reported.
  * - A-07/B-04 the final EMI is exactly what remains due; where a scheduled
  *   maturity exists the remainder is absorbed into the EMI at maturity.
  * - A-08/B-05 full disbursement one month before EMI 1; month-end dates.
@@ -74,7 +83,7 @@ export function amortise(input: LoanInput): Schedule {
     const flags: RowFlag[] = [];
 
     // A-06: a dated bank outstanding restarts the projection.
-    if (!bankApplied && bank && compareDates(periodStart, bank.asAt) >= 0) {
+    if (!bankApplied && bank && compareDates(dueDate, bank.asAt) > 0) {
       bankApplied = true;
       bankDifference = {
         asAt: bank.asAt,
@@ -90,10 +99,17 @@ export function amortise(input: LoanInput): Schedule {
       if (balance <= 0) break;
     }
 
-    // A-03: apply every change effective on or before this period's start.
-    let change = changes[nextChange];
-    while (change && compareDates(change.effectiveDate, periodStart) <= 0) {
+    // A-03: the latest change effective on or before this period's start.
+    // Several changes inside one period: only the last applies (no blend).
+    let change: RateChange | undefined;
+    while (
+      nextChange < changes.length &&
+      compareDates(changes[nextChange]?.effectiveDate ?? "", periodStart) <= 0
+    ) {
+      change = changes[nextChange];
       nextChange += 1;
+    }
+    if (change) {
       const previousRate = rate;
       rate = new Decimal(change.annualRatePercent);
       flags.push("rate_change");
@@ -120,7 +136,6 @@ export function amortise(input: LoanInput): Schedule {
       } else {
         maturity = null;
       }
-      change = changes[nextChange];
     }
 
     const opening = balance;

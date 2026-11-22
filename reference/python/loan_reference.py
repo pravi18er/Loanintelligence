@@ -16,9 +16,12 @@ A-03  A rate change applies from the first calculation period beginning on or
       (B-02). No mid-period splitting.
 A-04  Per change: keep EMI (default, tenure moves), keep tenure (EMI
       recalculated), or a bank-revised EMI.
-A-06  A dated bank-reported outstanding restarts the projection from the first
-      period beginning on or after its date. Modelled history is unchanged and
-      the difference is reported, never applied backwards.
+A-06  A dated bank-reported outstanding is the balance after every EMI due on
+      or before its date. It becomes the opening balance of the period in
+      which its date falls (the first EMI due after the date). The modelled
+      balance compared with it is the closing balance of the last EMI due on
+      or before the date. Modelled history is unchanged and the difference is
+      reported, never applied backwards.
 A-07  The final EMI is the exact remaining amount due (balance + interest).
       Where a scheduled maturity exists, any remainder is absorbed into the
       EMI at maturity; no extra instalment is created (B-04).
@@ -130,16 +133,22 @@ class Result:
     bank_difference: dict | None
 
 
-def _months_to_clear(balance: int, rate: Decimal, emi: int) -> int | None:
-    """Months needed to clear `balance` at a fixed rate and EMI, or None."""
-    months = 0
-    while balance > 0:
-        months += 1
-        interest = monthly_interest_paise(balance, rate)
-        if emi <= interest or months > MAX_MONTHS:
-            return None
-        balance = balance + interest - emi
-    return months
+def months_to_clear(balance_paise: int, annual_rate: Decimal, emi: int) -> int | None:
+    """Whole months to clear a balance at a fixed rate and EMI, or None if never.
+
+    Closed form, rounded up: n = -ln(1 - r*B/E) / ln(1 + r), with r = rate/1200
+    (B/E when the rate is 0). Used when the tenure must be "kept" after it has
+    been moving; the spreadsheet computes the same with ROUNDUP(NPER(...)).
+    """
+    b = rupees(balance_paise)
+    e = rupees(emi)
+    if annual_rate == 0:
+        return int((b / e).to_integral_value(rounding="ROUND_CEILING"))
+    r = annual_rate / 1200
+    if e <= r * b:
+        return None
+    n = -((1 - r * b / e).ln()) / (1 + r).ln()
+    return int(n.to_integral_value(rounding="ROUND_CEILING"))
 
 
 def amortise(loan: LoanInput) -> Result:
@@ -172,7 +181,7 @@ def amortise(loan: LoanInput) -> Result:
         flags: list[str] = []
 
         # A-06: dated bank outstanding restarts the projection.
-        if not anchor_done and start >= loan.bank_outstanding.as_at:
+        if not anchor_done and due > loan.bank_outstanding.as_at:
             anchor_done = True
             modelled = balance
             bank = loan.bank_outstanding.outstanding_paise
@@ -190,10 +199,13 @@ def amortise(loan: LoanInput) -> Result:
                 n -= 1
                 break
 
-        # A-03: changes whose effective date is on or before this period's start.
+        # A-03: the latest change effective on or before this period's start.
+        # Several changes inside one period: only the last applies (no blend).
+        ch = None
         while applied < len(changes) and changes[applied].effective <= start:
             ch = changes[applied]
             applied += 1
+        if ch is not None:
             old_rate, rate = rate, ch.annual_rate
             flags.append("rate_change")
             if ch.mode == BANK_EMI:
@@ -202,7 +214,7 @@ def amortise(loan: LoanInput) -> Result:
                 emi = ch.bank_emi_paise
             elif ch.mode == KEEP_TENURE:
                 if maturity is None:
-                    remaining = _months_to_clear(balance, old_rate, emi)
+                    remaining = months_to_clear(balance, old_rate, emi)
                     if remaining is None:
                         raise ValueError("cannot keep tenure: loan was not closing")
                     maturity = n - 1 + remaining

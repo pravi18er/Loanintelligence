@@ -45,3 +45,22 @@ jobs:
 
       - name: Golden scenarios match the Python reference
         run: pnpm reference:check
+
+  spreadsheet:
+    name: Spreadsheet v2 matches the golden scenarios
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install LibreOffice and openpyxl
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreoffice-calc
+          python -m pip install openpyxl==3.1.5
+
+      - name: Verify workbook against every golden scenario
+        run: python -I spreadsheet/verify_workbook.py

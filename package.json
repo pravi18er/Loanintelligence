@@ -15,7 +15,9 @@
     "test": "pnpm -r test",
     "reference:test": "python3 -I -m unittest discover -s reference/python",
     "reference:check": "python3 -I reference/python/scenarios.py --check",
-    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm reference:test && pnpm reference:check"
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm reference:test && pnpm reference:check",
+    "spreadsheet:build": "python3 -I spreadsheet/build_workbook.py",
+    "spreadsheet:verify": "python3 -I spreadsheet/verify_workbook.py"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

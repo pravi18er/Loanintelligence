@@ -156,11 +156,17 @@ describe("A-06 dated bank figures", () => {
   );
   const d = withBank.bankDifference;
 
-  it("T-A06-1 the projection restarts from the bank figure at the first period on or after its date", () => {
+  it("T-A06-1 the bank balance becomes the opening of the period its date falls in", () => {
     expect(d).not.toBeNull();
     const row = withBank.rows[(d?.appliesFromPeriod ?? 0) - 1];
-    expect((row?.periodStart ?? "") >= "2023-03-31").toBe(true);
+    expect((row?.periodStart ?? "") <= "2023-03-31").toBe(true);
+    expect((row?.dueDate ?? "") > "2023-03-31").toBe(true);
     expect(row?.opening).toBe(rupeesToPaise("4500000"));
+  });
+  it("T-A06-1b it is compared with the model on the same date", () => {
+    const lastDueBefore = model.rows[(d?.appliesFromPeriod ?? 0) - 2];
+    expect((lastDueBefore?.dueDate ?? "") <= "2023-03-31").toBe(true);
+    expect(d?.modelled).toBe(lastDueBefore?.closing);
   });
   it("T-A06-2 and T-A06-5 the modelled history before that date is unchanged", () => {
     const before = (d?.appliesFromPeriod ?? 1) - 1;
