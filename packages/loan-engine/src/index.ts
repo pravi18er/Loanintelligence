@@ -34,3 +34,17 @@ export {
   type Issue,
   type IssueSeverity,
 } from "./validation.ts";
+export {
+  calculatedKind,
+  labelText,
+  type Figure,
+  type FigureKind,
+  type FigureSource,
+  type Label,
+} from "./labels.ts";
+export {
+  realityCheck,
+  type RateHistoryKnown,
+  type RealityCheck,
+  type RealityCheckInput,
+} from "./reality-check.ts";
