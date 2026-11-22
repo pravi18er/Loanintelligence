@@ -26,6 +26,24 @@ sys.path.insert(0, str(HERE))
 
 import build_workbook as bw  # noqa: E402
 
+sys.path.insert(0, str(HERE.parent / "reference" / "python"))
+from benchmarks import mclr_on, repo_rate_on  # noqa: E402
+
+# (benchmark, tenor, date) looked up on the Benchmark Rates tab and compared
+# with the Python reference.
+BENCH_CASES = [
+    ("sbi", "one_year", "2022-06-15"),
+    ("sbi", "one_year", "2022-06-14"),
+    ("sbi", "six_month", "2026-11-22"),
+    ("sbi", "one_year", "2016-03-31"),
+    ("bank_of_baroda", "one_year", "2019-12-12"),
+    ("bank_of_baroda", "five_year", "2020-01-01"),
+    ("bank_of_baroda", "five_year", "2017-06-01"),
+    ("rbi_repo", "repo_rate", "2019-10-01"),
+    ("rbi_repo", "repo_rate", "2022-05-04"),
+    ("rbi_repo", "repo_rate", "2026-11-22"),
+]
+
 SCENARIOS = HERE.parent / "reference" / "scenarios"
 MODE_TEXT = {"keep_emi": bw.MODE_KEEP_EMI, "keep_tenure": bw.MODE_KEEP_TENURE, "bank_emi": bw.MODE_BANK_EMI}
 FLAG_TEXT = {
@@ -138,6 +156,25 @@ def dashboard_problems(wb, scenario: dict) -> list[str]:
     return [f"dashboard {k}: {got.get(k)} != {v}" for k, v in want.items() if got.get(k) != v]
 
 
+def fill_bench(path: Path, case: tuple[str, str, str]) -> None:
+    sid, tenor, day = case
+    wb = bw.build()
+    ws = wb["Benchmark Rates"]
+    ws["C5"] = next(t for t, _, i in bw.benchmark_series() if i == sid)
+    ws["C6"] = bw.TENOR_TEXT[tenor]
+    ws["C7"] = d(day)
+    wb.save(path)
+
+
+def bench_problem(path: Path, case: tuple[str, str, str]) -> str | None:
+    sid, tenor, day = case
+    want = repo_rate_on(d(day)) if sid == "rbi_repo" else mclr_on(sid, tenor, d(day))
+    got = load_workbook(path, data_only=True)["Benchmark Rates"]["C9"].value
+    ok = (Decimal(str(got)) == Decimal(want)) if want is not None and isinstance(got, (int, float)) else (
+        want is None and isinstance(got, str))
+    return None if ok else f"{case}: workbook {got!r}, reference {want!r}"
+
+
 def main() -> int:
     soffice = shutil.which("soffice") or shutil.which("libreoffice")
     if not soffice:
@@ -155,6 +192,8 @@ def main() -> int:
             s = json.loads(f.read_text())
             scenarios[s["id"]] = s
             fill(src_dir / f"{s['id']}.xlsx", s)
+        for k, case in enumerate(BENCH_CASES):
+            fill_bench(src_dir / f"bench-{k:02d}.xlsx", case)
         subprocess.run(
             [soffice, "--headless", f"-env:UserInstallation=file://{tmpdir}/profile",
              "--convert-to", "xlsx", "--outdir", str(out_dir), *map(str, sorted(src_dir.glob("*.xlsx")))],
@@ -167,8 +206,12 @@ def main() -> int:
                 print(f"FAIL {sid}: " + "; ".join(problems))
             else:
                 print(f"ok   {sid}: {len(s['expected']['schedule'])} rows match to the paisa")
+        bench_failures = [p for k, c in enumerate(BENCH_CASES) if (p := bench_problem(out_dir / f"bench-{k:02d}.xlsx", c))]
+    for p in bench_failures:
+        print(f"FAIL benchmark lookup {p}")
     print(f"{len(files) - failures}/{len(files)} scenarios match.")
-    return 1 if failures else 0
+    print(f"{len(BENCH_CASES) - len(bench_failures)}/{len(BENCH_CASES)} benchmark lookups match the reference.")
+    return 1 if failures or bench_failures else 0
 
 
 if __name__ == "__main__":

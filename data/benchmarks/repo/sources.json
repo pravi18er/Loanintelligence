@@ -1,0 +1,34 @@
+{
+  "table_version": "2026-11-22",
+  "benchmark": "RBI policy repo rate",
+  "note": "Each change in the RBI policy repo rate from the rate in force on 1 Oct 2019 (when external-benchmark-linked home loans began), as announced in the RBI's monetary policy resolutions and Governor's statements. Dates are announcement dates; the releases state the change takes effect immediately. Used for repo-linked loans (A-05, B-03).",
+  "series": [
+    {
+      "id": "rbi_repo",
+      "name": "Reserve Bank of India",
+      "file": "rbi_repo.csv",
+      "source_url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx",
+      "retrieved": "2026-11-22",
+      "source_last_updated": null,
+      "covers": ["2019-08-07", "2026-10-07"],
+      "tenors": ["repo_rate"],
+      "row_sources": {
+        "2019-08-07": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=47818",
+        "2019-10-04": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=48319",
+        "2020-03-27": "https://www.rbi.org.in/commonperson/English/Scripts/PressReleases.aspx?Id=3191",
+        "2020-05-22": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=49843",
+        "2022-05-04": "https://www.rbi.org.in/commonperson/English/scripts/PressReleases.aspx?Id=3356",
+        "2022-06-08": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=53832",
+        "2022-08-05": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=54148",
+        "2022-09-30": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=54465",
+        "2022-12-07": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=54818",
+        "2023-02-08": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=55177",
+        "2025-02-07": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=59692",
+        "2025-04-09": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=60177",
+        "2025-06-06": "https://rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=60604",
+        "2025-12-05": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61749",
+        "2026-10-07": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=63742"
+      }
+    }
+  ]
+}

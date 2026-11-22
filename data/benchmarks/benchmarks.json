@@ -1,0 +1,3031 @@
+{
+ "generated_from": "data/benchmarks/*/sources.json and CSV files",
+ "mclr": {
+  "table_version": "2026-11-22",
+  "benchmark": "MCLR",
+  "note": "Official MCLR histories as published by each bank, copied without rounding or gap-filling. Rates are percent per annum. A blank cell means the bank published no rate for that tenor on that date. HDFC Bank, ICICI Bank and Axis Bank publish no official MCLR history, so their loans carry forward the last known rate, labelled Estimated (B-07, 22 Nov 2026).",
+  "series": [
+   {
+    "id": "sbi",
+    "name": "State Bank of India",
+    "file": "sbi.csv",
+    "source_url": "https://sbi.bank.in/web/interest-rates/interest-rates/mclr-historical-data",
+    "retrieved": "2026-11-22",
+    "source_last_updated": "2026-11-16",
+    "covers": [
+     "2016-04-01",
+     "2026-10-15"
+    ],
+    "tenors": [
+     "overnight",
+     "one_month",
+     "three_month",
+     "six_month",
+     "one_year",
+     "two_year",
+     "three_year"
+    ],
+    "rows": [
+     {
+      "effective": "2016-04-01",
+      "rates": {
+       "overnight": "8.95",
+       "one_month": "9.05",
+       "three_month": "9.10",
+       "six_month": "9.15",
+       "one_year": "9.20",
+       "two_year": "9.30",
+       "three_year": "9.35"
+      }
+     },
+     {
+      "effective": "2016-05-01",
+      "rates": {
+       "overnight": "8.90",
+       "one_month": "9.00",
+       "three_month": "9.05",
+       "six_month": "9.10",
+       "one_year": "9.15",
+       "two_year": "9.25",
+       "three_year": "9.30"
+      }
+     },
+     {
+      "effective": "2016-06-01",
+      "rates": {
+       "overnight": "8.90",
+       "one_month": "9.00",
+       "three_month": "9.05",
+       "six_month": "9.10",
+       "one_year": "9.15",
+       "two_year": "9.25",
+       "three_year": "9.30"
+      }
+     },
+     {
+      "effective": "2016-07-01",
+      "rates": {
+       "overnight": "8.90",
+       "one_month": "9.00",
+       "three_month": "9.05",
+       "six_month": "9.10",
+       "one_year": "9.15",
+       "two_year": "9.25",
+       "three_year": "9.30"
+      }
+     },
+     {
+      "effective": "2016-08-01",
+      "rates": {
+       "overnight": "8.85",
+       "one_month": "8.95",
+       "three_month": "9.00",
+       "six_month": "9.05",
+       "one_year": "9.10",
+       "two_year": "9.20",
+       "three_year": "9.25"
+      }
+     },
+     {
+      "effective": "2016-09-01",
+      "rates": {
+       "overnight": "8.85",
+       "one_month": "8.95",
+       "three_month": "9.00",
+       "six_month": "9.05",
+       "one_year": "9.10",
+       "two_year": "9.20",
+       "three_year": "9.25"
+      }
+     },
+     {
+      "effective": "2016-10-01",
+      "rates": {
+       "overnight": "8.80",
+       "one_month": "8.90",
+       "three_month": "8.95",
+       "six_month": "9.00",
+       "one_year": "9.05",
+       "two_year": "9.15",
+       "three_year": "9.20"
+      }
+     },
+     {
+      "effective": "2016-11-01",
+      "rates": {
+       "overnight": "8.65",
+       "one_month": "8.75",
+       "three_month": "8.80",
+       "six_month": "8.85",
+       "one_year": "8.90",
+       "two_year": "9.00",
+       "three_year": "9.05"
+      }
+     },
+     {
+      "effective": "2016-12-01",
+      "rates": {
+       "overnight": "8.65",
+       "one_month": "8.75",
+       "three_month": "8.80",
+       "six_month": "8.85",
+       "one_year": "8.90",
+       "two_year": "9.00",
+       "three_year": "9.05"
+      }
+     },
+     {
+      "effective": "2017-01-01",
+      "rates": {
+       "overnight": "7.75",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "7.95",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2017-02-01",
+      "rates": {
+       "overnight": "7.75",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "7.95",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2017-03-01",
+      "rates": {
+       "overnight": "7.75",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "7.95",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2017-04-01",
+      "rates": {
+       "overnight": "7.75",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "7.95",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2017-05-01",
+      "rates": {
+       "overnight": "7.75",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "7.95",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2017-06-01",
+      "rates": {
+       "overnight": "7.75",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "7.95",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2017-07-01",
+      "rates": {
+       "overnight": "7.75",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "7.95",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2017-08-01",
+      "rates": {
+       "overnight": "7.75",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "7.95",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2017-09-01",
+      "rates": {
+       "overnight": "7.75",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "7.95",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2017-10-01",
+      "rates": {
+       "overnight": "7.75",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "7.95",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2017-11-01",
+      "rates": {
+       "overnight": "7.70",
+       "one_month": "7.80",
+       "three_month": "7.85",
+       "six_month": "7.90",
+       "one_year": "7.95",
+       "two_year": "8.05",
+       "three_year": "8.10"
+      }
+     },
+     {
+      "effective": "2017-12-01",
+      "rates": {
+       "overnight": "7.70",
+       "one_month": "7.80",
+       "three_month": "7.85",
+       "six_month": "7.90",
+       "one_year": "7.95",
+       "two_year": "8.05",
+       "three_year": "8.10"
+      }
+     },
+     {
+      "effective": "2018-01-01",
+      "rates": {
+       "overnight": "7.70",
+       "one_month": "7.80",
+       "three_month": "7.85",
+       "six_month": "7.90",
+       "one_year": "7.95",
+       "two_year": "8.05",
+       "three_year": "8.10"
+      }
+     },
+     {
+      "effective": "2018-02-01",
+      "rates": {
+       "overnight": "7.70",
+       "one_month": "7.80",
+       "three_month": "7.85",
+       "six_month": "7.90",
+       "one_year": "7.95",
+       "two_year": "8.05",
+       "three_year": "8.10"
+      }
+     },
+     {
+      "effective": "2018-03-01",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.80",
+       "three_month": "7.85",
+       "six_month": "8.00",
+       "one_year": "8.15",
+       "two_year": "8.25",
+       "three_year": "8.35"
+      }
+     },
+     {
+      "effective": "2018-04-01",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.80",
+       "three_month": "7.85",
+       "six_month": "8.00",
+       "one_year": "8.15",
+       "two_year": "8.25",
+       "three_year": "8.35"
+      }
+     },
+     {
+      "effective": "2018-05-01",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.80",
+       "three_month": "7.85",
+       "six_month": "8.00",
+       "one_year": "8.15",
+       "two_year": "8.25",
+       "three_year": "8.35"
+      }
+     },
+     {
+      "effective": "2018-06-01",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "7.90",
+       "three_month": "7.95",
+       "six_month": "8.10",
+       "one_year": "8.25",
+       "two_year": "8.35",
+       "three_year": "8.45"
+      }
+     },
+     {
+      "effective": "2018-07-01",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "7.90",
+       "three_month": "7.95",
+       "six_month": "8.10",
+       "one_year": "8.25",
+       "two_year": "8.35",
+       "three_year": "8.45"
+      }
+     },
+     {
+      "effective": "2018-08-01",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "7.90",
+       "three_month": "7.95",
+       "six_month": "8.10",
+       "one_year": "8.25",
+       "two_year": "8.35",
+       "three_year": "8.45"
+      }
+     },
+     {
+      "effective": "2018-09-01",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.10",
+       "three_month": "8.15",
+       "six_month": "8.30",
+       "one_year": "8.45",
+       "two_year": "8.55",
+       "three_year": "8.65"
+      }
+     },
+     {
+      "effective": "2018-10-01",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.35",
+       "one_year": "8.50",
+       "two_year": "8.60",
+       "three_year": "8.70"
+      }
+     },
+     {
+      "effective": "2018-11-01",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.35",
+       "one_year": "8.50",
+       "two_year": "8.60",
+       "three_year": "8.70"
+      }
+     },
+     {
+      "effective": "2018-12-10",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.25",
+       "six_month": "8.40",
+       "one_year": "8.55",
+       "two_year": "8.65",
+       "three_year": "8.75"
+      }
+     },
+     {
+      "effective": "2019-01-10",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.25",
+       "six_month": "8.40",
+       "one_year": "8.55",
+       "two_year": "8.65",
+       "three_year": "8.75"
+      }
+     },
+     {
+      "effective": "2019-02-10",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.25",
+       "six_month": "8.40",
+       "one_year": "8.55",
+       "two_year": "8.65",
+       "three_year": "8.75"
+      }
+     },
+     {
+      "effective": "2019-03-10",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.25",
+       "six_month": "8.40",
+       "one_year": "8.55",
+       "two_year": "8.65",
+       "three_year": "8.75"
+      }
+     },
+     {
+      "effective": "2019-04-10",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.35",
+       "one_year": "8.50",
+       "two_year": "8.60",
+       "three_year": "8.70"
+      }
+     },
+     {
+      "effective": "2019-05-10",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.10",
+       "three_month": "8.15",
+       "six_month": "8.30",
+       "one_year": "8.45",
+       "two_year": "8.55",
+       "three_year": "8.65"
+      }
+     },
+     {
+      "effective": "2019-06-10",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.10",
+       "three_month": "8.15",
+       "six_month": "8.30",
+       "one_year": "8.45",
+       "two_year": "8.55",
+       "three_year": "8.65"
+      }
+     },
+     {
+      "effective": "2019-07-10",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.05",
+       "three_month": "8.10",
+       "six_month": "8.25",
+       "one_year": "8.40",
+       "two_year": "8.50",
+       "three_year": "8.60"
+      }
+     },
+     {
+      "effective": "2019-08-10",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "7.90",
+       "three_month": "7.95",
+       "six_month": "8.10",
+       "one_year": "8.25",
+       "two_year": "8.35",
+       "three_year": "8.45"
+      }
+     },
+     {
+      "effective": "2019-09-10",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.80",
+       "three_month": "7.85",
+       "six_month": "8.00",
+       "one_year": "8.15",
+       "two_year": "8.25",
+       "three_year": "8.35"
+      }
+     },
+     {
+      "effective": "2019-10-10",
+      "rates": {
+       "overnight": "7.70",
+       "one_month": "7.70",
+       "three_month": "7.75",
+       "six_month": "7.90",
+       "one_year": "8.05",
+       "two_year": "8.15",
+       "three_year": "8.25"
+      }
+     },
+     {
+      "effective": "2019-11-10",
+      "rates": {
+       "overnight": "7.65",
+       "one_month": "7.65",
+       "three_month": "7.70",
+       "six_month": "7.85",
+       "one_year": "8.00",
+       "two_year": "8.10",
+       "three_year": "8.20"
+      }
+     },
+     {
+      "effective": "2019-12-10",
+      "rates": {
+       "overnight": "7.65",
+       "one_month": "7.65",
+       "three_month": "7.70",
+       "six_month": "7.85",
+       "one_year": "7.90",
+       "two_year": "8.10",
+       "three_year": "8.20"
+      }
+     },
+     {
+      "effective": "2020-01-10",
+      "rates": {
+       "overnight": "7.65",
+       "one_month": "7.65",
+       "three_month": "7.70",
+       "six_month": "7.85",
+       "one_year": "7.90",
+       "two_year": "8.10",
+       "three_year": "8.20"
+      }
+     },
+     {
+      "effective": "2020-02-10",
+      "rates": {
+       "overnight": "7.60",
+       "one_month": "7.60",
+       "three_month": "7.65",
+       "six_month": "7.80",
+       "one_year": "7.85",
+       "two_year": "8.05",
+       "three_year": "8.15"
+      }
+     },
+     {
+      "effective": "2020-03-10",
+      "rates": {
+       "overnight": "7.45",
+       "one_month": "7.45",
+       "three_month": "7.50",
+       "six_month": "7.70",
+       "one_year": "7.75",
+       "two_year": "7.95",
+       "three_year": "8.05"
+      }
+     },
+     {
+      "effective": "2020-04-10",
+      "rates": {
+       "overnight": "7.10",
+       "one_month": "7.10",
+       "three_month": "7.15",
+       "six_month": "7.35",
+       "one_year": "7.40",
+       "two_year": "7.60",
+       "three_year": "7.70"
+      }
+     },
+     {
+      "effective": "2020-05-10",
+      "rates": {
+       "overnight": "6.95",
+       "one_month": "6.95",
+       "three_month": "7.00",
+       "six_month": "7.20",
+       "one_year": "7.25",
+       "two_year": "7.45",
+       "three_year": "7.55"
+      }
+     },
+     {
+      "effective": "2020-06-10",
+      "rates": {
+       "overnight": "6.70",
+       "one_month": "6.70",
+       "three_month": "6.75",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2020-07-10",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2020-08-10",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2020-09-10",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2020-10-10",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2020-11-10",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2020-12-10",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-01-10",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-02-10",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-03-10",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-04-10",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-04-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-05-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-06-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-07-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-08-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-09-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-10-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-11-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-12-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2022-01-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2022-02-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2022-03-15",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "6.65",
+       "three_month": "6.65",
+       "six_month": "6.95",
+       "one_year": "7.00",
+       "two_year": "7.20",
+       "three_year": "7.30"
+      }
+     },
+     {
+      "effective": "2022-04-15",
+      "rates": {
+       "overnight": "6.75",
+       "one_month": "6.75",
+       "three_month": "6.75",
+       "six_month": "7.05",
+       "one_year": "7.10",
+       "two_year": "7.30",
+       "three_year": "7.40"
+      }
+     },
+     {
+      "effective": "2022-05-15",
+      "rates": {
+       "overnight": "6.85",
+       "one_month": "6.85",
+       "three_month": "6.85",
+       "six_month": "7.15",
+       "one_year": "7.20",
+       "two_year": "7.40",
+       "three_year": "7.50"
+      }
+     },
+     {
+      "effective": "2022-06-15",
+      "rates": {
+       "overnight": "7.05",
+       "one_month": "7.05",
+       "three_month": "7.05",
+       "six_month": "7.35",
+       "one_year": "7.40",
+       "two_year": "7.60",
+       "three_year": "7.70"
+      }
+     },
+     {
+      "effective": "2022-07-15",
+      "rates": {
+       "overnight": "7.15",
+       "one_month": "7.15",
+       "three_month": "7.15",
+       "six_month": "7.45",
+       "one_year": "7.50",
+       "two_year": "7.70",
+       "three_year": "7.80"
+      }
+     },
+     {
+      "effective": "2022-08-15",
+      "rates": {
+       "overnight": "7.35",
+       "one_month": "7.35",
+       "three_month": "7.35",
+       "six_month": "7.65",
+       "one_year": "7.70",
+       "two_year": "7.90",
+       "three_year": "8.00"
+      }
+     },
+     {
+      "effective": "2022-09-15",
+      "rates": {
+       "overnight": "7.35",
+       "one_month": "7.35",
+       "three_month": "7.35",
+       "six_month": "7.65",
+       "one_year": "7.70",
+       "two_year": "7.90",
+       "three_year": "8.00"
+      }
+     },
+     {
+      "effective": "2022-10-15",
+      "rates": {
+       "overnight": "7.60",
+       "one_month": "7.60",
+       "three_month": "7.60",
+       "six_month": "7.90",
+       "one_year": "7.95",
+       "two_year": "8.15",
+       "three_year": "8.25"
+      }
+     },
+     {
+      "effective": "2022-11-15",
+      "rates": {
+       "overnight": "7.60",
+       "one_month": "7.75",
+       "three_month": "7.75",
+       "six_month": "8.05",
+       "one_year": "8.05",
+       "two_year": "8.25",
+       "three_year": "8.35"
+      }
+     },
+     {
+      "effective": "2022-12-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "8.00",
+       "three_month": "8.00",
+       "six_month": "8.30",
+       "one_year": "8.30",
+       "two_year": "8.50",
+       "three_year": "8.60"
+      }
+     },
+     {
+      "effective": "2023-01-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "8.00",
+       "three_month": "8.00",
+       "six_month": "8.30",
+       "one_year": "8.40",
+       "two_year": "8.50",
+       "three_year": "8.60"
+      }
+     },
+     {
+      "effective": "2023-02-15",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.10",
+       "three_month": "8.10",
+       "six_month": "8.40",
+       "one_year": "8.50",
+       "two_year": "8.60",
+       "three_year": "8.70"
+      }
+     },
+     {
+      "effective": "2023-03-15",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.10",
+       "three_month": "8.10",
+       "six_month": "8.40",
+       "one_year": "8.50",
+       "two_year": "8.60",
+       "three_year": "8.70"
+      }
+     },
+     {
+      "effective": "2023-04-15",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.10",
+       "three_month": "8.10",
+       "six_month": "8.40",
+       "one_year": "8.50",
+       "two_year": "8.60",
+       "three_year": "8.70"
+      }
+     },
+     {
+      "effective": "2023-05-15",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.10",
+       "three_month": "8.10",
+       "six_month": "8.40",
+       "one_year": "8.50",
+       "two_year": "8.60",
+       "three_year": "8.70"
+      }
+     },
+     {
+      "effective": "2023-06-15",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.10",
+       "three_month": "8.10",
+       "six_month": "8.40",
+       "one_year": "8.50",
+       "two_year": "8.60",
+       "three_year": "8.70"
+      }
+     },
+     {
+      "effective": "2023-07-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.15",
+       "three_month": "8.15",
+       "six_month": "8.45",
+       "one_year": "8.55",
+       "two_year": "8.65",
+       "three_year": "8.75"
+      }
+     },
+     {
+      "effective": "2023-08-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.15",
+       "three_month": "8.15",
+       "six_month": "8.45",
+       "one_year": "8.55",
+       "two_year": "8.65",
+       "three_year": "8.75"
+      }
+     },
+     {
+      "effective": "2023-09-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.15",
+       "three_month": "8.15",
+       "six_month": "8.45",
+       "one_year": "8.55",
+       "two_year": "8.65",
+       "three_year": "8.75"
+      }
+     },
+     {
+      "effective": "2023-10-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.15",
+       "three_month": "8.15",
+       "six_month": "8.45",
+       "one_year": "8.55",
+       "two_year": "8.65",
+       "three_year": "8.75"
+      }
+     },
+     {
+      "effective": "2023-11-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.15",
+       "three_month": "8.15",
+       "six_month": "8.45",
+       "one_year": "8.55",
+       "two_year": "8.65",
+       "three_year": "8.75"
+      }
+     },
+     {
+      "effective": "2023-12-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.20",
+       "three_month": "8.20",
+       "six_month": "8.55",
+       "one_year": "8.65",
+       "two_year": "8.75",
+       "three_year": "8.85"
+      }
+     },
+     {
+      "effective": "2024-01-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.20",
+       "three_month": "8.20",
+       "six_month": "8.55",
+       "one_year": "8.65",
+       "two_year": "8.75",
+       "three_year": "8.85"
+      }
+     },
+     {
+      "effective": "2024-02-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.20",
+       "three_month": "8.20",
+       "six_month": "8.55",
+       "one_year": "8.65",
+       "two_year": "8.75",
+       "three_year": "8.85"
+      }
+     },
+     {
+      "effective": "2024-03-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.20",
+       "three_month": "8.20",
+       "six_month": "8.55",
+       "one_year": "8.65",
+       "two_year": "8.75",
+       "three_year": "8.85"
+      }
+     },
+     {
+      "effective": "2024-04-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.20",
+       "three_month": "8.20",
+       "six_month": "8.55",
+       "one_year": "8.65",
+       "two_year": "8.75",
+       "three_year": "8.85"
+      }
+     },
+     {
+      "effective": "2024-05-15",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.20",
+       "three_month": "8.20",
+       "six_month": "8.55",
+       "one_year": "8.65",
+       "two_year": "8.75",
+       "three_year": "8.85"
+      }
+     },
+     {
+      "effective": "2024-06-15",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.30",
+       "three_month": "8.30",
+       "six_month": "8.65",
+       "one_year": "8.75",
+       "two_year": "8.85",
+       "three_year": "8.95"
+      }
+     },
+     {
+      "effective": "2024-07-15",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.35",
+       "three_month": "8.40",
+       "six_month": "8.75",
+       "one_year": "8.85",
+       "two_year": "8.95",
+       "three_year": "9.00"
+      }
+     },
+     {
+      "effective": "2024-08-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.45",
+       "three_month": "8.50",
+       "six_month": "8.85",
+       "one_year": "8.95",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2024-09-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.45",
+       "three_month": "8.50",
+       "six_month": "8.85",
+       "one_year": "8.95",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2024-10-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.50",
+       "six_month": "8.85",
+       "one_year": "8.95",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2024-11-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.55",
+       "six_month": "8.90",
+       "one_year": "9.00",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2024-12-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.55",
+       "six_month": "8.90",
+       "one_year": "9.00",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2025-01-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.55",
+       "six_month": "8.90",
+       "one_year": "9.00",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2025-02-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.55",
+       "six_month": "8.90",
+       "one_year": "9.00",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2025-03-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.55",
+       "six_month": "8.90",
+       "one_year": "9.00",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2025-04-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.55",
+       "six_month": "8.90",
+       "one_year": "9.00",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2025-05-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.55",
+       "six_month": "8.90",
+       "one_year": "9.00",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2025-06-15",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.20",
+       "three_month": "8.55",
+       "six_month": "8.90",
+       "one_year": "9.00",
+       "two_year": "9.05",
+       "three_year": "9.10"
+      }
+     },
+     {
+      "effective": "2025-07-15",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "7.95",
+       "three_month": "8.35",
+       "six_month": "8.70",
+       "one_year": "8.80",
+       "two_year": "8.85",
+       "three_year": "8.90"
+      }
+     },
+     {
+      "effective": "2025-08-15",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "7.90",
+       "three_month": "8.30",
+       "six_month": "8.65",
+       "one_year": "8.75",
+       "two_year": "8.80",
+       "three_year": "8.85"
+      }
+     },
+     {
+      "effective": "2025-09-15",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "7.90",
+       "three_month": "8.30",
+       "six_month": "8.65",
+       "one_year": "8.75",
+       "two_year": "8.80",
+       "three_year": "8.85"
+      }
+     },
+     {
+      "effective": "2025-10-15",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "7.90",
+       "three_month": "8.30",
+       "six_month": "8.65",
+       "one_year": "8.75",
+       "two_year": "8.80",
+       "three_year": "8.85"
+      }
+     },
+     {
+      "effective": "2025-11-15",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "7.90",
+       "three_month": "8.30",
+       "six_month": "8.65",
+       "one_year": "8.75",
+       "two_year": "8.80",
+       "three_year": "8.85"
+      }
+     },
+     {
+      "effective": "2025-12-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.25",
+       "six_month": "8.60",
+       "one_year": "8.70",
+       "two_year": "8.75",
+       "three_year": "8.80"
+      }
+     },
+     {
+      "effective": "2026-01-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.25",
+       "six_month": "8.60",
+       "one_year": "8.70",
+       "two_year": "8.75",
+       "three_year": "8.80"
+      }
+     },
+     {
+      "effective": "2026-02-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.25",
+       "six_month": "8.60",
+       "one_year": "8.70",
+       "two_year": "8.75",
+       "three_year": "8.80"
+      }
+     },
+     {
+      "effective": "2026-03-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.25",
+       "six_month": "8.60",
+       "one_year": "8.70",
+       "two_year": "8.75",
+       "three_year": "8.80"
+      }
+     },
+     {
+      "effective": "2026-04-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.25",
+       "six_month": "8.60",
+       "one_year": "8.70",
+       "two_year": "8.75",
+       "three_year": "8.80"
+      }
+     },
+     {
+      "effective": "2026-05-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.25",
+       "six_month": "8.60",
+       "one_year": "8.70",
+       "two_year": "8.75",
+       "three_year": "8.80"
+      }
+     },
+     {
+      "effective": "2026-06-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.25",
+       "six_month": "8.60",
+       "one_year": "8.70",
+       "two_year": "8.75",
+       "three_year": "8.80"
+      }
+     },
+     {
+      "effective": "2026-07-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.25",
+       "six_month": "8.60",
+       "one_year": "8.70",
+       "two_year": "8.75",
+       "three_year": "8.80"
+      }
+     },
+     {
+      "effective": "2026-08-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.25",
+       "six_month": "8.60",
+       "one_year": "8.70",
+       "two_year": "8.75",
+       "three_year": "8.80"
+      }
+     },
+     {
+      "effective": "2026-09-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.25",
+       "six_month": "8.60",
+       "one_year": "8.70",
+       "two_year": "8.75",
+       "three_year": "8.80"
+      }
+     },
+     {
+      "effective": "2026-10-15",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "8.40",
+       "six_month": "8.75",
+       "one_year": "8.85",
+       "two_year": "8.90",
+       "three_year": "8.95"
+      }
+     }
+    ]
+   },
+   {
+    "id": "bank_of_baroda",
+    "name": "Bank of Baroda",
+    "file": "bank_of_baroda.csv",
+    "source_url": "https://bankofbaroda.bank.in/interest-rate-and-service-charges/retail-loans-interest-rates/mclr-historical-data",
+    "retrieved": "2026-11-22",
+    "source_last_updated": null,
+    "covers": [
+     "2016-04-07",
+     "2026-09-12"
+    ],
+    "tenors": [
+     "overnight",
+     "one_month",
+     "three_month",
+     "six_month",
+     "one_year",
+     "three_year",
+     "five_year"
+    ],
+    "caveats": [
+     "The page shows dates as DD-MM-YYYY without labelling the format; the sequence of rows confirms day-month-year.",
+     "The page's last-updated field is blank; the latest row is 12 Sep 2026."
+    ],
+    "rows": [
+     {
+      "effective": "2016-04-07",
+      "rates": {
+       "overnight": "9.00",
+       "one_month": "9.05",
+       "three_month": "9.05",
+       "six_month": "9.05",
+       "one_year": "9.25",
+       "three_year": "9.25",
+       "five_year": "9.45"
+      }
+     },
+     {
+      "effective": "2016-05-07",
+      "rates": {
+       "overnight": "9.05",
+       "one_month": "9.10",
+       "three_month": "9.20",
+       "six_month": "9.25",
+       "one_year": "9.30",
+       "three_year": "9.30",
+       "five_year": "9.50"
+      }
+     },
+     {
+      "effective": "2016-06-07",
+      "rates": {
+       "overnight": "9.15",
+       "one_month": "9.20",
+       "three_month": "9.30",
+       "six_month": "9.35",
+       "one_year": "9.40",
+       "three_year": "9.40",
+       "five_year": "9.60"
+      }
+     },
+     {
+      "effective": "2016-07-07",
+      "rates": {
+       "overnight": "9.15",
+       "one_month": "9.20",
+       "three_month": "9.30",
+       "six_month": "9.35",
+       "one_year": "9.40",
+       "three_year": "9.40",
+       "five_year": "9.60"
+      }
+     },
+     {
+      "effective": "2016-08-07",
+      "rates": {
+       "overnight": "9.15",
+       "one_month": "9.20",
+       "three_month": "9.30",
+       "six_month": "9.35",
+       "one_year": "9.40",
+       "three_year": "9.40",
+       "five_year": "9.60"
+      }
+     },
+     {
+      "effective": "2016-09-07",
+      "rates": {
+       "overnight": "9.15",
+       "one_month": "9.20",
+       "three_month": "9.30",
+       "six_month": "9.35",
+       "one_year": "9.40",
+       "three_year": "9.40",
+       "five_year": "9.60"
+      }
+     },
+     {
+      "effective": "2016-10-07",
+      "rates": {
+       "overnight": "9.10",
+       "one_month": "9.15",
+       "three_month": "9.25",
+       "six_month": "9.30",
+       "one_year": "9.35",
+       "three_year": "9.35",
+       "five_year": "9.55"
+      }
+     },
+     {
+      "effective": "2016-11-07",
+      "rates": {
+       "overnight": "9.00",
+       "one_month": "9.05",
+       "three_month": "9.15",
+       "six_month": "9.20",
+       "one_year": "9.25",
+       "three_year": "9.25",
+       "five_year": "9.45"
+      }
+     },
+     {
+      "effective": "2016-12-07",
+      "rates": {
+       "overnight": "8.80",
+       "one_month": "8.85",
+       "three_month": "8.95",
+       "six_month": "9.00",
+       "one_year": "9.05",
+       "three_year": "9.05",
+       "five_year": "9.25"
+      }
+     },
+     {
+      "effective": "2017-01-07",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.30",
+       "one_year": "8.35",
+       "three_year": "8.50",
+       "five_year": "8.65"
+      }
+     },
+     {
+      "effective": "2017-02-07",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.30",
+       "one_year": "8.35",
+       "three_year": "8.50",
+       "five_year": "8.65"
+      }
+     },
+     {
+      "effective": "2017-03-07",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.30",
+       "one_year": "8.35",
+       "three_year": "8.50",
+       "five_year": "8.65"
+      }
+     },
+     {
+      "effective": "2017-04-07",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.30",
+       "one_year": "8.35",
+       "three_year": "8.50",
+       "five_year": "8.65"
+      }
+     },
+     {
+      "effective": "2017-05-07",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.30",
+       "one_year": "8.35",
+       "three_year": "8.50",
+       "five_year": "8.65"
+      }
+     },
+     {
+      "effective": "2017-06-07",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.30",
+       "one_year": "8.35",
+       "three_year": "8.50",
+       "five_year": "8.65"
+      }
+     },
+     {
+      "effective": "2017-07-07",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.30",
+       "one_year": "8.35",
+       "three_year": "8.50",
+       "five_year": "8.65"
+      }
+     },
+     {
+      "effective": "2017-08-07",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.30",
+       "one_year": "8.35",
+       "three_year": "8.50",
+       "five_year": "8.65"
+      }
+     },
+     {
+      "effective": "2017-09-07",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.15",
+       "three_month": "8.20",
+       "six_month": "8.30",
+       "one_year": "8.35",
+       "three_year": "8.50",
+       "five_year": "8.65"
+      }
+     },
+     {
+      "effective": "2017-10-07",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.10",
+       "three_month": "8.15",
+       "six_month": "8.25",
+       "one_year": "8.30",
+       "three_year": "8.45",
+       "five_year": "8.60"
+      }
+     },
+     {
+      "effective": "2017-11-07",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.10",
+       "three_month": "8.15",
+       "six_month": "8.25",
+       "one_year": "8.30",
+       "three_year": "8.45",
+       "five_year": "8.60"
+      }
+     },
+     {
+      "effective": "2017-12-07",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.10",
+       "three_month": "8.15",
+       "six_month": "8.25",
+       "one_year": "8.30",
+       "three_year": "8.45",
+       "five_year": "8.60"
+      }
+     },
+     {
+      "effective": "2018-01-07",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.10",
+       "three_month": "8.15",
+       "six_month": "8.25",
+       "one_year": "8.30",
+       "three_year": "8.45",
+       "five_year": "8.60"
+      }
+     },
+     {
+      "effective": "2018-02-07",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.85",
+       "three_month": "7.95",
+       "six_month": "8.15",
+       "one_year": "8.30"
+      }
+     },
+     {
+      "effective": "2018-03-07",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.85",
+       "three_month": "7.95",
+       "six_month": "8.15",
+       "one_year": "8.30"
+      }
+     },
+     {
+      "effective": "2018-04-07",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "7.95",
+       "three_month": "8.05",
+       "six_month": "8.25",
+       "one_year": "8.40"
+      }
+     },
+     {
+      "effective": "2018-05-07",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "7.95",
+       "three_month": "8.05",
+       "six_month": "8.25",
+       "one_year": "8.40"
+      }
+     },
+     {
+      "effective": "2018-06-07",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.00",
+       "three_month": "8.10",
+       "six_month": "8.30",
+       "one_year": "8.45"
+      }
+     },
+     {
+      "effective": "2018-07-07",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.05",
+       "three_month": "8.15",
+       "six_month": "8.35",
+       "one_year": "8.50"
+      }
+     },
+     {
+      "effective": "2018-08-07",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.05",
+       "three_month": "8.15",
+       "six_month": "8.35",
+       "one_year": "8.50"
+      }
+     },
+     {
+      "effective": "2018-09-07",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.10",
+       "three_month": "8.20",
+       "six_month": "8.40",
+       "one_year": "8.55"
+      }
+     },
+     {
+      "effective": "2018-10-07",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.10",
+       "three_month": "8.20",
+       "six_month": "8.40",
+       "one_year": "8.55"
+      }
+     },
+     {
+      "effective": "2018-11-07",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.20",
+       "three_month": "8.30",
+       "six_month": "8.50",
+       "one_year": "8.65"
+      }
+     },
+     {
+      "effective": "2018-12-07",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.20",
+       "three_month": "8.30",
+       "six_month": "8.50",
+       "one_year": "8.65"
+      }
+     },
+     {
+      "effective": "2019-01-07",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.20",
+       "three_month": "8.30",
+       "six_month": "8.50",
+       "one_year": "8.65"
+      }
+     },
+     {
+      "effective": "2019-02-07",
+      "rates": {
+       "overnight": "8.35",
+       "one_month": "8.40",
+       "three_month": "8.50",
+       "six_month": "8.70",
+       "one_year": "8.75"
+      }
+     },
+     {
+      "effective": "2019-03-07",
+      "rates": {
+       "overnight": "8.25",
+       "one_month": "8.30",
+       "three_month": "8.40",
+       "six_month": "8.60",
+       "one_year": "8.65"
+      }
+     },
+     {
+      "effective": "2019-04-07",
+      "rates": {
+       "overnight": "8.25",
+       "one_month": "8.30",
+       "three_month": "8.40",
+       "six_month": "8.60",
+       "one_year": "8.65"
+      }
+     },
+     {
+      "effective": "2019-05-07",
+      "rates": {
+       "overnight": "8.30",
+       "one_month": "8.35",
+       "three_month": "8.45",
+       "six_month": "8.65",
+       "one_year": "8.70"
+      }
+     },
+     {
+      "effective": "2019-06-07",
+      "rates": {
+       "overnight": "8.30",
+       "one_month": "8.35",
+       "three_month": "8.45",
+       "six_month": "8.65",
+       "one_year": "8.70"
+      }
+     },
+     {
+      "effective": "2019-07-07",
+      "rates": {
+       "overnight": "8.20",
+       "one_month": "8.30",
+       "three_month": "8.40",
+       "six_month": "8.55",
+       "one_year": "8.60"
+      }
+     },
+     {
+      "effective": "2019-08-07",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.15",
+       "three_month": "8.25",
+       "six_month": "8.40",
+       "one_year": "8.45"
+      }
+     },
+     {
+      "effective": "2019-09-07",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.10",
+       "three_month": "8.20",
+       "six_month": "8.35",
+       "one_year": "8.40"
+      }
+     },
+     {
+      "effective": "2019-10-07",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.05",
+       "three_month": "8.15",
+       "six_month": "8.30",
+       "one_year": "8.35"
+      }
+     },
+     {
+      "effective": "2019-11-07",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.85",
+       "three_month": "7.90",
+       "six_month": "8.20",
+       "one_year": "8.30"
+      }
+     },
+     {
+      "effective": "2019-12-12",
+      "rates": {
+       "overnight": "7.65",
+       "one_month": "7.65",
+       "three_month": "7.80",
+       "six_month": "8.10",
+       "one_year": "8.25"
+      }
+     },
+     {
+      "effective": "2020-01-12",
+      "rates": {
+       "overnight": "7.65",
+       "one_month": "7.60",
+       "three_month": "7.80",
+       "six_month": "8.10",
+       "one_year": "8.25"
+      }
+     },
+     {
+      "effective": "2020-02-12",
+      "rates": {
+       "overnight": "7.55",
+       "one_month": "7.55",
+       "three_month": "7.70",
+       "six_month": "8.00",
+       "one_year": "8.15"
+      }
+     },
+     {
+      "effective": "2020-03-12",
+      "rates": {
+       "overnight": "7.55",
+       "one_month": "7.55",
+       "three_month": "7.70",
+       "six_month": "8.00",
+       "one_year": "8.15"
+      }
+     },
+     {
+      "effective": "2020-04-12",
+      "rates": {
+       "overnight": "7.40",
+       "one_month": "7.40",
+       "three_month": "7.55",
+       "six_month": "7.85",
+       "one_year": "8.00"
+      }
+     },
+     {
+      "effective": "2020-05-12",
+      "rates": {
+       "overnight": "7.35",
+       "one_month": "7.35",
+       "three_month": "7.50",
+       "six_month": "7.65",
+       "one_year": "7.80"
+      }
+     },
+     {
+      "effective": "2020-06-12",
+      "rates": {
+       "overnight": "7.20",
+       "one_month": "7.20",
+       "three_month": "7.35",
+       "six_month": "7.50",
+       "one_year": "7.65"
+      }
+     },
+     {
+      "effective": "2020-07-12",
+      "rates": {
+       "overnight": "7.15",
+       "one_month": "7.15",
+       "three_month": "7.30",
+       "six_month": "7.45",
+       "one_year": "7.60"
+      }
+     },
+     {
+      "effective": "2020-08-12",
+      "rates": {
+       "overnight": "7.00",
+       "one_month": "7.15",
+       "three_month": "7.30",
+       "six_month": "7.45",
+       "one_year": "7.60"
+      }
+     },
+     {
+      "effective": "2020-09-12",
+      "rates": {
+       "overnight": "6.70",
+       "one_month": "7.10",
+       "three_month": "7.25",
+       "six_month": "7.40",
+       "one_year": "7.55"
+      }
+     },
+     {
+      "effective": "2020-10-12",
+      "rates": {
+       "overnight": "6.65",
+       "one_month": "7.10",
+       "three_month": "7.25",
+       "six_month": "7.35",
+       "one_year": "7.50"
+      }
+     },
+     {
+      "effective": "2020-11-12",
+      "rates": {
+       "overnight": "6.60",
+       "one_month": "7.05",
+       "three_month": "7.20",
+       "six_month": "7.30",
+       "one_year": "7.45"
+      }
+     },
+     {
+      "effective": "2020-12-12",
+      "rates": {
+       "overnight": "6.55",
+       "one_month": "7.00",
+       "three_month": "7.15",
+       "six_month": "7.25",
+       "one_year": "7.40"
+      }
+     },
+     {
+      "effective": "2021-01-12",
+      "rates": {
+       "overnight": "6.55",
+       "one_month": "7.00",
+       "three_month": "7.15",
+       "six_month": "7.25",
+       "one_year": "7.40"
+      }
+     },
+     {
+      "effective": "2021-02-12",
+      "rates": {
+       "overnight": "6.55",
+       "one_month": "7.00",
+       "three_month": "7.15",
+       "six_month": "7.25",
+       "one_year": "7.40"
+      }
+     },
+     {
+      "effective": "2021-03-12",
+      "rates": {
+       "overnight": "6.55",
+       "one_month": "7.00",
+       "three_month": "7.15",
+       "six_month": "7.25",
+       "one_year": "7.40"
+      }
+     },
+     {
+      "effective": "2021-04-12",
+      "rates": {
+       "overnight": "6.55",
+       "one_month": "7.00",
+       "three_month": "7.15",
+       "six_month": "7.25",
+       "one_year": "7.40"
+      }
+     },
+     {
+      "effective": "2021-05-12",
+      "rates": {
+       "overnight": "6.55",
+       "one_month": "7.00",
+       "three_month": "7.15",
+       "six_month": "7.25",
+       "one_year": "7.40"
+      }
+     },
+     {
+      "effective": "2021-06-12",
+      "rates": {
+       "overnight": "6.55",
+       "one_month": "7.00",
+       "three_month": "7.10",
+       "six_month": "7.20",
+       "one_year": "7.35"
+      }
+     },
+     {
+      "effective": "2021-07-12",
+      "rates": {
+       "overnight": "6.55",
+       "one_month": "7.00",
+       "three_month": "7.10",
+       "six_month": "7.20",
+       "one_year": "7.35"
+      }
+     },
+     {
+      "effective": "2021-08-12",
+      "rates": {
+       "overnight": "6.55",
+       "one_month": "7.00",
+       "three_month": "7.10",
+       "six_month": "7.20",
+       "one_year": "7.35"
+      }
+     },
+     {
+      "effective": "2021-09-12",
+      "rates": {
+       "overnight": "6.55",
+       "one_month": "7.00",
+       "three_month": "7.10",
+       "six_month": "7.20",
+       "one_year": "7.35"
+      }
+     },
+     {
+      "effective": "2021-10-12",
+      "rates": {
+       "overnight": "6.50",
+       "one_month": "6.90",
+       "three_month": "7.05",
+       "six_month": "7.15",
+       "one_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-11-12",
+      "rates": {
+       "overnight": "6.50",
+       "one_month": "6.90",
+       "three_month": "7.05",
+       "six_month": "7.15",
+       "one_year": "7.30"
+      }
+     },
+     {
+      "effective": "2021-12-12",
+      "rates": {
+       "overnight": "6.50",
+       "one_month": "6.90",
+       "three_month": "7.05",
+       "six_month": "7.15",
+       "one_year": "7.30"
+      }
+     },
+     {
+      "effective": "2022-01-12",
+      "rates": {
+       "overnight": "6.45",
+       "one_month": "6.90",
+       "three_month": "7.05",
+       "six_month": "7.15",
+       "one_year": "7.30"
+      }
+     },
+     {
+      "effective": "2022-02-12",
+      "rates": {
+       "overnight": "6.45",
+       "one_month": "6.90",
+       "three_month": "7.05",
+       "six_month": "7.15",
+       "one_year": "7.30"
+      }
+     },
+     {
+      "effective": "2022-03-12",
+      "rates": {
+       "overnight": "6.45",
+       "one_month": "6.90",
+       "three_month": "7.05",
+       "six_month": "7.15",
+       "one_year": "7.30"
+      }
+     },
+     {
+      "effective": "2022-04-12",
+      "rates": {
+       "overnight": "6.50",
+       "one_month": "6.95",
+       "three_month": "7.10",
+       "six_month": "7.20",
+       "one_year": "7.35"
+      }
+     },
+     {
+      "effective": "2022-05-12",
+      "rates": {
+       "overnight": "6.60",
+       "one_month": "7.05",
+       "three_month": "7.15",
+       "six_month": "7.25",
+       "one_year": "7.40"
+      }
+     },
+     {
+      "effective": "2022-06-12",
+      "rates": {
+       "overnight": "6.80",
+       "one_month": "7.20",
+       "three_month": "7.25",
+       "six_month": "7.35",
+       "one_year": "7.50"
+      }
+     },
+     {
+      "effective": "2022-07-12",
+      "rates": {
+       "overnight": "6.80",
+       "one_month": "7.20",
+       "three_month": "7.35",
+       "six_month": "7.45",
+       "one_year": "7.65"
+      }
+     },
+     {
+      "effective": "2022-08-12",
+      "rates": {
+       "overnight": "6.85",
+       "one_month": "7.40",
+       "three_month": "7.45",
+       "six_month": "7.55",
+       "one_year": "7.70"
+      }
+     },
+     {
+      "effective": "2022-09-12",
+      "rates": {
+       "overnight": "7.00",
+       "one_month": "7.50",
+       "three_month": "7.50",
+       "six_month": "7.65",
+       "one_year": "7.80"
+      }
+     },
+     {
+      "effective": "2022-10-12",
+      "rates": {
+       "overnight": "7.10",
+       "one_month": "7.60",
+       "three_month": "7.65",
+       "six_month": "7.80",
+       "one_year": "7.95"
+      }
+     },
+     {
+      "effective": "2022-11-12",
+      "rates": {
+       "overnight": "7.25",
+       "one_month": "7.70",
+       "three_month": "7.75",
+       "six_month": "7.90",
+       "one_year": "8.05"
+      }
+     },
+     {
+      "effective": "2022-12-12",
+      "rates": {
+       "overnight": "7.50",
+       "one_month": "7.95",
+       "three_month": "8.05",
+       "six_month": "8.15",
+       "one_year": "8.30"
+      }
+     },
+     {
+      "effective": "2023-01-12",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "8.15",
+       "three_month": "8.25",
+       "six_month": "8.35",
+       "one_year": "8.50"
+      }
+     },
+     {
+      "effective": "2023-02-12",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "8.20",
+       "three_month": "8.30",
+       "six_month": "8.40",
+       "one_year": "8.55"
+      }
+     },
+     {
+      "effective": "2023-03-12",
+      "rates": {
+       "overnight": "7.90",
+       "one_month": "8.20",
+       "three_month": "8.30",
+       "six_month": "8.40",
+       "one_year": "8.55"
+      }
+     },
+     {
+      "effective": "2023-04-12",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.20",
+       "three_month": "8.30",
+       "six_month": "8.40",
+       "one_year": "8.60"
+      }
+     },
+     {
+      "effective": "2023-05-12",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.20",
+       "three_month": "8.30",
+       "six_month": "8.40",
+       "one_year": "8.60"
+      }
+     },
+     {
+      "effective": "2023-06-12",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.20",
+       "three_month": "8.30",
+       "six_month": "8.40",
+       "one_year": "8.65"
+      }
+     },
+     {
+      "effective": "2023-07-12",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "8.20",
+       "three_month": "8.30",
+       "six_month": "8.40",
+       "one_year": "8.65"
+      }
+     },
+     {
+      "effective": "2023-08-12",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.25",
+       "three_month": "8.35",
+       "six_month": "8.45",
+       "one_year": "8.70"
+      }
+     },
+     {
+      "effective": "2023-09-12",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.25",
+       "three_month": "8.35",
+       "six_month": "8.45",
+       "one_year": "8.70"
+      }
+     },
+     {
+      "effective": "2023-10-12",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.25",
+       "three_month": "8.35",
+       "six_month": "8.45",
+       "one_year": "8.70"
+      }
+     },
+     {
+      "effective": "2023-11-12",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.30",
+       "three_month": "8.40",
+       "six_month": "8.50",
+       "one_year": "8.75"
+      }
+     },
+     {
+      "effective": "2023-12-12",
+      "rates": {
+       "overnight": "8.00",
+       "one_month": "8.30",
+       "three_month": "8.40",
+       "six_month": "8.50",
+       "one_year": "8.75"
+      }
+     },
+     {
+      "effective": "2024-01-12",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.30",
+       "three_month": "8.40",
+       "six_month": "8.50",
+       "one_year": "8.80"
+      }
+     },
+     {
+      "effective": "2024-02-12",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.30",
+       "three_month": "8.40",
+       "six_month": "8.50",
+       "one_year": "8.80"
+      }
+     },
+     {
+      "effective": "2024-03-12",
+      "rates": {
+       "overnight": "8.05",
+       "one_month": "8.30",
+       "three_month": "8.40",
+       "six_month": "8.50",
+       "one_year": "8.80"
+      }
+     },
+     {
+      "effective": "2024-04-12",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.30",
+       "three_month": "8.45",
+       "six_month": "8.65",
+       "one_year": "8.85"
+      }
+     },
+     {
+      "effective": "2024-05-12",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.30",
+       "three_month": "8.45",
+       "six_month": "8.65",
+       "one_year": "8.85"
+      }
+     },
+     {
+      "effective": "2024-06-12",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.30",
+       "three_month": "8.45",
+       "six_month": "8.65",
+       "one_year": "8.85"
+      }
+     },
+     {
+      "effective": "2024-07-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.45",
+       "six_month": "8.70",
+       "one_year": "8.90"
+      }
+     },
+     {
+      "effective": "2024-08-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.50",
+       "six_month": "8.75",
+       "one_year": "8.95"
+      }
+     },
+     {
+      "effective": "2024-09-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.50",
+       "six_month": "8.75",
+       "one_year": "8.95"
+      }
+     },
+     {
+      "effective": "2024-10-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.50",
+       "six_month": "8.75",
+       "one_year": "8.95"
+      }
+     },
+     {
+      "effective": "2024-11-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.55",
+       "six_month": "8.80",
+       "one_year": "9.00"
+      }
+     },
+     {
+      "effective": "2024-12-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.55",
+       "six_month": "8.80",
+       "one_year": "9.00"
+      }
+     },
+     {
+      "effective": "2025-01-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.55",
+       "six_month": "8.80",
+       "one_year": "9.00"
+      }
+     },
+     {
+      "effective": "2025-02-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.55",
+       "six_month": "8.80",
+       "one_year": "9.00"
+      }
+     },
+     {
+      "effective": "2025-03-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.55",
+       "six_month": "8.80",
+       "one_year": "9.00"
+      }
+     },
+     {
+      "effective": "2025-04-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.55",
+       "six_month": "8.80",
+       "one_year": "9.00"
+      }
+     },
+     {
+      "effective": "2025-05-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.35",
+       "three_month": "8.55",
+       "six_month": "8.80",
+       "one_year": "8.95"
+      }
+     },
+     {
+      "effective": "2025-06-12",
+      "rates": {
+       "overnight": "8.15",
+       "one_month": "8.30",
+       "three_month": "8.50",
+       "six_month": "8.75",
+       "one_year": "8.90"
+      }
+     },
+     {
+      "effective": "2025-07-12",
+      "rates": {
+       "overnight": "8.10",
+       "one_month": "8.30",
+       "three_month": "8.50",
+       "six_month": "8.75",
+       "one_year": "8.90"
+      }
+     },
+     {
+      "effective": "2025-08-12",
+      "rates": {
+       "overnight": "7.95",
+       "one_month": "7.95",
+       "three_month": "8.35",
+       "six_month": "8.65",
+       "one_year": "8.80"
+      }
+     },
+     {
+      "effective": "2025-09-12",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.95",
+       "three_month": "8.20",
+       "six_month": "8.65",
+       "one_year": "8.80"
+      }
+     },
+     {
+      "effective": "2025-10-12",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.90",
+       "three_month": "8.20",
+       "six_month": "8.60",
+       "one_year": "8.75"
+      }
+     },
+     {
+      "effective": "2025-11-12",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.90",
+       "three_month": "8.20",
+       "six_month": "8.60",
+       "one_year": "8.75"
+      }
+     },
+     {
+      "effective": "2025-12-12",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.90",
+       "three_month": "8.15",
+       "six_month": "8.60",
+       "one_year": "8.75"
+      }
+     },
+     {
+      "effective": "2026-01-12",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.90",
+       "three_month": "8.15",
+       "six_month": "8.50",
+       "one_year": "8.75"
+      }
+     },
+     {
+      "effective": "2026-02-12",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.90",
+       "three_month": "8.15",
+       "six_month": "8.45",
+       "one_year": "8.70"
+      }
+     },
+     {
+      "effective": "2026-03-12",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.90",
+       "three_month": "8.15",
+       "six_month": "8.45",
+       "one_year": "8.70"
+      }
+     },
+     {
+      "effective": "2026-04-12",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.90",
+       "three_month": "8.15",
+       "six_month": "8.45",
+       "one_year": "8.70"
+      }
+     },
+     {
+      "effective": "2026-05-12",
+      "rates": {
+       "overnight": "7.80",
+       "one_month": "7.90",
+       "three_month": "8.15",
+       "six_month": "8.45",
+       "one_year": "8.70"
+      }
+     },
+     {
+      "effective": "2026-06-12",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.95",
+       "three_month": "8.20",
+       "six_month": "8.50",
+       "one_year": "8.75"
+      }
+     },
+     {
+      "effective": "2026-07-12",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.95",
+       "three_month": "8.20",
+       "six_month": "8.50",
+       "one_year": "8.75"
+      }
+     },
+     {
+      "effective": "2026-08-12",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.95",
+       "three_month": "8.30",
+       "six_month": "8.50",
+       "one_year": "8.75"
+      }
+     },
+     {
+      "effective": "2026-09-12",
+      "rates": {
+       "overnight": "7.85",
+       "one_month": "7.95",
+       "three_month": "8.30",
+       "six_month": "8.50",
+       "one_year": "8.75"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "repo": {
+  "table_version": "2026-11-22",
+  "benchmark": "RBI policy repo rate",
+  "note": "Each change in the RBI policy repo rate from the rate in force on 1 Oct 2019 (when external-benchmark-linked home loans began), as announced in the RBI's monetary policy resolutions and Governor's statements. Dates are announcement dates; the releases state the change takes effect immediately. Used for repo-linked loans (A-05, B-03).",
+  "series": [
+   {
+    "id": "rbi_repo",
+    "name": "Reserve Bank of India",
+    "file": "rbi_repo.csv",
+    "source_url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx",
+    "retrieved": "2026-11-22",
+    "source_last_updated": null,
+    "covers": [
+     "2019-08-07",
+     "2026-10-07"
+    ],
+    "tenors": [
+     "repo_rate"
+    ],
+    "row_sources": {
+     "2019-08-07": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=47818",
+     "2019-10-04": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=48319",
+     "2020-03-27": "https://www.rbi.org.in/commonperson/English/Scripts/PressReleases.aspx?Id=3191",
+     "2020-05-22": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=49843",
+     "2022-05-04": "https://www.rbi.org.in/commonperson/English/scripts/PressReleases.aspx?Id=3356",
+     "2022-06-08": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=53832",
+     "2022-08-05": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=54148",
+     "2022-09-30": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=54465",
+     "2022-12-07": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=54818",
+     "2023-02-08": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=55177",
+     "2025-02-07": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=59692",
+     "2025-04-09": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=60177",
+     "2025-06-06": "https://rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=60604",
+     "2025-12-05": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61749",
+     "2026-10-07": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=63742"
+    },
+    "rows": [
+     {
+      "effective": "2019-08-07",
+      "rates": {
+       "repo_rate": "5.40"
+      }
+     },
+     {
+      "effective": "2019-10-04",
+      "rates": {
+       "repo_rate": "5.15"
+      }
+     },
+     {
+      "effective": "2020-03-27",
+      "rates": {
+       "repo_rate": "4.40"
+      }
+     },
+     {
+      "effective": "2020-05-22",
+      "rates": {
+       "repo_rate": "4.00"
+      }
+     },
+     {
+      "effective": "2022-05-04",
+      "rates": {
+       "repo_rate": "4.40"
+      }
+     },
+     {
+      "effective": "2022-06-08",
+      "rates": {
+       "repo_rate": "4.90"
+      }
+     },
+     {
+      "effective": "2022-08-05",
+      "rates": {
+       "repo_rate": "5.40"
+      }
+     },
+     {
+      "effective": "2022-09-30",
+      "rates": {
+       "repo_rate": "5.90"
+      }
+     },
+     {
+      "effective": "2022-12-07",
+      "rates": {
+       "repo_rate": "6.25"
+      }
+     },
+     {
+      "effective": "2023-02-08",
+      "rates": {
+       "repo_rate": "6.50"
+      }
+     },
+     {
+      "effective": "2025-02-07",
+      "rates": {
+       "repo_rate": "6.25"
+      }
+     },
+     {
+      "effective": "2025-04-09",
+      "rates": {
+       "repo_rate": "6.00"
+      }
+     },
+     {
+      "effective": "2025-06-06",
+      "rates": {
+       "repo_rate": "5.50"
+      }
+     },
+     {
+      "effective": "2025-12-05",
+      "rates": {
+       "repo_rate": "5.25"
+      }
+     },
+     {
+      "effective": "2026-10-07",
+      "rates": {
+       "repo_rate": "5.50"
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

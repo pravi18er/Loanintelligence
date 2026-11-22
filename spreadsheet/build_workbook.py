@@ -14,6 +14,7 @@ Requires openpyxl.
 from __future__ import annotations
 
 import datetime as dt
+import json
 import sys
 from pathlib import Path
 
@@ -24,8 +25,10 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.workbook.defined_name import DefinedName
 from openpyxl.worksheet.datavalidation import DataValidation
 
-WORKBOOK_VERSION = "2.0.0"
-RULES = "A-01 to A-08 (A-02 as amended by B-06), B-02 to B-05; A-05 benchmark rates pending B-07"
+WORKBOOK_VERSION = "2.1.0"
+RULES = "A-01 to A-08 (A-02 as amended by B-06), B-02 to B-05, B-07, B-08"
+BENCHMARKS = json.loads((Path(__file__).resolve().parents[1] / "data" / "benchmarks" / "benchmarks.json").read_text())
+BENCH_FIRST_ROW = 16  # first data row of each table on the Benchmark Rates tab
 MAX_MONTHS = 600
 CHANGE_ROWS = 20
 FIRST_ROW = 8  # first data row of the Repayment Engine
@@ -75,6 +78,8 @@ def welcome(wb: Workbook) -> None:
         ("4.  Open the Loan Reality Check tab for your results and plain-English explanations.", None),
         ("5.  Check the Validation & Assumptions tab for anything flagged, and to see exactly how each number is calculated.", None),
         ("6.  The Repayment Engine tab shows every month of your loan. You don't need to edit it.", None),
+        ("7.  On an MCLR or repo-linked loan, the Benchmark Rates tab shows the published SBI and Bank of Baroda MCLR and the RBI repo rate on any date, "
+         "to help you fill in past rates. They are references, not your loan's rate.", None),
         ("", None),
         ("What the labels mean", H2),
         ("Each figure says what kind of figure it is and where it came from.", None),
@@ -484,6 +489,106 @@ def validation(wb: Workbook) -> None:
     ws.column_dimensions["A"].width = 12
 
 
+def benchmark_series() -> list[tuple[str, dict, str]]:
+    """(display name, series, short id) for every bundled benchmark series."""
+    out = []
+    for kind, label in (("mclr", "MCLR"), ("repo", "repo rate")):
+        for s in BENCHMARKS[kind]["series"]:
+            title = f"{s['name']} {label}" if kind == "mclr" else "RBI repo rate"
+            out.append((title, s, s["id"]))
+    return out
+
+
+TENOR_TEXT = {
+    "overnight": "Overnight", "one_month": "1 month", "three_month": "3 months", "six_month": "6 months",
+    "one_year": "1 year", "two_year": "2 years", "three_year": "3 years", "five_year": "5 years",
+    "repo_rate": "Repo rate",
+}
+
+
+def benchmarks(wb: Workbook) -> None:
+    """Published benchmark rates (B-03, B-07): a reference, never the loan's rate."""
+    from openpyxl.utils import get_column_letter as col
+
+    ws = wb.create_sheet("Benchmark Rates")
+    ws.column_dimensions["A"].width = 2
+    ws["B1"] = "Benchmark Rates"
+    ws["B1"].font = TITLE
+    ws["B2"] = ("Published rates, copied without change from SBI, Bank of Baroda and the RBI. They are a reference to help you "
+                "fill in your past rates. They are not your loan's rate: your rate is the benchmark plus your spread, and it "
+                "changes on your loan's reset dates. Label: Illustrative, from public benchmark rates.")
+    ws["B2"].alignment = WRAP
+    ws.merge_cells("B2:J2")
+    ws.row_dimensions[2].height = 48
+
+    series = benchmark_series()
+    names = [t for t, _, _ in series]
+    ws["B4"] = "Look up a rate"
+    ws["B4"].font = H2
+    ws["B5"], ws["B6"], ws["B7"] = "Benchmark", "Tenor", "On date"
+    ws["C5"], ws["C6"], ws["C7"] = names[0], TENOR_TEXT["one_year"], dt.date(2022, 6, 15)
+    for r in (5, 6, 7):
+        ws[f"B{r}"].font = BOLD
+        ws[f"C{r}"].fill = BLUE
+        ws[f"C{r}"].border = BOX
+    ws["C7"].number_format = DATE
+    ws.column_dimensions["B"].width = 16
+    ws.column_dimensions["C"].width = 30
+    dv_b = DataValidation(type="list", formula1='"' + ",".join(names) + '"', allow_blank=False)
+    dv_t = DataValidation(type="list", formula1='"' + ",".join(TENOR_TEXT.values()) + '"', allow_blank=False)
+    ws.add_data_validation(dv_b)
+    ws.add_data_validation(dv_t)
+    dv_b.add("C5")
+    dv_t.add("C6")
+
+    # Each series is a block of columns: date, then one column per tenor.
+    # Row 14 holds the series name, row 15 the tenor names, data from row 16.
+    blocks = []
+    start = 2
+    for title, s, _ in series:
+        width = 1 + len(s["tenors"])
+        ws.cell(row=13, column=start, value=title).font = H2
+        ws.cell(row=14, column=start, value=f"Source: {s['source_url']} (retrieved {s['retrieved']})").font = Font(italic=True, color="7F7F7F")
+        for j, h in enumerate(["Effective"] + [TENOR_TEXT[t] for t in s["tenors"]]):
+            c = ws.cell(row=15, column=start + j, value=h)
+            c.font = WHITE_BOLD
+            c.fill = HEAD
+        for i, row in enumerate(s["rows"]):
+            r = BENCH_FIRST_ROW + i
+            ws.cell(row=r, column=start, value=dt.date.fromisoformat(row["effective"])).number_format = DATE
+            for j, t in enumerate(s["tenors"], start=1):
+                v = row["rates"].get(t)
+                ws.cell(row=r, column=start + j, value=float(v) if v is not None else None).number_format = "0.00"
+        last = BENCH_FIRST_ROW + len(s["rows"]) - 1
+        first_c, last_c = col(start), col(start + width - 1)
+        blocks.append((title, f"${first_c}${BENCH_FIRST_ROW}:${first_c}${last}",
+                       f"${col(start + 1)}$15:${last_c}$15", f"${col(start + 1)}${BENCH_FIRST_ROW}:${last_c}${last}"))
+        for j in range(width):
+            ws.column_dimensions[col(start + j)].width = max(ws.column_dimensions[col(start + j)].width or 0, 11)
+        start += width + 1
+
+    # Lookup: pick the block by name, the row by the last effective date on or
+    # before the date, and the column by tenor name.
+    def pick(part: int) -> str:
+        return "CHOOSE(MATCH($C$5,{" + ",".join(f'"{b[0]}"' for b in blocks) + "},0)," + ",".join(b[part] for b in blocks) + ")"
+
+    ws["B9"], ws["B10"], ws["B11"] = "Rate", "Effective from", "Label"
+    for r in (9, 10, 11):
+        ws[f"B{r}"].font = BOLD
+        ws[f"C{r}"].fill = GREY
+    row_idx = f"MATCH($C$7,{pick(1)},1)"
+    col_idx = f"MATCH($C$6,{pick(2)},0)"
+    ws["C9"] = (f'=IFERROR(IF(INDEX({pick(3)},{row_idx},{col_idx})="","Not published for this tenor",'
+                f'INDEX({pick(3)},{row_idx},{col_idx})),"No published rate for that date and tenor")')
+    ws["C9"].number_format = '0.00"%"'
+    ws["C10"] = f'=IFERROR(INDEX({pick(1)},{row_idx}),"")'
+    ws["C10"].number_format = DATE
+    ws["C11"] = "Illustrative · from public benchmark rates"
+    ws["D9"] = "A reference only: not your loan's rate."
+    ws["D9"].font = Font(italic=True, color="7F7F7F")
+    ws.freeze_panes = "A16"
+
+
 def build() -> Workbook:
     wb = Workbook()
     welcome(wb)
@@ -491,6 +596,7 @@ def build() -> Workbook:
     engine(wb)
     reality(wb)
     validation(wb)
+    benchmarks(wb)
     wb.calculation.fullCalcOnLoad = True
     return wb
 

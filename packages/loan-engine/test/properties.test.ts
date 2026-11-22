@@ -75,12 +75,19 @@ describe("schedule invariants", () => {
     );
   });
 
-  it("without rate changes, the loan closes exactly at its tenure with no extra instalment", () => {
+  it("without rate changes, the loan closes by its tenure with no extra instalment", () => {
     fc.assert(
       fc.property(loan, (l) => {
         const s = amortise({ ...l, rateChanges: [] });
         expect(s.closed).toBe(true);
-        expect(s.rows).toHaveLength(l.tenureMonths);
+        // Rounding the EMI up to the paisa repays a little faster than the exact
+        // EMI. On a small loan over a long term that can add up to more than one
+        // EMI, so the loan closes a month early with a smaller final EMI (A-07):
+        // e.g. Rs 10,000.19 at 14.92% over 478 months closes in month 477.
+        expect(s.rows.length).toBeLessThanOrEqual(l.tenureMonths);
+        if (s.rows.length < l.tenureMonths) {
+          expect(s.rows.at(-1)?.payment).toBeLessThan(s.rows[0]?.payment ?? 0);
+        }
       }),
       { numRuns: 300 },
     );

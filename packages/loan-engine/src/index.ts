@@ -48,3 +48,12 @@ export {
   type RealityCheck,
   type RealityCheckInput,
 } from "./reality-check.ts";
+export {
+  MCLR_LENDERS,
+  MCLR_TABLE_VERSION,
+  mclrOn,
+  REPO_TABLE_VERSION,
+  repoRateOn,
+  type MclrLender,
+  type MclrTenor,
+} from "./benchmarks.ts";
