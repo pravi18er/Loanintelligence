@@ -1,0 +1,173 @@
+{
+ "fixture_version": 1,
+ "id": "G-02",
+ "title": "Zero interest (Rs 12 lakh, 12 months)",
+ "rules": [
+  "A-01",
+  "A-02"
+ ],
+ "input": {
+  "principal_paise": 120000000,
+  "annual_rate": "0",
+  "tenure_months": 12,
+  "first_emi_date": "2024-01-10",
+  "starting_emi_paise": null,
+  "rate_changes": [],
+  "bank_outstanding": null
+ },
+ "expected": {
+  "starting_emi_paise": 10000000,
+  "closed": true,
+  "months": 12,
+  "total_interest_paise": 0,
+  "total_paid_paise": 120000000,
+  "warnings": [],
+  "bank_difference": null,
+  "schedule": [
+   {
+    "n": 1,
+    "period_start": "2023-12-10",
+    "due_date": "2024-01-10",
+    "annual_rate": "0",
+    "opening_paise": 120000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 110000000,
+    "flags": []
+   },
+   {
+    "n": 2,
+    "period_start": "2024-01-10",
+    "due_date": "2024-02-10",
+    "annual_rate": "0",
+    "opening_paise": 110000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 100000000,
+    "flags": []
+   },
+   {
+    "n": 3,
+    "period_start": "2024-02-10",
+    "due_date": "2024-03-10",
+    "annual_rate": "0",
+    "opening_paise": 100000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 90000000,
+    "flags": []
+   },
+   {
+    "n": 4,
+    "period_start": "2024-03-10",
+    "due_date": "2024-04-10",
+    "annual_rate": "0",
+    "opening_paise": 90000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 80000000,
+    "flags": []
+   },
+   {
+    "n": 5,
+    "period_start": "2024-04-10",
+    "due_date": "2024-05-10",
+    "annual_rate": "0",
+    "opening_paise": 80000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 70000000,
+    "flags": []
+   },
+   {
+    "n": 6,
+    "period_start": "2024-05-10",
+    "due_date": "2024-06-10",
+    "annual_rate": "0",
+    "opening_paise": 70000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 60000000,
+    "flags": []
+   },
+   {
+    "n": 7,
+    "period_start": "2024-06-10",
+    "due_date": "2024-07-10",
+    "annual_rate": "0",
+    "opening_paise": 60000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 50000000,
+    "flags": []
+   },
+   {
+    "n": 8,
+    "period_start": "2024-07-10",
+    "due_date": "2024-08-10",
+    "annual_rate": "0",
+    "opening_paise": 50000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 40000000,
+    "flags": []
+   },
+   {
+    "n": 9,
+    "period_start": "2024-08-10",
+    "due_date": "2024-09-10",
+    "annual_rate": "0",
+    "opening_paise": 40000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 30000000,
+    "flags": []
+   },
+   {
+    "n": 10,
+    "period_start": "2024-09-10",
+    "due_date": "2024-10-10",
+    "annual_rate": "0",
+    "opening_paise": 30000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 20000000,
+    "flags": []
+   },
+   {
+    "n": 11,
+    "period_start": "2024-10-10",
+    "due_date": "2024-11-10",
+    "annual_rate": "0",
+    "opening_paise": 20000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 10000000,
+    "flags": []
+   },
+   {
+    "n": 12,
+    "period_start": "2024-11-10",
+    "due_date": "2024-12-10",
+    "annual_rate": "0",
+    "opening_paise": 10000000,
+    "interest_paise": 0,
+    "payment_paise": 10000000,
+    "principal_paise": 10000000,
+    "closing_paise": 0,
+    "flags": []
+   }
+  ]
+ }
+}

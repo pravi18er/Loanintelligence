@@ -1,0 +1,41 @@
+{
+ "fixture_version": 1,
+ "id": "G-03a",
+ "title": "Very short loan: 1 month",
+ "rules": [
+  "A-01",
+  "A-07"
+ ],
+ "input": {
+  "principal_paise": 10000000,
+  "annual_rate": "10",
+  "tenure_months": 1,
+  "first_emi_date": "2024-01-15",
+  "starting_emi_paise": null,
+  "rate_changes": [],
+  "bank_outstanding": null
+ },
+ "expected": {
+  "starting_emi_paise": 10083333,
+  "closed": true,
+  "months": 1,
+  "total_interest_paise": 83333,
+  "total_paid_paise": 10083333,
+  "warnings": [],
+  "bank_difference": null,
+  "schedule": [
+   {
+    "n": 1,
+    "period_start": "2023-12-15",
+    "due_date": "2024-01-15",
+    "annual_rate": "10",
+    "opening_paise": 10000000,
+    "interest_paise": 83333,
+    "payment_paise": 10083333,
+    "principal_paise": 10000000,
+    "closing_paise": 0,
+    "flags": []
+   }
+  ]
+ }
+}

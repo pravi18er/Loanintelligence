@@ -21,25 +21,25 @@ A wrong number shown confidently is the worst failure this product can have. Mos
 
 ## 2. Test cases for the eight approved calculation rules (S-07)
 
-Each case runs against all three implementations: the TypeScript engine, spreadsheet v2 and the Python reference. Expected values below were computed at full precision; displayed values are rounded to the nearest rupee.
+Each case runs against all three implementations: the TypeScript engine, spreadsheet v2 and the Python reference. Expected values below are in whole paise (A-02 as amended by B-06); displayed values are rounded to the nearest rupee. They are asserted in `reference/python/test_loan_reference.py`.
 
 ### A-01 Monthly reducing-balance interest
 
 | ID | Case | Expected |
 |---|---|---|
-| T-A01-1 | ₹50,00,000 at 8.5%, month 1 interest | 5,000,000 × 8.5 / 1200 = ₹35,416.6667 (shown ₹35,417) |
+| T-A01-1 | ₹50,00,000 at 8.5%, month 1 interest | 5,000,000 × 8.5 / 1200 = ₹35,416.67 (shown ₹35,417) |
 | T-A01-2 | Interest each month uses that month's opening balance | Interest(n) = Opening(n) × rate / 1200 for every n |
 | T-A01-3 | 0% interest | Interest is exactly ₹0 every month; EMI = loan ÷ tenure |
-| T-A01-4 | Known EMIs | ₹50L, 8.5%, 240 months: EMI ₹43,391.1617 (shown ₹43,391). ₹30L, 9%, 240 months: EMI ₹26,991.7787 (shown ₹26,992) |
+| T-A01-4 | Known EMIs | ₹50L, 8.5%, 240 months: EMI ₹43,391.16 (shown ₹43,391). ₹30L, 9%, 240 months: EMI ₹26,991.78 (shown ₹26,992) |
 
-### A-02 Full precision, display rounding
+### A-02 Paisa rounding, display rounding (amended by B-06)
 
 | ID | Case | Expected |
 |---|---|---|
-| T-A02-1 | No rounding inside the schedule | After 240 full-precision EMIs of ₹50L at 8.5%, the closing balance is zero (no residual); total interest ₹54,13,878.80 (shown ₹54,13,879) |
-| T-A02-2 | Display rounding | ₹x.50 rounds up; ₹x.49 rounds down; negative values never displayed for balances |
-| T-A02-3 | Totals are rounded from full precision | Displayed total = round(sum of full-precision values), not the sum of rounded rows; note shown where they differ |
-| T-A02-4 | Spreadsheet and engine agree | Every displayed rupee identical across implementations for all golden scenarios |
+| T-A02-1 | Paisa rounding inside the schedule | ₹50L at 8.5%, 240 months: every amount is whole paise; interest + principal = payment and opening − principal = closing in every row; final EMI ₹43,392.20; total interest ₹54,13,879.44 (shown ₹54,13,879) |
+| T-A02-2 | Rounding direction | Half-up at the paisa (₹1.005 → ₹1.01) and at the rupee (₹x.50 up, ₹x.49 down); balances never negative |
+| T-A02-3 | Totals | Displayed total = round(exact sum of paise rows), not the sum of rupee-rounded rows; note shown where they differ |
+| T-A02-4 | Spreadsheet and engine agree | Every amount identical to the paisa across implementations for all golden scenarios |
 
 ### A-03 Rate change from the first full period on or after the effective date
 
@@ -94,8 +94,8 @@ Rule detail approved (B-04): regular EMI stays the same; any remaining amount du
 
 | ID | Case | Expected |
 |---|---|---|
-| T-A07-1 | Calculated full-precision EMI, original tenure | Loan closes in exactly 240 months with zero balance; no extra EMI |
-| T-A07-2 | Bank-rounded EMI ₹43,391 on ₹50L, 8.5%, 240 months | Final (240th) EMI is the exact remaining due, ₹43,492.37 (shown ₹43,492); no 241st EMI of about ₹102 |
+| T-A07-1 | Calculated EMI, original tenure | Loan closes in exactly 240 months with zero balance; final EMI ₹43,392.20; no extra EMI |
+| T-A07-2 | Bank-rounded EMI ₹43,391 on ₹50L, 8.5%, 240 months | Final (240th) EMI is the exact remaining due, ₹43,492.55 (shown ₹43,493); no 241st EMI of about ₹102 |
 | T-A07-3 | Keep-EMI after a rate cut, tenure moving | Final payment = exact balance + that month's interest, which may be smaller than a normal EMI |
 | T-A07-4 | No threshold | No code path or formula uses a percentage threshold for the final EMI (code review + test) |
 
@@ -109,7 +109,7 @@ Rule detail approved (B-04): regular EMI stays the same; any remaining amount du
 
 ## 3. Golden scenarios
 
-Three independent implementations must agree on every displayed rupee for every month: TypeScript engine, spreadsheet v2 (recalculated headlessly in CI), Python reference. Expected internal difference: well under one paisa.
+Three independent implementations must agree to the paisa for every month: TypeScript engine, spreadsheet v2 (recalculated headlessly in CI), Python reference. The scenarios live in `reference/scenarios/` and are regenerated and checked in CI.
 
 | # | Scenario |
 |---|---|

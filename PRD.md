@@ -611,7 +611,7 @@ The following require further definition:
 | ID | Area | Approved decision |
 |---|---|---|
 | A-01 | Interest calculation | Monthly reducing-balance interest: opening principal × annual interest rate / 1200. |
-| A-02 | Rounding | Retain full precision internally. Round customer-facing displayed amounts to the nearest rupee. |
+| A-02 | Rounding | Amended 22 Nov 2026: round every monetary amount (EMI, monthly interest, principal, balance) to the paisa. Round customer-facing displayed amounts to the nearest rupee. (Originally: retain full precision internally.) |
 | A-03 | Interest-rate changes | Apply the revised rate from the first full monthly calculation period beginning on or after its effective date. No mid-month pro-rata calculation in Release 1.0. |
 | A-04 | EMI and tenure adjustment | Keep EMI and extend tenure (default), keep tenure and recalculate EMI, or enter the bank-revised EMI. |
 | A-05 | Unknown historical rates | Publicly available historical benchmark information gives illustrative estimates when actual rates are unavailable. Never represented as the customer's actual rate. |

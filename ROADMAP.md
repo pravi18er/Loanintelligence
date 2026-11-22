@@ -1,6 +1,6 @@
 # Roadmap — Loan Intelligence Platform
 
-**Status:** Updated 22 November 2026 for the product owner's approved Release 1.0 baseline (PRODUCT_DECISIONS.md). Stack approved (B-01). The phase plan itself is still **pending approval**; no phase starts without it.
+**Status:** Updated 22 November 2026 for the product owner's approved Release 1.0 baseline (PRODUCT_DECISIONS.md). Stack approved (B-01). Phase plan **approved** 22 Nov 2026. Phase 0 in progress.
 **Principle:** Financial accuracy and customer trust before visual features. Each phase ends with a release gate; the next phase does not start until the gate passes.
 
 Release names follow PRD §16. Phases are the engineering steps that deliver them. Decision IDs (A-, B-, D-, F-, L-, R-, S-) refer to PRODUCT_DECISIONS.md.
@@ -12,18 +12,18 @@ Release names follow PRD §16. Phases are the engineering steps that deliver the
 Goal: a safe place to build, with the accuracy benchmark in place before any feature.
 
 - Commit the documentation to the repository.
-- Product owner decides the remaining blocking items B-06 (integer paise vs full precision) and B-07 (benchmark coverage and reset dates). B-01 to B-05 were decided on 22 Nov 2026.
+- B-01 to B-06 decided on 22 Nov 2026. `main` branch created from the documentation commit.
 - Repository skeleton (`apps/web`, `packages/loan-engine`, `reference/`, `spreadsheet/`), TypeScript, lint, formatting.
 - Continuous integration on every pull request.
 - Independent Python reference implementing A-01 to A-08, and the first golden scenarios (TEST_STRATEGY.md section 2).
 
-**Gate:** CI green; B-06 decided. (B-07 must be decided before the Phase 1 gate.)
+**Gate:** CI green. (B-07 and B-08 must be decided before the Phase 1 gate.)
 
 ## Phase 1 — Calculation engine and spreadsheet v2 (no website yet)
 
 Goal: one set of approved rules, implemented twice, proven identical.
 
-- Engine: full-precision decimals (A-02), monthly interest (A-01), rate changes by period (A-03), three EMI/tenure options (A-04), dated and sourced bank figures as projection starting points with differences kept (A-06), exact final EMI (A-07), fully disbursed loans only (A-08).
+- Engine: decimal.js with every amount rounded to the paisa (A-02 as amended), monthly interest (A-01), rate changes by period (A-03), three EMI/tenure options (A-04), dated and sourced bank figures as projection starting points with differences kept (A-06), exact final EMI (A-07), fully disbursed loans only (A-08).
 - Two-part labels on every figure (S-01) and validation, including EMI not covering interest (S-05).
 - Bundled, versioned public benchmark table: repo rate, MCLR and Base Rate by loan type, plus estimated spread (A-05, B-03); carry-forward labelled Estimated where no reliable benchmark; lender coverage per B-07.
 - **Spreadsheet v2**, generated from a script in the repository, implementing the same rules and using the same benchmark table (D-04, S-06). The v1 workbook is not an approved reference; v2 becomes the reference only after it is validated.
