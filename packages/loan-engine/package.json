@@ -1,6 +1,6 @@
 {
   "name": "@loan-intelligence/loan-engine",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Pure TypeScript loan calculation engine (no framework dependencies).",
   "type": "module",
@@ -10,5 +10,8 @@
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run"
+  },
+  "dependencies": {
+    "decimal.js": "10.6.0"
   }
 }

@@ -69,7 +69,9 @@ The approved rules above are final. The details below explain how each rule is a
 - Example: EMIs on the 5th; a rate change effective 1 June applies to the period 5 June to 5 July, so first to the EMI due 5 July. An effective date of exactly 5 June also starts with that period. An effective date of 6 June starts with the period 5 July to 5 August.
 - **This differs from the v1 spreadsheet**, which applied a change to the EMI due on or after the effective date (in the example, the EMI due 5 June). See section 5.
 
-**A-04.** No change from the v1 spreadsheet. Each rate change carries its own choice. A bank-revised EMI overrides the other two options for that change.
+**A-04.** Each rate change carries its own choice. A bank-revised EMI overrides the other two options for that change.
+- **(Implementation detail, Phase 1)** If several changes fall inside one calculation period, only the last one applies, with its own choice (consistent with A-03's "no mid-period splitting").
+- **(Implementation detail, Phase 1)** "Keep tenure" after the tenure has been moving uses the month the loan would have closed at the previous rate and EMI, worked out with the standard formula n = −ln(1 − r·B/E) ÷ ln(1 + r), rounded up. The spreadsheet uses ROUNDUP(NPER(...)), which gives the same result.
 
 **A-05.**
 - Release 1.0 ships a dated, versioned table of public benchmark rates bundled with the website and the spreadsheet (so no customer data is sent anywhere to look it up).
@@ -93,7 +95,7 @@ The approved rules above are final. The details below explain how each rule is a
 
 **A-06.**
 - Each bank-reported figure (outstanding principal, current rate, current EMI, remaining EMIs) must have an "as at" date and a source (for example "annual statement", "rate-change letter", "bank app"). A figure without a date is not used as a projection starting point; it is shown as a comparison only.
-- The projection restarts from the first period starting on or after that date, using the bank's figure.
+- **(Correctness fix, Phase 1)** A dated balance is the balance after every EMI due on or before its date. It becomes the opening balance of the period that date falls in, so the first EMI due after the date is calculated from it. The model's balance on the same date (after the last EMI due on or before it) is what it is compared with. An earlier draft of this note said "from the first period starting on or after that date", which would have compared the bank's balance with the model one EMI later and ignored the bank's figure for a month.
 - The modelled history up to that date is kept unchanged, and the difference (bank minus modelled) is displayed with its direction and size.
 - **This differs from the v1 spreadsheet**, which had one general "as of" date and no source field. See section 5.
 
@@ -141,7 +143,9 @@ Every figure carries two parts.
 
 Rules: a figure is only as strong as its weakest input. Anything calculated from an Illustrative input is Illustrative; anything calculated from an Estimated input is at best Estimated. "Actual" is only ever used with a Bank-confirmed or Customer-provided source, and the screen shows which.
 
-## 5. Where the v1 spreadsheet now differs from the approved rules
+## 5. Where the v1 spreadsheet differed from the approved rules (now replaced by v2)
+
+Spreadsheet v2 (`spreadsheet/` in the repository) implements the approved rules and matches every golden scenario to the paisa, checked automatically in LibreOffice. The table below records what changed from v1.
 
 The v1 workbook (`home-loan-reality-check/Home_Loan_Reality_Check_v1.xlsx`) was built before this approval. **v1 is not the approved calculation reference.** Under D-04 it must be updated to v2 so both interfaces agree; v2 becomes the approved reference only after it is built and validated against the Python reference and the golden scenarios.
 

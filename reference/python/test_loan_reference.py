@@ -148,8 +148,17 @@ class A06BankFigures(unittest.TestCase):
     def test_projection_restarts_from_bank_figure(self):
         d = self.withbank.bank_difference
         row = self.withbank.rows[d["applies_from_period"] - 1]
-        self.assertGreaterEqual(row.period_start, dt.date(2023, 3, 31))
+        # The balance dated 31 Mar 2023 is the opening of the period it falls in
+        # (5 Mar to 5 Apr), so the first EMI due after the date uses it.
+        self.assertLessEqual(row.period_start, dt.date(2023, 3, 31))
+        self.assertGreater(row.due_date, dt.date(2023, 3, 31))
         self.assertEqual(row.opening_paise, 450_000_000)
+
+    def test_compared_with_model_on_the_same_date(self):
+        d = self.withbank.bank_difference
+        last_due_before = self.model.rows[d["applies_from_period"] - 2]
+        self.assertLessEqual(last_due_before.due_date, dt.date(2023, 3, 31))
+        self.assertEqual(d["modelled_paise"], last_due_before.closing_paise)
 
     def test_difference_preserved(self):
         d = self.withbank.bank_difference

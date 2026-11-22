@@ -82,7 +82,7 @@ EMIs due on the 5th of each month. A calculation period runs from one EMI date t
 
 | ID | Case | Expected |
 |---|---|---|
-| T-A06-1 | Bank outstanding dated 31 March, differs from model | Projection restarts from the bank figure at the first period starting on/after 31 March; modelled history unchanged |
+| T-A06-1 | Bank outstanding dated 31 March, differs from model | The bank figure becomes the opening balance of the period 31 March falls in (5 March to 5 April), so the EMI due 5 April uses it; compared with the model's balance after the 5 March EMI; modelled history unchanged |
 | T-A06-2 | Difference preserved | Bank value, modelled value and difference (with direction) all returned and displayed |
 | T-A06-3 | Bank figure without a date | Not used as a starting point; shown as comparison only, with a prompt for the date |
 | T-A06-4 | Source recorded | Source document type and date carried on the figure's label |
@@ -125,6 +125,7 @@ Three independent implementations must agree to the paisa for every month: TypeS
 | G-10 | Rate changes on, before and after a period start (A-03 boundaries) |
 | G-11 | Bank-rounded EMI final adjustment (A-07) |
 | G-12 | Unknown past rates filled from the benchmark table (A-05) |
+| G-12b | Two rate changes inside one period with different choices (only the later applies), then keep tenure after the tenure was moving |
 | G-13 | EMI due on the 31st: 31 Jan, 28 Feb, 31 Mar, 30 Apr, 31 May (B-05) |
 | G-14 | MCLR-linked loan with unknown past rates, annual resets (B-03, B-07) |
 

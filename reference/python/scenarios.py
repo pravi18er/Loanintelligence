@@ -150,6 +150,22 @@ SCENARIOS: list[tuple[str, str, list[str], LoanInput]] = [
         ),
     ),
     (
+        "G-12b",
+        "Two rate changes inside one period with different choices: only the later applies",
+        ["A-03", "A-04"],
+        LoanInput(
+            lakh(40),
+            D("8.5"),
+            180,
+            dt.date(2021, 3, 5),
+            rate_changes=(
+                RateChange(dt.date(2022, 6, 10), D("9"), KEEP_TENURE),
+                RateChange(dt.date(2022, 6, 25), D("9.4"), KEEP_EMI),
+                RateChange(dt.date(2023, 9, 1), D("9.1"), KEEP_TENURE),
+            ),
+        ),
+    ),
+    (
         "G-13",
         "EMI due on the 31st (last day of shorter months)",
         ["B-05", "A-08"],

@@ -26,7 +26,7 @@ Goal: one set of approved rules, implemented twice, proven identical.
 - Engine: decimal.js with every amount rounded to the paisa (A-02 as amended), monthly interest (A-01), rate changes by period (A-03), three EMI/tenure options (A-04), dated and sourced bank figures as projection starting points with differences kept (A-06), exact final EMI (A-07), fully disbursed loans only (A-08).
 - Two-part labels on every figure (S-01) and validation, including EMI not covering interest (S-05).
 - Bundled, versioned public benchmark table: repo rate, MCLR and Base Rate by loan type, plus estimated spread (A-05, B-03); carry-forward labelled Estimated where no reliable benchmark; lender coverage per B-07.
-- **Spreadsheet v2**, generated from a script in the repository, implementing the same rules and using the same benchmark table (D-04, S-06). The v1 workbook is not an approved reference; v2 becomes the reference only after it is validated.
+- **Spreadsheet v2** (built; matches all golden scenarios), generated from a script in the repository, implementing the same rules and using the same benchmark table (D-04, S-06). The v1 workbook is not an approved reference; v2 becomes the reference only after it is validated.
 - Plain-English explanation text returned with results.
 
 **Gate:** B-07 decided; every golden scenario agrees on every displayed rupee across engine, spreadsheet v2 and Python reference; property tests pass; product owner reviews explanation text.
