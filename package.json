@@ -1,0 +1,29 @@
+{
+  "name": "loan-intelligence",
+  "private": true,
+  "description": "Loan Intelligence Platform: Home Loan Intelligence",
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm -r test",
+    "reference:test": "python3 -I -m unittest discover -s reference/python",
+    "reference:check": "python3 -I reference/python/scenarios.py --check",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm reference:test && pnpm reference:check"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.6.6",
+    "eslint": "10.14.0",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.1",
+    "vitest": "5.1.0"
+  }
+}

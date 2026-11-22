@@ -1,0 +1,176 @@
+{
+ "fixture_version": 1,
+ "id": "G-03b",
+ "title": "Short loan: 12 months",
+ "rules": [
+  "A-01",
+  "A-02",
+  "A-07"
+ ],
+ "input": {
+  "principal_paise": 50000000,
+  "annual_rate": "9",
+  "tenure_months": 12,
+  "first_emi_date": "2024-01-15",
+  "starting_emi_paise": null,
+  "rate_changes": [],
+  "bank_outstanding": null
+ },
+ "expected": {
+  "starting_emi_paise": 4372574,
+  "closed": true,
+  "months": 12,
+  "total_interest_paise": 2470885,
+  "total_paid_paise": 52470885,
+  "warnings": [],
+  "bank_difference": null,
+  "schedule": [
+   {
+    "n": 1,
+    "period_start": "2023-12-15",
+    "due_date": "2024-01-15",
+    "annual_rate": "9",
+    "opening_paise": 50000000,
+    "interest_paise": 375000,
+    "payment_paise": 4372574,
+    "principal_paise": 3997574,
+    "closing_paise": 46002426,
+    "flags": []
+   },
+   {
+    "n": 2,
+    "period_start": "2024-01-15",
+    "due_date": "2024-02-15",
+    "annual_rate": "9",
+    "opening_paise": 46002426,
+    "interest_paise": 345018,
+    "payment_paise": 4372574,
+    "principal_paise": 4027556,
+    "closing_paise": 41974870,
+    "flags": []
+   },
+   {
+    "n": 3,
+    "period_start": "2024-02-15",
+    "due_date": "2024-03-15",
+    "annual_rate": "9",
+    "opening_paise": 41974870,
+    "interest_paise": 314812,
+    "payment_paise": 4372574,
+    "principal_paise": 4057762,
+    "closing_paise": 37917108,
+    "flags": []
+   },
+   {
+    "n": 4,
+    "period_start": "2024-03-15",
+    "due_date": "2024-04-15",
+    "annual_rate": "9",
+    "opening_paise": 37917108,
+    "interest_paise": 284378,
+    "payment_paise": 4372574,
+    "principal_paise": 4088196,
+    "closing_paise": 33828912,
+    "flags": []
+   },
+   {
+    "n": 5,
+    "period_start": "2024-04-15",
+    "due_date": "2024-05-15",
+    "annual_rate": "9",
+    "opening_paise": 33828912,
+    "interest_paise": 253717,
+    "payment_paise": 4372574,
+    "principal_paise": 4118857,
+    "closing_paise": 29710055,
+    "flags": []
+   },
+   {
+    "n": 6,
+    "period_start": "2024-05-15",
+    "due_date": "2024-06-15",
+    "annual_rate": "9",
+    "opening_paise": 29710055,
+    "interest_paise": 222825,
+    "payment_paise": 4372574,
+    "principal_paise": 4149749,
+    "closing_paise": 25560306,
+    "flags": []
+   },
+   {
+    "n": 7,
+    "period_start": "2024-06-15",
+    "due_date": "2024-07-15",
+    "annual_rate": "9",
+    "opening_paise": 25560306,
+    "interest_paise": 191702,
+    "payment_paise": 4372574,
+    "principal_paise": 4180872,
+    "closing_paise": 21379434,
+    "flags": []
+   },
+   {
+    "n": 8,
+    "period_start": "2024-07-15",
+    "due_date": "2024-08-15",
+    "annual_rate": "9",
+    "opening_paise": 21379434,
+    "interest_paise": 160346,
+    "payment_paise": 4372574,
+    "principal_paise": 4212228,
+    "closing_paise": 17167206,
+    "flags": []
+   },
+   {
+    "n": 9,
+    "period_start": "2024-08-15",
+    "due_date": "2024-09-15",
+    "annual_rate": "9",
+    "opening_paise": 17167206,
+    "interest_paise": 128754,
+    "payment_paise": 4372574,
+    "principal_paise": 4243820,
+    "closing_paise": 12923386,
+    "flags": []
+   },
+   {
+    "n": 10,
+    "period_start": "2024-09-15",
+    "due_date": "2024-10-15",
+    "annual_rate": "9",
+    "opening_paise": 12923386,
+    "interest_paise": 96925,
+    "payment_paise": 4372574,
+    "principal_paise": 4275649,
+    "closing_paise": 8647737,
+    "flags": []
+   },
+   {
+    "n": 11,
+    "period_start": "2024-10-15",
+    "due_date": "2024-11-15",
+    "annual_rate": "9",
+    "opening_paise": 8647737,
+    "interest_paise": 64858,
+    "payment_paise": 4372574,
+    "principal_paise": 4307716,
+    "closing_paise": 4340021,
+    "flags": []
+   },
+   {
+    "n": 12,
+    "period_start": "2024-11-15",
+    "due_date": "2024-12-15",
+    "annual_rate": "9",
+    "opening_paise": 4340021,
+    "interest_paise": 32550,
+    "payment_paise": 4372571,
+    "principal_paise": 4340021,
+    "closing_paise": 0,
+    "flags": [
+     "final_emi_adjusted"
+    ]
+   }
+  ]
+ }
+}
