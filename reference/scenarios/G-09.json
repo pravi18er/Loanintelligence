@@ -1,5 +1,5 @@
 {
- "fixture_version": 1,
+ "fixture_version": 2,
  "id": "G-09",
  "title": "Bank-revised EMI after a rate change",
  "rules": [
@@ -19,7 +19,8 @@
     "bank_emi_paise": 2800000
    }
   ],
-  "bank_outstanding": null
+  "bank_outstanding": null,
+  "repo_estimate": null
  },
  "expected": {
   "starting_emi_paise": 2699178,

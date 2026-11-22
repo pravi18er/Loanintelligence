@@ -25,9 +25,11 @@ from loan_reference import (  # noqa: E402
     amortise,
     result_to_dict,
 )
+from repo_estimate import RepoEstimate, estimated_changes, with_estimates  # noqa: E402
 
 OUT_DIR = Path(__file__).resolve().parents[1] / "scenarios"
-FIXTURE_VERSION = 1
+FIXTURE_VERSION = 2  # 2: adds repo_estimate (B-09)
+REPO_AS_OF = dt.date(2025, 11, 22)
 
 
 def lakh(x: float | int) -> int:
@@ -35,7 +37,7 @@ def lakh(x: float | int) -> int:
     return int(D(str(x)) * 100000 * 100)
 
 
-SCENARIOS: list[tuple[str, str, list[str], LoanInput]] = [
+SCENARIOS: list[tuple[str, str, list[str], LoanInput] | tuple[str, str, list[str], LoanInput, RepoEstimate]] = [
     (
         "G-01",
         "New loan, fixed rate, 20 years (Rs 50 lakh at 8.5%)",
@@ -171,10 +173,41 @@ SCENARIOS: list[tuple[str, str, list[str], LoanInput]] = [
         ["B-05", "A-08"],
         LoanInput(lakh(25), D("8.75"), 120, dt.date(2021, 1, 31)),
     ),
+    (
+        "G-14",
+        "Repo-linked loan, quarterly resets estimated from the RBI repo rate; one entered change re-anchors the spread",
+        ["A-03", "A-05", "B-03", "B-09"],
+        LoanInput(
+            lakh(50),
+            D("8.4"),
+            240,
+            dt.date(2020, 1, 5),
+            rate_changes=(RateChange(dt.date(2023, 6, 1), D("9.4"), KEEP_EMI),),
+        ),
+        RepoEstimate(reset_months=3),
+    ),
+    (
+        "G-15",
+        "Repo-linked loan, six-monthly resets from a known first reset date, spread from the sanction letter",
+        ["A-05", "B-03", "B-09"],
+        LoanInput(lakh(35), D("6.75"), 240, dt.date(2020, 9, 10)),
+        RepoEstimate(reset_months=6, first_reset=dt.date(2020, 10, 1), spread=D("2.75")),
+    ),
 ]
 
 
-def input_to_dict(loan: LoanInput) -> dict:
+def estimate_to_dict(est: RepoEstimate | None) -> dict | None:
+    if est is None:
+        return None
+    return {
+        "reset_months": est.reset_months,
+        "first_reset": None if est.first_reset is None else est.first_reset.isoformat(),
+        "spread": None if est.spread is None else str(est.spread),
+        "as_of": REPO_AS_OF.isoformat(),
+    }
+
+
+def input_to_dict(loan: LoanInput, est: RepoEstimate | None = None) -> dict:
     return {
         "principal_paise": loan.principal_paise,
         "annual_rate": str(loan.annual_rate),
@@ -197,19 +230,28 @@ def input_to_dict(loan: LoanInput) -> dict:
             "outstanding_paise": loan.bank_outstanding.outstanding_paise,
             "source": loan.bank_outstanding.source,
         },
+        "repo_estimate": estimate_to_dict(est),
     }
 
 
 def build() -> dict[str, str]:
     files = {}
-    for sid, title, rules, loan in SCENARIOS:
+    for sid, title, rules, loan, *rest in SCENARIOS:
+        est = rest[0] if rest else None
+        modelled = loan if est is None else with_estimates(loan, est, REPO_AS_OF)
+        expected = result_to_dict(amortise(modelled))
+        if est is not None:
+            expected["estimated_changes"] = [
+                {"effective": c.effective.isoformat(), "annual_rate": str(c.annual_rate)}
+                for c in estimated_changes(loan, est, REPO_AS_OF)
+            ]
         doc = {
             "fixture_version": FIXTURE_VERSION,
             "id": sid,
             "title": title,
             "rules": rules,
-            "input": input_to_dict(loan),
-            "expected": result_to_dict(amortise(loan)),
+            "input": input_to_dict(loan, est),
+            "expected": expected,
         }
         files[f"{sid}.json"] = json.dumps(doc, indent=1) + "\n"
     return files

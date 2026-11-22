@@ -25,12 +25,15 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.workbook.defined_name import DefinedName
 from openpyxl.worksheet.datavalidation import DataValidation
 
-WORKBOOK_VERSION = "2.1.0"
-RULES = "A-01 to A-08 (A-02 as amended by B-06), B-02 to B-05, B-07, B-08"
+WORKBOOK_VERSION = "2.2.0"
+RULES = "A-01 to A-08 (A-02 as amended by B-06), B-02 to B-05, B-07 to B-09"
 BENCHMARKS = json.loads((Path(__file__).resolve().parents[1] / "data" / "benchmarks" / "benchmarks.json").read_text())
 BENCH_FIRST_ROW = 16  # first data row of each table on the Benchmark Rates tab
 MAX_MONTHS = 600
 CHANGE_ROWS = 20
+MAX_RESETS = 120  # repo-linked estimate: reset dates considered (B-09)
+MERGED_ROWS = CHANGE_ROWS + MAX_RESETS
+FREQ_TEXT = {1: "Every month", 3: "Every 3 months", 6: "Every 6 months", 12: "Every year"}
 FIRST_ROW = 8  # first data row of the Repayment Engine
 LAST_ROW = FIRST_ROW + MAX_MONTHS - 1
 
@@ -78,7 +81,9 @@ def welcome(wb: Workbook) -> None:
         ("4.  Open the Loan Reality Check tab for your results and plain-English explanations.", None),
         ("5.  Check the Validation & Assumptions tab for anything flagged, and to see exactly how each number is calculated.", None),
         ("6.  The Repayment Engine tab shows every month of your loan. You don't need to edit it.", None),
-        ("7.  On an MCLR or repo-linked loan, the Benchmark Rates tab shows the published SBI and Bank of Baroda MCLR and the RBI repo rate on any date, "
+        ("7.  If your loan is linked to the RBI repo rate and you don't know all its past rates, turn on the repo-linked estimate in section 4 of the Loan Profile. "
+         "Results that use an estimated rate are labelled Illustrative.", None),
+        ("8.  On an MCLR or repo-linked loan, the Benchmark Rates tab shows the published SBI and Bank of Baroda MCLR and the RBI repo rate on any date, "
          "to help you fill in past rates. They are references, not your loan's rate.", None),
         ("", None),
         ("What the labels mean", H2),
@@ -168,13 +173,35 @@ def profile(wb: Workbook) -> None:
             c.number_format = [DATE, "0.00", "@", RUPEE_PAISE, "@"][j]
         # hidden helper: mode code E/T/B
         ws.cell(row=row, column=8, value=f'=IF(D{row}="{MODE_KEEP_TENURE}","T",IF(D{row}="{MODE_BANK_EMI}","B","E"))')
+        # hidden helper: sort key (date, then list order) for merging with estimates
+        ws.cell(row=row, column=9, value=f'=IF(ISNUMBER(B{row}),B{row}+{i + 1}/1000,"")')
     ws.column_dimensions["H"].hidden = True
-    name(wb, "ChgDates", f"'Loan Profile'!$B${r0}:$B${r1}")
-    name(wb, "ChgRates", f"'Loan Profile'!$C${r0}:$C${r1}")
-    name(wb, "ChgModeText", f"'Loan Profile'!$D${r0}:$D${r1}")
-    name(wb, "ChgEMIs", f"'Loan Profile'!$E${r0}:$E${r1}")
-    name(wb, "ChgSources", f"'Loan Profile'!$F${r0}:$F${r1}")
-    name(wb, "ChgModes", f"'Loan Profile'!$H${r0}:$H${r1}")
+    ws.column_dimensions["I"].hidden = True
+    name(wb, "EntDates", f"'Loan Profile'!$B${r0}:$B${r1}")
+    name(wb, "EntRates", f"'Loan Profile'!$C${r0}:$C${r1}")
+    name(wb, "EntModeText", f"'Loan Profile'!$D${r0}:$D${r1}")
+    name(wb, "EntEMIs", f"'Loan Profile'!$E${r0}:$E${r1}")
+    name(wb, "EntSources", f"'Loan Profile'!$F${r0}:$F${r1}")
+    name(wb, "EntModes", f"'Loan Profile'!$H${r0}:$H${r1}")
+    name(wb, "EntKeys", f"'Loan Profile'!$I${r0}:$I${r1}")
+
+    q = r1 + 2
+    ws.cell(row=q, column=2, value="4. If your loan is linked to the RBI repo rate (optional)").font = H2
+    field(q + 1, "Estimate past rates you don't know from the RBI repo rate?", "No", "RepoOn", None,
+          "Only for repo-linked loans. At each reset date the sheet uses the RBI repo rate plus your spread, and adds a rate change if the rate moved. "
+          "Rate changes you entered above always win. Results that use an estimated rate are labelled Illustrative.")
+    field(q + 2, "How often your bank resets the rate", FREQ_TEXT[3], "RepoFreqText", None,
+          "From your sanction letter or loan agreement. If you're not sure, leave it at every 3 months.")
+    field(q + 3, "First reset date (optional)", None, "RepoFirstIn", DATE,
+          "Leave blank to assume the first reset one reset interval after disbursement.")
+    field(q + 4, "Your spread over the repo rate (% p.a., optional)", None, "RepoSpreadIn", "0.00",
+          "From your sanction letter, e.g. 2.75. Leave blank to work it out from your latest known rate.")
+    dv_on = DataValidation(type="list", formula1='"Yes,No"', allow_blank=False)
+    dv_freq = DataValidation(type="list", formula1='"' + ",".join(FREQ_TEXT.values()) + '"', allow_blank=False)
+    ws.add_data_validation(dv_on)
+    ws.add_data_validation(dv_freq)
+    dv_on.add(f"C{q + 1}")
+    dv_freq.add(f"C{q + 2}")
 
     dv_mode = DataValidation(type="list", formula1='"' + ",".join(MODES) + '"', allow_blank=True)
     dv_src = DataValidation(type="list", formula1='"' + ",".join(SOURCES) + '"', allow_blank=True)
@@ -186,7 +213,7 @@ def profile(wb: Workbook) -> None:
     dv_src.add("C16")
     dv_known.add("C20")
 
-    base = r1 + 2
+    base = q + 6
     ws.cell(row=base, column=2, value="Calculated from your inputs (don't edit)").font = H2
     calc = [
         ("Report date used", "=IF(AsOfIn=\"\",TODAY(),AsOfIn)", "AsOf", DATE),
@@ -196,6 +223,10 @@ def profile(wb: Workbook) -> None:
         ("EMI used from EMI number 1", "=IF(StartEMIIn=\"\",ModelEMI,StartEMIIn)", "EMIUsed", RUPEE_PAISE),
         ("Bank balance can be used (has a date)?", "=AND(BankOut<>\"\",ISNUMBER(BankAt))", "BankValid", None),
         ("Source of that balance", f"=IF(BankSource=\"{SOURCE_OWN}\",\"customer-provided\",\"bank-confirmed\")", "BankSrcCode", None),
+        ("Disbursement date (one month before EMI 1)", "=EDATE(FirstEMI,-1)", "Disbursed", DATE),
+        ("Reset interval (months)", "=IFERROR(CHOOSE(MATCH(RepoFreqText,{" + ",".join(f'"{t}"' for t in FREQ_TEXT.values()) + "},0)," + ",".join(str(m) for m in FREQ_TEXT) + "),3)", "RepoFreq", "0"),
+        ("First reset date used", "=IF(ISNUMBER(RepoFirstIn),RepoFirstIn,EDATE(Disbursed,RepoFreq))", "RepoAnchor", DATE),
+        ("Rate changes estimated from the repo rate", "=COUNTIF(EstEmit,TRUE)", "EstCount", "0"),
     ]
     for i, (label, formula, nm, fmt) in enumerate(calc, start=1):
         row = base + i
@@ -285,6 +316,87 @@ def engine(wb: Workbook) -> None:
     )
 
 
+def rate_estimate(wb: Workbook) -> None:
+    """Repo-linked estimate (A-05, B-03, B-09) and the merged rate-change list
+    the Repayment Engine reads (entered changes plus estimated ones, by date)."""
+    ws = wb.create_sheet("Rate Estimate")
+    ws["A1"] = "Rate Estimate"
+    ws["A1"].font = TITLE
+    ws["A2"] = ("Used only when 'Estimate past rates from the RBI repo rate' is Yes on the Loan Profile tab. At each reset date: "
+                "estimate = RBI repo rate on that date + spread; spread = your sanction-letter spread, or else your latest known rate "
+                "minus the repo rate on that rate's date. No estimate in a reset interval where you entered a rate change, or where "
+                "a repo rate is not available. Don't edit this tab.")
+    ws["A2"].alignment = WRAP
+    ws.merge_cells("A2:N2")
+    ws.row_dimensions[2].height = 45
+    hdr = ["Reset no.", "Reset date", "Next reset", "In use", "Known changes by then", "Known rate's date", "Known rate",
+           "Repo rate", "Spread", "Estimate", "Rate just before", "You entered a change in this interval", "Becomes a rate change",
+           "Sort key", "", "Merged: sort key", "Date", "Rate", "Choice", "Bank EMI"]
+    for j, h in enumerate(hdr, start=1):
+        if h:
+            c = ws.cell(row=4, column=j, value=h)
+            c.font = WHITE_BOLD
+            c.fill = HEAD
+            c.alignment = WRAP
+    ws.row_dimensions[4].height = 45
+    f0 = 5
+    for k in range(MAX_RESETS):
+        r = f0 + k
+        p = r - 1
+        ws[f"A{r}"] = k
+        ws[f"B{r}"] = f"=EDATE(RepoAnchor,A{r}*RepoFreq)"
+        ws[f"C{r}"] = f"=EDATE(RepoAnchor,(A{r}+1)*RepoFreq)"
+        ws[f"D{r}"] = f'=AND(RepoOn="Yes",B{r}<=AsOf)'
+        ws[f"E{r}"] = f'=COUNTIF(EntDates,"<="&B{r})'
+        ws[f"F{r}"] = f"=IF(E{r}=0,Disbursed,INDEX(EntDates,E{r}))"
+        ws[f"G{r}"] = f"=IF(E{r}=0,StartRate,INDEX(EntRates,E{r}))"
+        ws[f"H{r}"] = f'=IFERROR(INDEX(RepoRates,MATCH(B{r},RepoDates,1)),"")'
+        ws[f"I{r}"] = f'=IF(ISNUMBER(RepoSpreadIn),RepoSpreadIn,IFERROR(ROUND(G{r}-INDEX(RepoRates,MATCH(F{r},RepoDates,1)),6),""))'
+        ws[f"J{r}"] = f'=IF(OR(H{r}="",I{r}=""),"",IF(ROUND(H{r}+I{r},6)<=0,"",ROUND(H{r}+I{r},6)))'
+        ws[f"K{r}"] = f"=G{r}" if k == 0 else f'=IF(OR(F{r}>=B{p},J{p}=""),G{r},J{p})'
+        ws[f"L{r}"] = f'=COUNTIFS(EntDates,">="&B{r},EntDates,"<"&C{r})>0'
+        ws[f"M{r}"] = f'=AND(D{r},NOT(L{r}),J{r}<>"",IF(J{r}="",FALSE,ROUND(J{r}-K{r},6)<>0))'
+        ws[f"N{r}"] = f'=IF(M{r},B{r}+0.5,"")'
+        for col in "BCF":
+            ws[f"{col}{r}"].number_format = DATE
+    last = f0 + MAX_RESETS - 1
+    name(wb, "EstEmit", f"'Rate Estimate'!$M${f0}:$M${last}")
+
+    # Candidate list: entered changes then estimates, one contiguous column of keys.
+    # Columns V..Z (hidden) hold candidates; P..T hold the merged list sorted by key.
+    for i in range(MERGED_ROWS):
+        r = f0 + i
+        if i < CHANGE_ROWS:
+            src = 23 + i
+            ws[f"V{r}"] = f"='Loan Profile'!I{src}"
+            ws[f"W{r}"] = f"='Loan Profile'!C{src}"
+            ws[f"X{r}"] = f"='Loan Profile'!H{src}"
+            ws[f"Y{r}"] = f"='Loan Profile'!E{src}"
+        else:
+            er = f0 + i - CHANGE_ROWS
+            ws[f"V{r}"] = f"=N{er}"
+            ws[f"W{r}"] = f"=J{er}"
+            ws[f"X{r}"] = "E"
+            ws[f"Y{r}"] = None
+    cand = lambda col: f"$" + col + f"${f0}:$" + col + f"${f0 + MERGED_ROWS - 1}"  # noqa: E731
+    for i in range(MERGED_ROWS):
+        r = f0 + i
+        ws[f"P{r}"] = f'=IFERROR(SMALL({cand("V")},{i + 1}),"")'
+        ws[f"Q{r}"] = f'=IF(P{r}="","",INT(P{r}))'
+        ws[f"R{r}"] = f'=IF(P{r}="","",INDEX({cand("W")},MATCH(P{r},{cand("V")},0)))'
+        ws[f"S{r}"] = f'=IF(P{r}="","",INDEX({cand("X")},MATCH(P{r},{cand("V")},0)))'
+        ws[f"T{r}"] = f'=IF(P{r}="","",INDEX({cand("Y")},MATCH(P{r},{cand("V")},0)))'
+        ws[f"Q{r}"].number_format = DATE
+    for col in "VWXY":
+        ws.column_dimensions[col].hidden = True
+    mlast = f0 + MERGED_ROWS - 1
+    name(wb, "ChgDates", f"'Rate Estimate'!$Q${f0}:$Q${mlast}")
+    name(wb, "ChgRates", f"'Rate Estimate'!$R${f0}:$R${mlast}")
+    name(wb, "ChgModes", f"'Rate Estimate'!$S${f0}:$S${mlast}")
+    name(wb, "ChgEMIs", f"'Rate Estimate'!$T${f0}:$T${mlast}")
+    ws.freeze_panes = "B5"
+
+
 def reality(wb: Workbook) -> None:
     ws = wb.create_sheet("Loan Reality Check", 2)
     for col, w in zip("ABCDE", [2, 40, 20, 30, 80]):
@@ -303,12 +415,13 @@ def reality(wb: Workbook) -> None:
         ("BankUsed", "=AND(BankValid,BankRow>0,BankAt<=AsOf)"),
         ("BankLatest", "=AND(BankUsed,EMIsPaid<BankRow)"),
         ("BankModelled", "=IF(BankRow=0,\"\",IF(BankRow=1,LoanAmt,INDEX(E_Close,BankRow-1)))"),
-        ("HistKind", '=IF(RateKnown="Yes","Modelled","Estimated")'),
+        ("HistKind", '=IF(EstCount>0,"Illustrative",IF(RateKnown="Yes","Modelled","Estimated"))'),
         ("PaidKind", '=IF(EMIsPaidIn="","Estimated","Actual")'),
-        ("PastKind", '=IF(OR(HistKind="Estimated",PaidKind="Estimated"),"Estimated","Modelled")'),
+        ("PastKind", '=IF(HistKind="Illustrative","Illustrative",IF(OR(HistKind="Estimated",PaidKind="Estimated"),"Estimated","Modelled"))'),
         ("OutKind", '=IF(BankLatest,"Actual",PastKind)'),
-        ("FutKind", '=IF(OR(OutKind="Estimated",HistKind="Estimated"),"Estimated","Modelled")'),
-        ("OutSource", '=IF(BankLatest,IF(BankSrcCode="bank-confirmed","from your bank","as you entered it"),"calculated")'),
+        ("FutKind", '=IF(OR(OutKind="Illustrative",HistKind="Illustrative"),"Illustrative",IF(OR(OutKind="Estimated",HistKind="Estimated"),"Estimated","Modelled"))'),
+        ("CalcSource", '=IF(HistKind="Illustrative","from public benchmark rates","calculated")'),
+        ("OutSource", '=IF(BankLatest,IF(BankSrcCode="bank-confirmed","from your bank","as you entered it"),CalcSource)'),
     ]
     for i, (nm, formula) in enumerate(helpers, start=4):
         ws.cell(row=i, column=8, value=nm)
@@ -326,20 +439,20 @@ def reality(wb: Workbook) -> None:
     rows = [
         ("EMIs paid so far", "=EMIsPaid", "0", '=PaidKind&IF(PaidKind="Actual"," · as you entered it"," · calculated")',
          '=IF(EMIsPaidIn="","Counted from your first EMI date to the report date, assuming every EMI was paid on its due date.","The number of EMIs you told us you have paid.")'),
-        ("Total EMIs paid", "=" + paid.format(col="E_Pay"), RUPEE, '=PastKind&" · calculated"',
+        ("Total EMIs paid", "=" + paid.format(col="E_Pay"), RUPEE, '=PastKind&" · "&CalcSource',
          '="All the EMIs paid so far, added up."'),
-        ("Principal repaid", "=" + paid.format(col="E_Prin"), RUPEE, '=PastKind&" · calculated"',
+        ("Principal repaid", "=" + paid.format(col="E_Prin"), RUPEE, '=PastKind&" · "&CalcSource',
          '="The part of your EMIs that reduced the loan itself."'),
-        ("Interest paid", "=" + paid.format(col="E_Int"), RUPEE, '=PastKind&" · calculated"',
+        ("Interest paid", "=" + paid.format(col="E_Int"), RUPEE, '=PastKind&" · "&CalcSource',
          '="The part of your EMIs that went to interest. Early in a loan most of each EMI is interest, because interest is charged on a large balance."'),
         ("Outstanding principal today", "=IF(BankLatest,BankOut,IF(EMIsPaid=0,LoanAmt,INDEX(E_Close,EMIsPaid)))", RUPEE,
          '=OutKind&" · "&OutSource',
          '=IF(BankLatest,"The outstanding balance from your "&IF(BankDoc="","statement",BankDoc)&", dated "&TEXT(BankAt,"dd mmm yyyy")&".",IF(BankUsed,"Worked forward from the balance you gave us, dated "&TEXT(BankAt,"dd mmm yyyy")&", by the EMIs due since then.","What you still owe on the loan itself, after the principal repaid so far."))'),
-        ("Interest still to pay (projection)", "=SUM(E_Int)-" + paid.format(col="E_Int"), RUPEE, '=FutKind&" · calculated"',
+        ("Interest still to pay (projection)", "=SUM(E_Int)-" + paid.format(col="E_Int"), RUPEE, '=FutKind&" · "&CalcSource',
          '="Interest still to come if your rate and EMI stay as they are. This is a projection, separate from interest already paid."'),
-        ("EMIs still to pay", "=IF(Closed,RowCount-EMIsPaid,0)", "0", '=FutKind&" · calculated"',
+        ("EMIs still to pay", "=IF(Closed,RowCount-EMIsPaid,0)", "0", '=FutKind&" · "&CalcSource',
          '=IF(Closed,"EMIs still to pay before the loan closes.","Your loan does not close at the current EMI and rate. See the Validation tab.")'),
-        ("Estimated last EMI date", '=IF(Closed,INDEX(E_Due,RowCount),"Does not close")', DATE, '=FutKind&" · calculated"',
+        ("Estimated last EMI date", '=IF(Closed,INDEX(E_Due,RowCount),"Does not close")', DATE, '=FutKind&" · "&CalcSource',
          '="The due date of your last EMI if your rate and EMI stay as they are."'),
         ("Current EMI", "=INDEX(E_EMI,MAX(1,MIN(RowCount,EMIsPaid+1)))", RUPEE, '=IF(StartEMIIn="","Modelled · calculated","Actual · as you entered it")',
          '="The EMI the sheet uses for your next payment."'),
@@ -411,7 +524,7 @@ def validation(wb: Workbook) -> None:
         c = ws.cell(row=5, column=j, value=h)
         c.font = WHITE_BOLD
         c.fill = HEAD
-    chg_pairs_bad = 'SUMPRODUCT((ChgDates<>"")*(ChgRates=""))+SUMPRODUCT((ChgDates="")*(ChgRates<>""))'
+    chg_pairs_bad = 'SUMPRODUCT((EntDates<>"")*(EntRates=""))+SUMPRODUCT((EntDates="")*(EntRates<>""))'
     order_bad = (f"SUMPRODUCT(('Loan Profile'!$B$24:$B${23 + CHANGE_ROWS - 1}<>\"\")*"
                  f"('Loan Profile'!$B$24:$B${23 + CHANGE_ROWS - 1}<='Loan Profile'!$B$23:$B${23 + CHANGE_ROWS - 2}))")
     checks = [
@@ -436,13 +549,13 @@ def validation(wb: Workbook) -> None:
          '=IF(BankOut="","OK",IF(BankOut<0,"Error",IF(BankOut>LoanAmt,"Check","OK")))',
          '=IF(C12="OK","",IF(C12="Error","The outstanding balance must be zero or more.","Your outstanding balance is above your original loan amount. Please double-check it."))'),
         ("Rate changes: each row has a date and a rate, oldest first, no duplicates",
-         f'=IF(({chg_pairs_bad})+({order_bad})>0,"Error",IF(OR(MAX(ChgRates)>25,COUNTIF(ChgRates,"<0")>0),"Error","OK"))',
+         f'=IF(({chg_pairs_bad})+({order_bad})>0,"Error",IF(OR(MAX(EntRates)>25,COUNTIF(EntRates,"<0")>0),"Error","OK"))',
          '=IF(C13="OK","","Each rate change needs a date and a rate (0 to 25), listed oldest first, with no two on the same date.")'),
         ("Rate changes: 'Bank set a new EMI' has the EMI filled in",
-         f'=IF(SUMPRODUCT((ChgModeText="{MODE_BANK_EMI}")*(ChgEMIs=""))>0,"Error","OK")',
+         f'=IF(SUMPRODUCT((EntModeText="{MODE_BANK_EMI}")*(EntEMIs=""))>0,"Error","OK")',
          '=IF(C14="OK","","You chose \'Bank set a new EMI\' for a change: enter that EMI.")'),
         ("Rate changes: none dated before the loan started",
-         '=IF(COUNTIF(ChgDates,"<"&FirstEMI)>0,"Check","OK")',
+         '=IF(COUNTIF(EntDates,"<"&FirstEMI)>0,"Check","OK")',
          '=IF(C15="OK","","A rate change is dated before your first EMI. If it was your starting rate, enter it as the starting rate instead.")'),
         ("Rate history complete", '=IF(RateKnown="Yes","OK","Check")',
          '=IF(C16="OK","","Some past rate changes may be missing, so figures that depend on them are Estimated. Add your rate changes from bank letters or statements for better accuracy.")'),
@@ -473,7 +586,7 @@ def validation(wb: Workbook) -> None:
         ("A-02", "Every amount (EMI, interest, principal, balance) is rounded to the paisa, half up. Results are shown to the nearest rupee. The EMI = P × r × (1+r)^n ÷ ((1+r)^n − 1)."),
         ("A-03", "A calculation period runs from one EMI date to the next. A rate change applies from the first period that starts on or after its effective date, for the whole period. No part-month split. If several changes fall inside one period, only the last applies."),
         ("A-04", "For each rate change you choose: keep the EMI and let the tenure move (the default), keep the tenure and recalculate the EMI, or use the EMI your bank set. If you keep the tenure after it has been moving, the end date is the month the loan would have closed at the previous rate and EMI."),
-        ("A-05", "If past rates are unknown, this version keeps the last rate you gave until the next change and labels the results Estimated. Public benchmark estimates (repo rate, MCLR or Base Rate plus a spread) will be added; they will always be labelled Illustrative."),
+        ("A-05", "If past rates are unknown, the last rate you gave continues until the next change, and results are labelled Estimated. For a repo-linked loan you can instead estimate them from the RBI repo rate plus your spread at each reset date (Loan Profile section 4, Rate Estimate tab); results then are labelled Illustrative. For MCLR loans, enter each past rate; the Benchmark Rates tab shows SBI and Bank of Baroda MCLR as a reference."),
         ("A-06", "A dated outstanding balance from a statement is taken as your balance after every EMI due on or before its date, and becomes the starting point for the next EMI. Your earlier history is never changed to match the bank; the difference is shown on the Loan Reality Check tab."),
         ("A-07", "The final EMI is exactly what remains due (balance plus that month's interest). If the loan has a scheduled end, any small remainder (for example from a rounded bank EMI) is added to the last EMI instead of creating an extra one."),
         ("A-08", "Only fully disbursed loans are supported. The full amount is assumed disbursed one calendar month before EMI 1. Pre-EMI interest and part disbursements are not modelled."),
@@ -561,6 +674,9 @@ def benchmarks(wb: Workbook) -> None:
                 ws.cell(row=r, column=start + j, value=float(v) if v is not None else None).number_format = "0.00"
         last = BENCH_FIRST_ROW + len(s["rows"]) - 1
         first_c, last_c = col(start), col(start + width - 1)
+        if s["id"] == "rbi_repo":
+            name(wb, "RepoDates", f"'Benchmark Rates'!${first_c}${BENCH_FIRST_ROW}:${first_c}${last}")
+            name(wb, "RepoRates", f"'Benchmark Rates'!${col(start + 1)}${BENCH_FIRST_ROW}:${col(start + 1)}${last}")
         blocks.append((title, f"${first_c}${BENCH_FIRST_ROW}:${first_c}${last}",
                        f"${col(start + 1)}$15:${last_c}$15", f"${col(start + 1)}${BENCH_FIRST_ROW}:${last_c}${last}"))
         for j in range(width):
@@ -596,6 +712,7 @@ def build() -> Workbook:
     engine(wb)
     reality(wb)
     validation(wb)
+    rate_estimate(wb)
     benchmarks(wb)
     wb.calculation.fullCalcOnLoad = True
     return wb

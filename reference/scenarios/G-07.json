@@ -1,5 +1,5 @@
 {
- "fixture_version": 1,
+ "fixture_version": 2,
  "id": "G-07",
  "title": "Rate rise with EMI kept so the EMI no longer covers interest (must be flagged)",
  "rules": [
@@ -20,7 +20,8 @@
     "bank_emi_paise": null
    }
   ],
-  "bank_outstanding": null
+  "bank_outstanding": null,
+  "repo_estimate": null
  },
  "expected": {
   "starting_emi_paise": 3876495,

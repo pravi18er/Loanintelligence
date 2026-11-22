@@ -107,8 +107,13 @@ describe("schedule invariants", () => {
   });
 
   it("a higher fixed rate never gives less total interest", () => {
+    // Rounding the EMI to the paisa moves total interest by up to about Rs 140
+    // on a small, long, high-rate loan (e.g. Rs 10,000.27 over 419 months: 14.62%
+    // pays Rs 80 more interest than 14.63%, because 14.62% rounds its EMI down).
+    // So the property is checked for rate rises of 0.25% or more, which always
+    // outweigh that rounding.
     fc.assert(
-      fc.property(loan, fc.integer({ min: 1, max: 300 }), (l, bump) => {
+      fc.property(loan, fc.integer({ min: 25, max: 300 }), (l, bump) => {
         const lower = amortise({ ...l, rateChanges: [] });
         const higherRate = (Number(l.annualRatePercent) * 100 + bump) / 100;
         const higher = amortise({

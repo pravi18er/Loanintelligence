@@ -9,7 +9,7 @@
 - **Proposed** — recommended by the architect (status shown as Pending until approved).
 - **Pending** — a detail or decision not yet approved. Written down so it can be approved or corrected; not treated as decided.
 
-Last updated: 22 November 2026 (consolidated approval for Release 1.0; decisions B-01 to B-08; B-09 pending; documentation commit; phase plan approved).
+Last updated: 22 November 2026 (consolidated approval for Release 1.0; decisions B-01 to B-09; documentation commit; phase plan approved).
 
 ---
 
@@ -85,6 +85,7 @@ The approved rules above are final. The details below explain how each rule is a
   | BPLR-linked (older loans) | Needs its own contractual reference; no public estimate is assumed |
   | Not known | Repo linkage is **not** assumed |
 
+- **(Approved, B-09, 22 Nov 2026)** For a repo-linked loan the customer gives the bank's reset frequency (every 1, 3, 6 or 12 months; **every 3 months if unsure**) and, optionally, the first reset date (default: one reset interval after disbursement) and the spread from the sanction letter. At each reset date up to the report date, the estimate is the RBI repo rate in force on that date (from its announcement date) plus the spread. It becomes a keep-EMI rate change (A-04 default) only if it differs from the rate in force just before, and then applies from the first period starting on or after the reset date (A-03). There is no estimate in a reset interval where the customer entered a rate change, or where a repo rate is not available (before 7 Aug 2019); the last known rate then carries forward, labelled Estimated. Figures that use an estimated rate are labelled Illustrative, from public benchmark rates.
 - The estimated spread is the customer's known rate on a known date minus the benchmark on that date (as proposed and approved); a spread the customer enters from their sanction letter takes priority.
 - Where no reliable benchmark information is available (benchmark unknown, BPLR without a reference, or no data for that lender and period), the **last known rate is carried forward** and the result is labelled **Estimated**, with the assumption stated.
 - Every figure that depends on a benchmark-derived rate is labelled **Illustrative**, with the benchmark, source and date shown.
@@ -202,13 +203,14 @@ Known EMI checks still hold at displayed level: ₹50L at 8.5% for 20 years show
 | B-05 | Disbursement and EMI dates | Approved: full disbursement one calendar month before EMI 1; 29th–31st fall on the last day of shorter months, then return to the scheduled day. |
 | B-06 | Integer paise vs full precision | Approved: round every amount to the paisa ("go for round numbers"). A-02 amended accordingly. |
 | B-08 | Tenure after a bank-revised EMI | Approved: keep the existing maturity; any remainder is absorbed into the final EMI. |
+| B-09 | Repo reset timing | Approved: ask the reset frequency (quarterly if unsure); each repo change reaches the estimate at the loan's next reset date (section 3.1, A-05). |
 | B-07 | Benchmark coverage | Approved: official MCLR histories of SBI and Bank of Baroda only (HDFC, ICICI and Axis publish none), shown as a reference; customers enter each past MCLR rate; no MCLR reset modelling; no Base Rate table. RBI repo rate history for repo-linked loans per B-03. |
 
 ### 8.2 Still blocking (needed during Phase 1)
 
 | # | Decision needed | Blocks | Architect's suggestion (not decided) |
 |---|---|---|---|
-| B-09 | Repo-linked loans: when does an RBI repo change reach the loan's rate for the estimate? Banks reset at different intervals (RBI requires at least once every three months) and some pass changes on from the next month. | The repo + spread estimate for unknown past rates (A-05, B-03); the repo table and lookup are built | Ask the customer for their reset frequency (default quarterly) and apply each repo change from the next reset date, labelled Illustrative; if unknown, carry forward the last known rate, labelled Estimated. |
+| — | None at present. | | |
 
 ### 8.3 Needed before public launch of Release 1.0 (not blocking the engine)
 
@@ -279,4 +281,5 @@ Answered by the approval: product direction (D-01 to D-04), language (R-04), acc
 | 22 Nov 2026 | Decisions on B-01 to B-05 (stack with database/auth deferred; EMI-to-EMI period; benchmark by loan type; final EMI; date convention). Documentation commit approved. | Product owner (Praveen Sudhakaran) |
 | 22 Nov 2026 | B-06: round every monetary amount to the paisa (A-02 amended). Phase plan approved; `main` branch created from the documentation commit; Phase 0 started. | Product owner (Praveen Sudhakaran) |
 | 22 Nov 2026 | B-08: keep the existing maturity after a bank-revised EMI. B-07 partly decided: MCLR histories of SBI, HDFC Bank, ICICI Bank, Bank of Baroda and Axis Bank; Base Rate and reset capture still pending. | Product owner (Praveen Sudhakaran) |
+| 22 Nov 2026 | B-09 decided: ask the reset frequency, quarterly if unsure; repo changes reach the estimate at the next reset. | Product owner (Praveen Sudhakaran) |
 | 22 Nov 2026 | B-07 decided: SBI and Bank of Baroda MCLR histories only, shown as a reference; customers enter each past MCLR rate; no reset modelling. | Product owner (Praveen Sudhakaran) |

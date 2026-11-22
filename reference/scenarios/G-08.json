@@ -1,5 +1,5 @@
 {
- "fixture_version": 1,
+ "fixture_version": 2,
  "id": "G-08",
  "title": "Dated bank outstanding that differs from the model",
  "rules": [
@@ -18,7 +18,8 @@
    "as_at": "2023-03-31",
    "outstanding_paise": 450000000,
    "source": "annual statement"
-  }
+  },
+  "repo_estimate": null
  },
  "expected": {
   "starting_emi_paise": 4339116,

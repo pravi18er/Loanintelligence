@@ -67,15 +67,15 @@ EMIs due on the 5th of each month. A calculation period runs from one EMI date t
 
 | ID | Case | Expected |
 |---|---|---|
-| T-A05-1 | Repo-linked loan, past rates unknown | Missing periods = historical repo rate + estimated spread (B-03), labelled Illustrative |
+| T-A05-1 | Repo-linked loan, past rates unknown | At each reset date (frequency asked, quarterly if unsure), repo rate on that date + spread; a change only when the rate moves (B-03, B-09), labelled Illustrative |
 | T-A05-1b | MCLR-linked loan | No automatic estimate: entered rates are used, gaps carry forward labelled Estimated; the SBI or Bank of Baroda MCLR on a date is available as a labelled reference (B-07) |
-| T-A05-1c | Base Rate-linked loan | Uses that lender's historical Base Rate + spread |
+| T-A05-1c | Base Rate-linked loan | No bundled Base Rate history (B-07): entered rates are used, gaps carry forward labelled Estimated |
 | T-A05-1d | Benchmark unknown | Repo linkage is **not** assumed; last known rate carried forward, labelled Estimated |
 | T-A05-1e | BPLR-linked loan without a contractual reference | No public estimate; last known rate carried forward, labelled Estimated |
 | T-A05-1f | Spread | Spread = known rate − benchmark on the same date; a spread entered from the sanction letter takes priority |
 | T-A05-2 | Labelling | Every figure depending on a benchmark-derived rate is labelled Illustrative, source Public benchmark, with table version and date |
 | T-A05-3 | Never shown as actual | No benchmark-derived rate or figure can carry the Actual label (type-level and unit tests) |
-| T-A05-4 | Customer or bank rate available for a period | It replaces the benchmark estimate for that period |
+| T-A05-4 | Customer or bank rate available for a period | It replaces the benchmark estimate for its reset interval and re-anchors the spread (B-09) |
 | T-A05-5 | Same table in both interfaces | Engine and spreadsheet v2 read identical benchmark values (checksum test) |
 
 ### A-06 Dated bank figures as projection starting point
@@ -127,7 +127,8 @@ Three independent implementations must agree to the paisa for every month: TypeS
 | G-12 | Unknown past rates filled from the benchmark table (A-05) |
 | G-12b | Two rate changes inside one period with different choices (only the later applies), then keep tenure after the tenure was moving |
 | G-13 | EMI due on the 31st: 31 Jan, 28 Feb, 31 Mar, 30 Apr, 31 May (B-05) |
-| G-14 | MCLR-linked loan with some past rates not entered: carry-forward, labelled Estimated (B-07) |
+| G-14 | Repo-linked loan, quarterly resets estimated from the RBI repo rate; an entered change replaces its reset interval and re-anchors the spread (B-03, B-09) |
+| G-15 | Repo-linked loan, six-monthly resets from a known first reset date, spread from the sanction letter (B-03, B-09) |
 
 The v1 workbook is not an approved calculation reference. Spreadsheet v2 becomes a reference only after it passes these scenarios against the Python reference.
 

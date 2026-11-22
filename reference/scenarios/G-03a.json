@@ -1,5 +1,5 @@
 {
- "fixture_version": 1,
+ "fixture_version": 2,
  "id": "G-03a",
  "title": "Very short loan: 1 month",
  "rules": [
@@ -13,7 +13,8 @@
   "first_emi_date": "2024-01-15",
   "starting_emi_paise": null,
   "rate_changes": [],
-  "bank_outstanding": null
+  "bank_outstanding": null,
+  "repo_estimate": null
  },
  "expected": {
   "starting_emi_paise": 10083333,

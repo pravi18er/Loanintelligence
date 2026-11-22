@@ -22,7 +22,8 @@ export interface RateChange {
   adjustment?: RateAdjustment;
   /** Required when adjustment is "bank_emi". */
   bankEmi?: Paise;
-  source?: InputSource;
+  /** "public-benchmark" marks a change estimated from the RBI repo rate (B-09). */
+  source?: InputSource | "public-benchmark";
 }
 
 /** A dated outstanding balance reported by the bank (A-06, S-04). */

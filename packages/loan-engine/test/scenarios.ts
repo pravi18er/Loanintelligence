@@ -34,6 +34,13 @@ export interface Scenario {
       bank_emi_paise: number | null;
     }[];
     bank_outstanding: { as_at: string; outstanding_paise: number; source: string } | null;
+    /** Repo-linked estimate settings (B-09), or null. */
+    repo_estimate: {
+      reset_months: 1 | 3 | 6 | 12;
+      first_reset: string | null;
+      spread: string | null;
+      as_of: string;
+    } | null;
   };
   expected: {
     starting_emi_paise: number;
@@ -51,6 +58,8 @@ export interface Scenario {
       applies_from_period: number;
     } | null;
     schedule: ScenarioRow[];
+    /** Present when repo_estimate is set: the estimated rate changes. */
+    estimated_changes?: { effective: string; annual_rate: string }[];
   };
 }
 

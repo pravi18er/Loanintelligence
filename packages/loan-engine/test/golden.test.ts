@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { amortise, paise, type LoanInput } from "../src/index.ts";
+import {
+  amortise,
+  estimatedRepoChanges,
+  paise,
+  withRepoEstimates,
+  type LoanInput,
+  type RepoEstimate,
+} from "../src/index.ts";
 import { loadScenarios, type Scenario } from "./scenarios.ts";
 
 function toEngineInput(s: Scenario): LoanInput {
@@ -29,11 +36,37 @@ function toEngineInput(s: Scenario): LoanInput {
   };
 }
 
+function toEstimate(s: Scenario): RepoEstimate | null {
+  const r = s.input.repo_estimate;
+  if (r === null) return null;
+  return {
+    resetMonths: r.reset_months,
+    ...(r.first_reset === null ? {} : { firstReset: r.first_reset }),
+    ...(r.spread === null ? {} : { spreadPercent: r.spread }),
+  };
+}
+
 describe.each(loadScenarios().map((s) => [s.id, s] as const))(
   "golden scenario %s matches the Python reference to the paisa",
   (_id, s) => {
-    const result = amortise(toEngineInput(s));
+    const loan = toEngineInput(s);
+    const est = toEstimate(s);
+    const asOf = s.input.repo_estimate?.as_of ?? "";
+    const result = amortise(est === null ? loan : withRepoEstimates(loan, est, asOf));
     const e = s.expected;
+
+    it("repo-linked estimated changes (B-09)", () => {
+      const got =
+        est === null
+          ? undefined
+          : estimatedRepoChanges(loan, est, asOf).map((c) => ({
+              effective: c.effectiveDate,
+              annual_rate: Number(c.annualRatePercent),
+            }));
+      expect(got).toEqual(
+        e.estimated_changes?.map((c) => ({ ...c, annual_rate: Number(c.annual_rate) })),
+      );
+    });
 
     it("summary", () => {
       expect(result.startingEmi).toBe(e.starting_emi_paise);
