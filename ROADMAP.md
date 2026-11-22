@@ -17,7 +17,7 @@ Goal: a safe place to build, with the accuracy benchmark in place before any fea
 - Continuous integration on every pull request.
 - Independent Python reference implementing A-01 to A-08, and the first golden scenarios (TEST_STRATEGY.md section 2).
 
-**Gate:** CI green. (B-07 and B-08 must be decided before the Phase 1 gate.)
+**Gate:** CI green. (B-08 decided 22 Nov 2026; the rest of B-07 must be decided before the Phase 1 gate.)
 
 ## Phase 1 — Calculation engine and spreadsheet v2 (no website yet)
 

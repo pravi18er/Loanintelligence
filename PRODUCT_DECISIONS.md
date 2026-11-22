@@ -9,7 +9,7 @@
 - **Proposed** — recommended by the architect (status shown as Pending until approved).
 - **Pending** — a detail or decision not yet approved. Written down so it can be approved or corrected; not treated as decided.
 
-Last updated: 22 November 2026 (consolidated approval for Release 1.0; decisions B-01 to B-06; documentation commit; phase plan approved).
+Last updated: 22 November 2026 (consolidated approval for Release 1.0; decisions B-01 to B-06 and B-08; B-07 partly decided; documentation commit; phase plan approved).
 
 ---
 
@@ -88,8 +88,8 @@ The approved rules above are final. The details below explain how each rule is a
 - The estimated spread is the customer's known rate on a known date minus the benchmark on that date (as proposed and approved); a spread the customer enters from their sanction letter takes priority.
 - Where no reliable benchmark information is available (benchmark unknown, BPLR without a reference, or no data for that lender and period), the **last known rate is carried forward** and the result is labelled **Estimated**, with the assumption stated.
 - Every figure that depends on a benchmark-derived rate is labelled **Illustrative**, with the benchmark, source and date shown.
-- **(Pending, B-08)** After a bank-revised EMI (A-04 option 3), the reference keeps the loan's existing scheduled maturity, so any remainder is absorbed into the final EMI (B-04). If you would rather treat the tenure as moving after a bank-revised EMI, say so.
-- **(Pending, B-07)** MCLR and Base Rate are set by each lender, so the table needs lender-specific histories, and these loans change rate only on their reset dates. Which lenders are covered in Release 1.0, and how reset dates are captured, is pending.
+- **(Approved, B-08)** After a bank-revised EMI (A-04 option 3), the loan keeps its existing scheduled maturity, so any remainder is absorbed into the final EMI (B-04).
+- **(Partly decided, B-07)** Release 1.0 covers MCLR histories of five lenders: SBI, HDFC Bank, ICICI Bank, Bank of Baroda and Axis Bank. Loans from other lenders carry forward the last known rate, labelled Estimated. MCLR is set by each lender and these loans change rate only on their reset dates. **Pending:** whether Base Rate histories are also included, and how reset dates are captured.
 - Customer-entered or bank-documented rates always replace benchmark estimates for the periods they cover.
 - **This differs from the v1 spreadsheet**, which held the starting rate constant and labelled figures Estimated.
 
@@ -201,13 +201,13 @@ Known EMI checks still hold at displayed level: ₹50L at 8.5% for 20 years show
 | B-04 | Final EMI | Approved: ₹50L, 8.5%, 240 months with a ₹43,391 bank EMI has a 240th EMI of ₹43,492 (₹43,492.55, shown ₹43,493, after the B-06 paisa rule); no extra instalment. |
 | B-05 | Disbursement and EMI dates | Approved: full disbursement one calendar month before EMI 1; 29th–31st fall on the last day of shorter months, then return to the scheduled day. |
 | B-06 | Integer paise vs full precision | Approved: round every amount to the paisa ("go for round numbers"). A-02 amended accordingly. |
+| B-08 | Tenure after a bank-revised EMI | Approved: keep the existing maturity; any remainder is absorbed into the final EMI. |
 
 ### 8.2 Still blocking (needed during Phase 1)
 
 | # | Decision needed | Blocks | Architect's suggestion (not decided) |
 |---|---|---|---|
-| B-08 | Tenure after a bank-revised EMI: keep the existing maturity (remainder absorbed into the final EMI) or treat the tenure as moving? | Final EMI logic for A-04 option 3 | Keep the existing maturity (what the reference does now). |
-| B-07 | Benchmark coverage for Release 1.0: which lenders' MCLR and Base Rate histories are included, the source of each, and how reset dates (for example annual MCLR resets) are captured. | Benchmark table; Phase 1 gate | Start with the RBI repo rate plus MCLR/Base Rate histories of a short list of large lenders; ask the customer for the reset frequency, and carry forward (Estimated) where unknown. |
+| B-07 | Benchmark coverage for Release 1.0. **Decided:** MCLR histories of SBI, HDFC Bank, ICICI Bank, Bank of Baroda and Axis Bank. **Pending:** whether Base Rate is also covered, the source of each, and how reset dates (for example annual MCLR resets) are captured. | Benchmark table; Phase 1 gate | Start with the RBI repo rate plus MCLR/Base Rate histories of a short list of large lenders; ask the customer for the reset frequency, and carry forward (Estimated) where unknown. |
 
 ### 8.3 Needed before public launch of Release 1.0 (not blocking the engine)
 
@@ -277,3 +277,4 @@ Answered by the approval: product direction (D-01 to D-04), language (R-04), acc
 | 22 Nov 2026 | Consolidated approval: website-first with spreadsheet support (D-01 to D-04), calculation rules A-01 to A-08, Release 1.0 constraints R-01 to R-06, safeguards S-01 to S-07. Supersedes the earlier assumed conventions. | Product owner (Praveen Sudhakaran) |
 | 22 Nov 2026 | Decisions on B-01 to B-05 (stack with database/auth deferred; EMI-to-EMI period; benchmark by loan type; final EMI; date convention). Documentation commit approved. | Product owner (Praveen Sudhakaran) |
 | 22 Nov 2026 | B-06: round every monetary amount to the paisa (A-02 amended). Phase plan approved; `main` branch created from the documentation commit; Phase 0 started. | Product owner (Praveen Sudhakaran) |
+| 22 Nov 2026 | B-08: keep the existing maturity after a bank-revised EMI. B-07 partly decided: MCLR histories of SBI, HDFC Bank, ICICI Bank, Bank of Baroda and Axis Bank; Base Rate and reset capture still pending. | Product owner (Praveen Sudhakaran) |
