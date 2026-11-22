@@ -2,6 +2,7 @@ import { amortise } from "./amortise.ts";
 import { compareDates, isValidIsoDate, type IsoDate } from "./dates.ts";
 import { calculatedKind, type Figure, type FigureKind } from "./labels.ts";
 import { type Paise, sumPaise } from "./money.ts";
+import { type RepoEstimate, withRepoEstimates } from "./repo-estimate.ts";
 import type { LoanInput, Schedule } from "./types.ts";
 import { InvalidLoanInputError, validateLoan, type Issue } from "./validation.ts";
 
@@ -15,9 +16,15 @@ export interface RealityCheckInput {
   /**
    * "yes": the rate never changed, or every change is entered.
    * "no" / "not_sure": past rate changes may be missing, so figures that
-   * depend on them are Estimated. (A-05 benchmark estimates arrive with B-07.)
+   * depend on them are Estimated.
    */
   rateHistoryKnown: RateHistoryKnown;
+  /**
+   * For a repo-linked loan whose past rates are not all known: estimate them
+   * from the RBI repo rate plus the loan's spread at each reset (A-05, B-03,
+   * B-09). Figures that use an estimated rate are Illustrative.
+   */
+  repoEstimate?: RepoEstimate;
   /** EMIs paid so far, if the customer knows it. Otherwise counted from the dates. */
   emisPaid?: number;
 }
@@ -72,7 +79,11 @@ export function realityCheck(input: RealityCheckInput): RealityCheck {
   const errors = issues.filter((i) => i.severity === "error");
   if (errors.length > 0) throw new InvalidLoanInputError(errors);
 
-  const schedule = amortise(input.loan);
+  const loan = input.repoEstimate
+    ? withRepoEstimates(input.loan, input.repoEstimate, input.asOf)
+    : input.loan;
+  const usedBenchmark = (loan.rateChanges ?? []).some((c) => c.source === "public-benchmark");
+  const schedule = amortise(loan);
   const rows = schedule.rows;
   const bank = input.loan.bankOutstanding;
 
@@ -101,18 +112,31 @@ export function realityCheck(input: RealityCheckInput): RealityCheck {
   };
 
   // Past figures depend on the rate history and on the paid count.
-  const historyKind: FigureKind = input.rateHistoryKnown === "yes" ? "modelled" : "estimated";
+  const historyKind: FigureKind = usedBenchmark
+    ? "illustrative"
+    : input.rateHistoryKnown === "yes"
+      ? "modelled"
+      : "estimated";
   const pastKind = calculatedKind(historyKind, emisPaid.label.kind);
-  const historyAssumptions =
-    input.rateHistoryKnown === "yes"
+  const resetText = input.repoEstimate
+    ? { 1: "every month", 3: "every 3 months", 6: "every 6 months", 12: "every year" }[
+        input.repoEstimate.resetMonths
+      ]
+    : "";
+  const historyAssumptions = usedBenchmark
+    ? [
+        `Past rates you didn't give us are estimated from the RBI repo rate plus your spread, reset ${resetText}. Your bank's actual rates may differ.`,
+      ]
+    : input.rateHistoryKnown === "yes"
       ? []
       : [
           "Some past rate changes may be missing, so the rate you entered is assumed to have continued until the next change you gave us.",
         ];
+  const historySource = usedBenchmark ? "public-benchmark" : "calculated";
   const past = rows.slice(0, paidCount);
   const pastFigure = (value: Paise, explanation: string): Figure<Paise> => ({
     value,
-    label: { kind: pastKind, source: "calculated" },
+    label: { kind: pastKind, source: historySource },
     explanation,
     assumptions: [...COMMON_ASSUMPTIONS, ...historyAssumptions],
   });
@@ -149,7 +173,7 @@ export function realityCheck(input: RealityCheckInput): RealityCheck {
       value: modelledOutstanding,
       label: {
         kind: calculatedKind("actual", historyKind, emisPaid.label.kind),
-        source: "calculated",
+        source: historySource,
       },
       explanation: `Worked forward from the outstanding balance you gave us, dated ${bank.asAt}, by the EMIs due since then.`,
       assumptions: [...COMMON_ASSUMPTIONS, ...historyAssumptions],
@@ -166,18 +190,19 @@ export function realityCheck(input: RealityCheckInput): RealityCheck {
   const future = rows.slice(paidCount);
   const futureAssumptions = [
     ...COMMON_ASSUMPTIONS,
+    ...(usedBenchmark ? historyAssumptions : []),
     "Your current rate is assumed to stay the same for the rest of the loan.",
   ];
   const futureInterest: Figure<Paise> = {
     value: sumPaise(future.map((r) => r.interest)),
-    label: { kind: futureKind, source: "calculated" },
+    label: { kind: futureKind, source: historySource },
     explanation:
       "The interest still to come if your rate and EMI stay as they are. This is a projection, separate from interest already paid.",
     assumptions: futureAssumptions,
   };
   const remainingEmis: Figure<number> = {
     value: schedule.closed ? future.length : 0,
-    label: { kind: futureKind, source: "calculated" },
+    label: { kind: futureKind, source: historySource },
     explanation: schedule.closed
       ? "EMIs still to pay before the loan closes."
       : "Your loan does not close at the current EMI and rate. See the warnings.",
@@ -185,7 +210,7 @@ export function realityCheck(input: RealityCheckInput): RealityCheck {
   };
   const estimatedClosureDate: Figure<IsoDate | null> = {
     value: schedule.closed ? (rows.at(-1)?.dueDate ?? null) : null,
-    label: { kind: futureKind, source: "calculated" },
+    label: { kind: futureKind, source: historySource },
     explanation: "The due date of your last EMI if your rate and EMI stay as they are.",
     assumptions: futureAssumptions,
   };

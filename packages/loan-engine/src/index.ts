@@ -7,7 +7,7 @@
  */
 
 /** Version of the engine. Bumped whenever any calculated output changes. */
-export const ENGINE_VERSION = "0.1.0";
+export const ENGINE_VERSION = "0.2.0";
 
 /** Approved calculation rules this engine is required to implement. */
 export const APPROVED_RULES = [
@@ -57,3 +57,10 @@ export {
   type MclrLender,
   type MclrTenor,
 } from "./benchmarks.ts";
+export {
+  estimatedRepoChanges,
+  MAX_RESETS,
+  withRepoEstimates,
+  type RepoEstimate,
+  type ResetMonths,
+} from "./repo-estimate.ts";

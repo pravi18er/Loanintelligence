@@ -72,6 +72,12 @@ def fill(path: Path, scenario: dict) -> None:
     ws["C8"] = float(i["annual_rate"])
     ws["C9"] = rupees(i["starting_emi_paise"])
     ws["C12"] = AS_OF
+    q = 23 + bw.CHANGE_ROWS + 1  # section 4: repo-linked estimate
+    est = i.get("repo_estimate")
+    ws[f"C{q + 1}"] = "Yes" if est else "No"
+    ws[f"C{q + 2}"] = bw.FREQ_TEXT[est["reset_months"]] if est else bw.FREQ_TEXT[3]
+    ws[f"C{q + 3}"] = d(est["first_reset"]) if est and est["first_reset"] else None
+    ws[f"C{q + 4}"] = float(est["spread"]) if est and est["spread"] else None
     b = i["bank_outstanding"]
     ws["C14"] = rupees(b["outstanding_paise"]) if b else None
     ws["C15"] = d(b["as_at"]) if b else None
@@ -119,7 +125,7 @@ def compare(path: Path, scenario: dict) -> list[str]:
             "flags": [f for f, t in FLAG_TEXT.items() if t in notes],
         })
     expected = scenario["expected"]["schedule"]
-    problems = dashboard_problems(wb, scenario)
+    problems = dashboard_problems(wb, scenario) + estimate_problems(wb, scenario)
     if len(got) != len(expected):
         problems.append(f"{len(got)} rows, expected {len(expected)}")
     for g, e in zip(got, expected):
@@ -134,6 +140,17 @@ def compare(path: Path, scenario: dict) -> list[str]:
 
 
 AS_OF = dt.date(2025, 11, 22)
+
+
+def estimate_problems(wb, scenario: dict) -> list[str]:
+    """The Rate Estimate tab must produce exactly the reference's estimated changes."""
+    ws = wb["Rate Estimate"]
+    got = []
+    for r in range(5, 5 + bw.MAX_RESETS):
+        if ws[f"M{r}"].value is True:
+            got.append((as_date(ws[f"B{r}"].value), Decimal(str(ws[f"J{r}"].value))))
+    want = [(c["effective"], Decimal(c["annual_rate"])) for c in scenario["expected"].get("estimated_changes", [])]
+    return [] if got == want else [f"estimated changes {got} != {want}"]
 
 
 def dashboard_problems(wb, scenario: dict) -> list[str]:

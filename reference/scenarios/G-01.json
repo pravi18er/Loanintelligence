@@ -1,5 +1,5 @@
 {
- "fixture_version": 1,
+ "fixture_version": 2,
  "id": "G-01",
  "title": "New loan, fixed rate, 20 years (Rs 50 lakh at 8.5%)",
  "rules": [
@@ -15,7 +15,8 @@
   "first_emi_date": "2020-04-05",
   "starting_emi_paise": null,
   "rate_changes": [],
-  "bank_outstanding": null
+  "bank_outstanding": null,
+  "repo_estimate": null
  },
  "expected": {
   "starting_emi_paise": 4339116,

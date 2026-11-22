@@ -5,7 +5,7 @@ Published benchmark rates used by the engine, the Python reference and the sprea
 | Folder | Contents | Used for |
 |---|---|---|
 | `mclr/` | SBI and Bank of Baroda MCLR history from April 2016 | A reference shown beside an MCLR-linked loan. MCLR resets are not modelled; the customer enters each past rate (B-07). |
-| `repo/` | Every RBI policy repo rate change since the rate in force on 1 Oct 2019, each with its RBI release | Repo-linked loans (B-03). How a repo change reaches the loan's rate is pending (B-09). |
+| `repo/` | Every RBI policy repo rate change since the rate in force on 1 Oct 2019, each with its RBI release | Repo-linked loans: the estimate at each reset date is the repo rate plus the loan's spread (B-03, B-09). |
 
 HDFC Bank, ICICI Bank and Axis Bank publish no official MCLR history, so none is bundled for them.
 

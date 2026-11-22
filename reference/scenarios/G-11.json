@@ -1,5 +1,5 @@
 {
- "fixture_version": 1,
+ "fixture_version": 2,
  "id": "G-11",
  "title": "Bank-rounded EMI (Rs 43,391): remainder absorbed into the 240th EMI",
  "rules": [
@@ -13,7 +13,8 @@
   "first_emi_date": "2020-04-05",
   "starting_emi_paise": 4339100,
   "rate_changes": [],
-  "bank_outstanding": null
+  "bank_outstanding": null,
+  "repo_estimate": null
  },
  "expected": {
   "starting_emi_paise": 4339100,
