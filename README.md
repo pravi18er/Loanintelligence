@@ -6,7 +6,7 @@ Helping every Indian borrower understand their loan and make informed financial 
 
 The first module is **Home Loan Intelligence**: where your EMIs have gone, what you still owe, how much interest may lie ahead, and how rate changes, prepayments, top-ups or a balance transfer would change that.
 
-> **Status (22 November 2026):** Planning. The product owner has approved the Release 1.0 baseline: website-first with spreadsheet support, eight calculation rules, Release 1.0 constraints and implementation safeguards (see [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md)). The core technology stack is approved, with database and login infrastructure deferred. The phase plan is pending approval. No application code has been written yet.
+> **Status (22 November 2026):** Planning. The product owner has approved the Release 1.0 baseline: website-first with spreadsheet support, eight calculation rules, Release 1.0 constraints and implementation safeguards (see [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md)). The core technology stack and phase plan are approved, with database and login infrastructure deferred. Phase 0 (foundations) is under way: repository skeleton, CI and the Python calculation reference with golden scenarios. No customer-facing code yet.
 
 ## Documents
 
@@ -33,18 +33,26 @@ The first module is **Home Loan Intelligence**: where your EMIs have gone, what 
 
 TypeScript · standalone calculation engine using decimal.js · Next.js · Tailwind CSS + shadcn/ui · Recharts · Zod · Vitest, fast-check, Playwright · pnpm workspaces monorepo · Vercel.
 
-Deferred: Supabase, PostgreSQL, authentication and any database infrastructure. Release 1.0 needs none of them. Pending: how integer paise fits with full-precision calculation (B-06), payments, monitoring and analytics.
+Deferred: Supabase, PostgreSQL, authentication and any database infrastructure. Release 1.0 needs none of them. Every amount is rounded to the paisa and held as integer paise (B-06). Pending: payments, monitoring and analytics.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the reasoning and alternatives.
 
 ## Planned repository layout
 
 ```
-apps/web/               Next.js website (from Phase 2)
-packages/loan-engine/   Pure TypeScript calculation engine (from Phase 1)
+apps/web/               Next.js website (added in Phase 2)
+packages/loan-engine/   Pure TypeScript calculation engine (skeleton now; rules in Phase 1)
 reference/              Golden test scenarios, Python reference, public benchmark table
 spreadsheet/            Generator for the v2 customer workbook
-docs/                   Additional design notes
+```
+
+## Development
+
+Requires Node 22+, pnpm 10 and Python 3.10+.
+
+```bash
+pnpm install
+pnpm check     # formatting, lint, type check, engine tests, Python reference tests, scenario check
 ```
 
 ## Important

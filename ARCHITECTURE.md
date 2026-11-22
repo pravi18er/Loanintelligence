@@ -64,7 +64,7 @@ The builder is a beginner-to-intermediate developer working with an AI partner. 
 | Layer | Recommendation | Why | Main alternative considered |
 |---|---|---|---|
 | Language | **TypeScript** everywhere | One language for engine, UI and server; the type system catches unit and provenance mistakes early. | Python (excellent for finance maths, but a second language for the UI, and the engine could not run in the browser). |
-| Calculation engine | **Standalone TypeScript package** (`packages/loan-engine`), zero framework dependencies, **`decimal.js`** at full precision, rounding only for display (A-02); integer paise for naturally whole-paise amounts (exact role pending B-06) | Runs identically in browser and server; can be tested in isolation; reusable by future modules and even by a future API or mobile app. | Calculations inside UI components (fast to start, very hard to test and trust). |
+| Calculation engine | **Standalone TypeScript package** (`packages/loan-engine`), zero framework dependencies, **`decimal.js`** for calculation, every amount rounded to the paisa and held as integer paise (A-02 as amended by B-06); rupee rounding for display | Runs identically in browser and server; can be tested in isolation; reusable by future modules and even by a future API or mobile app. | Calculations inside UI components (fast to start, very hard to test and trust). |
 | Web framework | **Next.js** (React, App Router) | Most documented React framework; handles pages, server functions and APIs in one project; first-class hosting on Vercel. | Vite + React SPA with separate API (simpler mental model, but two deployables). |
 | UI | **Tailwind CSS** + **shadcn/ui** components, **Recharts** for charts | Accessible defaults, copy-in components (no lock-in), simple charting. | MUI (heavier, more opinionated). |
 | Input validation | **Zod** schemas shared by engine, forms and server | One definition of "valid loan input" everywhere. | Hand-written checks (drift between client and server). |
@@ -114,7 +114,7 @@ There is no backend, database or login in Release 1.0. The server only delivers 
 
 - Guided, progressive onboarding (PRD §7): new vs existing borrower first, then only the fields that matter.
 - Bank-reported figures are entered with their "as at" date and source (A-06, S-04).
-- Every displayed figure goes through one component (`<Figure>`) that shows its two-part label (S-01), rounds to the nearest rupee for display only (A-02), and opens "How was this calculated?".
+- Every displayed figure goes through one component (`<Figure>`) that shows its two-part label (S-01), rounds to the nearest rupee for display (A-02), and opens "How was this calculated?".
 - Mobile-first responsive layout, English only (R-04).
 - Accessibility target pending (L-05); WCAG 2.1 AA recommended.
 
@@ -128,7 +128,7 @@ There is no backend, database or login in Release 1.0. The server only delivers 
 The heart of the product. Design principles:
 
 1. **Pure functions.** Input → output, no network, no clock (the "as of" date is an input), no randomness. Same input always gives the same result.
-2. **Full-precision decimal maths [Approved, A-02 and B-01].** All calculation uses `decimal.js` (at least 28 significant digits). Nothing is rounded inside the engine; the calculated EMI is kept at full precision. Rounding to the nearest rupee happens only in the display layer. No JavaScript floating-point arithmetic on money. B-01 also approved "integer paise"; the recommendation (pending B-06) is to use integer paise only for amounts that are naturally whole paise, such as customer-entered and bank-reported money, so that A-02 is not affected.
+2. **Decimal maths, integer paise [Approved, B-01, B-06; A-02 amended].** Calculation uses `decimal.js`; the EMI and each month's interest are rounded half-up to the paisa, and all amounts are held as integer paise. Rounding to the nearest rupee happens only in the display layer. No JavaScript floating-point arithmetic on money.
 3. **Approved rules, versioned [Approved, A-01 to A-08].** Interest = opening balance × rate / 1200; rate changes from the first full period starting on or after the effective date; three EMI/tenure options per change; final EMI = exact remaining due. These are fixed for Release 1.0, not customer settings. Every result records the rules version and the benchmark-table version used.
 4. **Event timeline.** A loan is: initial terms + an ordered list of events (rate change, EMI change, dated and sourced bank figure; later releases add prepayment and top-up). The engine applies events month by month. Every simulator is just a different set of events.
 5. **Two-part label on every value [Approved, S-01].** Each figure carries `{ value, kind: actual | modelled | estimated | illustrative, source: bank-confirmed | customer-provided | public-benchmark | calculated, asAt?, sourceDocument?, assumptions[] }`. Labels propagate: anything calculated from an Illustrative input is Illustrative; from an Estimated input, at best Estimated. A modelled figure can never be labelled as a bank figure (S-02).
@@ -155,8 +155,8 @@ The heart of the product. Design principles:
 
 | Risk | Mitigation |
 |---|---|
-| Floating-point drift (e.g. 0.1 + 0.2) accumulating over 240+ months | Full-precision `decimal.js`; lint rule forbidding raw arithmetic on money types. Spreadsheets use about 15 significant digits, far finer than a paisa, so displayed rupees agree. |
-| Banks round EMIs and interest; the full-precision model will differ slightly | Expected and labelled: modelled figures say they may differ from the bank (S-02); customers can enter the bank's EMI (A-04). |
+| Floating-point drift (e.g. 0.1 + 0.2) accumulating over 240+ months | `decimal.js` and integer paise; lint rule against float helpers on money. Spreadsheet v2 rounds at the same points, so both agree to the paisa. |
+| Banks may round EMIs and interest differently from our paisa rule; the model will differ slightly | Expected and labelled: modelled figures say they may differ from the bank (S-02); customers can enter the bank's EMI (A-04). |
 | Edge cases: zero interest, last EMI residual, loan closing early after prepayment, negative amortisation | Dedicated unit tests and property tests (balance never negative; principal + interest = EMI; total principal = loan). |
 | Divergence between website and spreadsheet (S-06) | Shared golden scenarios run against the engine, spreadsheet v2 and an independent Python reference in CI; all displayed rupees must agree. |
 | Silent behaviour change after code edits | Engine versioning, golden tests, and changelog entries for any change in output. |
@@ -202,10 +202,9 @@ The heart of the product. Design principles:
 | Decision | Reversibility | Notes |
 |---|---|---|
 | Engine as separate, pure TypeScript package with decimal maths | **Hard to reverse later** | Approved (B-01). |
-| Full-precision decimals + two-part labels | **Hard to reverse later** | Approved by A-02 and S-01; every module depends on them. |
+| Integer paise + two-part labels | **Hard to reverse later** | Approved by B-06 and S-01; every module depends on them. |
 | TypeScript end to end | Hard | Approved (B-01). |
 | Next.js / Vercel | Moderate to easy | Approved (B-01). Engine is framework-independent. |
-| Integer paise vs full precision | Hard | Pending (B-06). |
 | Anonymous in-browser mode for 1.0 | Approved (R-01 to R-03) | Accounts could be added later only with approval. |
 | Analytics / monitoring vendors | Easy | Pending (L-07). |
 
@@ -226,7 +225,7 @@ The heart of the product. Design principles:
 
 | Area | Before | After | Reason |
 |---|---|---|---|
-| Number precision | Integer paise, interest rounded to the paisa | Full-precision decimals; round to the rupee only for display | A-02 |
+| Number precision | Integer paise, interest rounded to the paisa | Briefly full precision (original A-02), then back to paisa rounding when A-02 was amended | A-02, B-06 |
 | Figure labels | Four kinds | Kind + source (six categories) | S-01 |
 | Rate changes | From the EMI due on/after the effective date | From the first full period starting on/after the effective date | A-03 |
 | Unknown past rates | Held at the starting rate, labelled Estimated | Benchmark by loan type + spread, labelled Illustrative; carry-forward labelled Estimated | A-05, B-03 |

@@ -9,7 +9,7 @@
 - **Proposed** — recommended by the architect (status shown as Pending until approved).
 - **Pending** — a detail or decision not yet approved. Written down so it can be approved or corrected; not treated as decided.
 
-Last updated: 22 November 2026 (consolidated approval for Release 1.0, then decisions on B-01 to B-05 and documentation commit).
+Last updated: 22 November 2026 (consolidated approval for Release 1.0; decisions B-01 to B-06; documentation commit; phase plan approved).
 
 ---
 
@@ -42,7 +42,7 @@ Consequence: the calculation rules in section 3 are the single source of truth. 
 | ID | Area | Approved decision |
 |---|---|---|
 | A-01 | Interest calculation | Monthly reducing-balance interest: opening principal × annual interest rate / 1200. |
-| A-02 | Rounding | Retain full precision internally. Round customer-facing displayed amounts to the nearest rupee. |
+| A-02 | Rounding | **Amended 22 Nov 2026 (B-06):** round every monetary amount to the paisa (integer paise): the EMI and each month's interest, principal and balance. Round customer-facing displayed amounts to the nearest rupee. *(Originally: retain full precision internally.)* |
 | A-03 | Interest-rate changes | Apply the revised rate from the first full monthly calculation period beginning on or after its effective date. No mid-month pro-rata calculation in Release 1.0. |
 | A-04 | EMI and tenure adjustment | Three options: keep EMI and extend tenure (default), keep tenure and recalculate EMI, or enter the bank-revised EMI. |
 | A-05 | Unknown historical rates | Use publicly available historical benchmark information to provide illustrative estimates when actual historical rates are unavailable. Never represent benchmark rates as the customer's actual rate. |
@@ -52,15 +52,16 @@ Consequence: the calculation rules in section 3 are the single source of truth. 
 
 ### 3.1 Implementation details of each rule
 
-The approved rules above are final. The details below explain how each rule is applied; they were approved on 22 Nov 2026 as B-02 to B-05 unless marked **(Pending)**. Nothing here reopens an approved rule.
+The approved rules above are final. The details below explain how each rule is applied; they were approved on 22 Nov 2026 as B-02 to B-06 unless marked **(Pending)**. Nothing here reopens an approved rule.
 
-**A-01.** Interest for a period = opening balance × annual rate ÷ 1200, at full precision. Example: ₹50,00,000 at 8.5% gives ₹35,416.6667 interest in month 1 (displayed ₹35,417).
+**A-01.** Interest for a period = opening balance × annual rate ÷ 1200, rounded to the paisa (A-02). Example: ₹50,00,000 at 8.5% gives ₹35,416.67 interest in month 1 (displayed ₹35,417).
 
-**A-02.**
-- Full precision means decimal arithmetic with at least 28 significant digits on the website. Google Sheets/Excel use about 15 significant digits, which is far finer than a paisa over 480 months, so both implementations agree on every displayed rupee.
-- The **calculated EMI is kept at full precision** in the schedule. Example: ₹50L, 8.5%, 240 months gives an EMI of ₹43,391.1617, displayed as ₹43,391.
-- When the customer enters their bank's EMI (which banks round, usually to the rupee), that exact amount is used.
-- Display rounding is round-half-up to the nearest rupee. Totals are rounded from their full-precision value, not added up from rounded rows, so a column of rounded rows can differ from its displayed total by a rupee or two. The screen will say so where it matters.
+**A-02 (as amended by B-06).**
+- Every monetary amount is held in whole paise. Calculations use decimal.js, and each result is rounded half-up to the paisa (the same as the spreadsheet's ROUND function) at these points: the EMI when it is calculated or recalculated, and each month's interest. Principal (payment − interest) and the closing balance (opening − principal) are then exact in paise.
+- Example: ₹50L, 8.5%, 240 months gives an EMI of ₹43,391.16 (displayed ₹43,391), month 1 interest of ₹35,416.67, a final 240th EMI of ₹43,392.20 and total interest of ₹54,13,879.44.
+- When the customer enters their bank's EMI, that exact amount is used.
+- Display rounding is half-up to the nearest rupee. Totals are the exact sum of the paise rows, then rounded for display, so a column of rounded rows can differ from its displayed total by a rupee or two. The screen will say so where it matters.
+- Because the spreadsheet rounds at the same points, the website and spreadsheet agree to the paisa, not just to the rupee.
 
 **A-03.**
 - **(Approved, B-02)** A monthly calculation period runs from one EMI due date to the next EMI due date. No mid-period splitting in Release 1.0. Interest for that period is charged with the EMI at its end.
@@ -85,6 +86,7 @@ The approved rules above are final. The details below explain how each rule is a
 - The estimated spread is the customer's known rate on a known date minus the benchmark on that date (as proposed and approved); a spread the customer enters from their sanction letter takes priority.
 - Where no reliable benchmark information is available (benchmark unknown, BPLR without a reference, or no data for that lender and period), the **last known rate is carried forward** and the result is labelled **Estimated**, with the assumption stated.
 - Every figure that depends on a benchmark-derived rate is labelled **Illustrative**, with the benchmark, source and date shown.
+- **(Pending, B-08)** After a bank-revised EMI (A-04 option 3), the reference keeps the loan's existing scheduled maturity, so any remainder is absorbed into the final EMI (B-04). If you would rather treat the tenure as moving after a bank-revised EMI, say so.
 - **(Pending, B-07)** MCLR and Base Rate are set by each lender, so the table needs lender-specific histories, and these loans change rate only on their reset dates. Which lenders are covered in Release 1.0, and how reset dates are captured, is pending.
 - Customer-entered or bank-documented rates always replace benchmark estimates for the periods they cover.
 - **This differs from the v1 spreadsheet**, which held the starting rate constant and labelled figures Estimated.
@@ -96,7 +98,7 @@ The approved rules above are final. The details below explain how each rule is a
 - **This differs from the v1 spreadsheet**, which had one general "as of" date and no source field. See section 5.
 
 **A-07.**
-- **(Approved, B-04)** The regular EMI stays the same and any remaining amount due is absorbed into the final EMI, which equals the actual outstanding plus applicable interest; no unnecessary extra instalment is created. If the loan has a scheduled maturity (the original tenure, a keep-tenure recalculation, or a bank-stated remaining tenure), the EMI in the last scheduled month equals exactly the balance plus that month's interest. A small leftover caused by a rounded bank EMI is absorbed into that final EMI. Example: ₹50L, 8.5%, 240 months with a bank EMI of ₹43,391 has a final (240th) EMI of ₹43,492, not a 241st EMI of ₹102.
+- **(Approved, B-04)** The regular EMI stays the same and any remaining amount due is absorbed into the final EMI, which equals the actual outstanding plus applicable interest; no unnecessary extra instalment is created. If the loan has a scheduled maturity (the original tenure, a keep-tenure recalculation, or a bank-stated remaining tenure), the EMI in the last scheduled month equals exactly the balance plus that month's interest. A small leftover caused by a rounded bank EMI is absorbed into that final EMI. Example: ₹50L, 8.5%, 240 months with a bank EMI of ₹43,391 has a final (240th) EMI of ₹43,492.55 (displayed ₹43,493), not a 241st EMI of about ₹102. (The example approved under B-04 showed ₹43,492 under full precision; rounding each month to the paisa under B-06 moves it by 18 paise.)
 - If the tenure is moving because the EMI is being kept after a rate change, the loan closes in the first month where balance plus interest is no more than the EMI, and that final payment is exactly balance plus interest (it can be smaller than a normal EMI).
 - No percentage threshold is used anywhere.
 - **This differs from the v1 spreadsheet**, which used a 1%-of-EMI threshold.
@@ -146,7 +148,7 @@ The v1 workbook (`home-loan-reality-check/Home_Loan_Reality_Check_v1.xlsx`) was 
 | Rule | v1 spreadsheet | Approved | Change needed |
 |---|---|---|---|
 | A-01 | Rate / 12 on reducing balance | Same | None |
-| A-02 | EMI rounded to the rupee; interest rounded to the paisa each month | Full precision; round only for display | Remove internal ROUNDs; use number formats for display |
+| A-02 | EMI rounded to the rupee; interest rounded to the paisa each month | EMI and every monthly amount rounded to the paisa (B-06) | Round the EMI to 2 decimals instead of 0 |
 | A-03 | Change applies to the EMI due on or after the effective date | Change applies from the first period starting on or after the effective date | Shift the rate lookup by one period |
 | A-04 | Three options per change | Same | None |
 | A-05 | Unknown past rates held at starting rate, labelled Estimated | Benchmark by loan type (repo, MCLR, Base Rate) + spread, labelled Illustrative; carry-forward labelled Estimated where no reliable benchmark | Add benchmark type input, benchmark table and lookup; relabel |
@@ -164,7 +166,7 @@ Known EMI checks still hold at displayed level: ₹50L at 8.5% for 20 years show
 | P-01 | Website-first, spreadsheet kept as customer alternative and reference (v2 once validated). | **Approved** (D-01 to D-04) | Moderate |
 | P-02 | TypeScript end to end. | **Approved** (B-01) | Hard |
 | P-03 | Standalone, framework-free calculation engine using decimal.js. | **Approved** (B-01) | Hard |
-| P-03a | How "integer paise" (approved in B-01) fits with full internal precision (A-02). | **Pending** (B-06) | Hard (decide now) |
+| P-03a | Every monetary amount rounded to the paisa and held as integer paise (A-02 amended). | **Approved** (B-06) | Hard |
 | P-04 | Two-part label on every figure as part of its data type (S-01). | **Approved** (S-01) | Hard |
 | P-05 | Next.js, Tailwind CSS + shadcn/ui, Recharts, Zod; hosted on Vercel. | **Approved** (B-01) | Moderate |
 | P-06 | Release 1.0 anonymous, in-browser, nothing stored. | **Approved** (R-01 to R-03) | Easy |
@@ -192,14 +194,15 @@ Known EMI checks still hold at displayed level: ₹50L at 8.5% for 20 years show
 | B-01 | Technology stack | Approved: TypeScript, standalone engine, decimal.js + integer paise, Next.js, Tailwind + shadcn/ui, Recharts, Zod, Vitest + fast-check + Playwright, pnpm monorepo, Vercel. Supabase, PostgreSQL, authentication and database infrastructure deferred. |
 | B-02 | Rate-change period | Approved: one EMI date to the next; a change effective 1 June with EMIs on the 5th first affects the 5 July EMI. |
 | B-03 | Benchmark method | Approved with qualification: benchmark by loan type (section 3.1, A-05); never assume repo linkage; carry forward last known rate, labelled Estimated, where no reliable benchmark. |
-| B-04 | Final EMI | Approved: ₹50L, 8.5%, 240 months with a ₹43,391 bank EMI has a 240th EMI of ₹43,492; no extra instalment. |
+| B-04 | Final EMI | Approved: ₹50L, 8.5%, 240 months with a ₹43,391 bank EMI has a 240th EMI of ₹43,492 (₹43,492.55, shown ₹43,493, after the B-06 paisa rule); no extra instalment. |
 | B-05 | Disbursement and EMI dates | Approved: full disbursement one calendar month before EMI 1; 29th–31st fall on the last day of shorter months, then return to the scheduled day. |
+| B-06 | Integer paise vs full precision | Approved: round every amount to the paisa ("go for round numbers"). A-02 amended accordingly. |
 
 ### 8.2 Still blocking (needed during Phase 1)
 
 | # | Decision needed | Blocks | Architect's suggestion (not decided) |
 |---|---|---|---|
-| B-06 | "Integer paise" (B-01) and "retain full precision internally" (A-02) can conflict. If every monthly amount is stored as whole paise, interest is rounded to the paisa each month, which A-02 rules out. | Engine number types | Calculate everything in full-precision decimal.js. Use integer paise only for amounts that are naturally whole paise: customer-entered and bank-reported money, and test fixtures. This keeps A-02 unchanged. |
+| B-08 | Tenure after a bank-revised EMI: keep the existing maturity (remainder absorbed into the final EMI) or treat the tenure as moving? | Final EMI logic for A-04 option 3 | Keep the existing maturity (what the reference does now). |
 | B-07 | Benchmark coverage for Release 1.0: which lenders' MCLR and Base Rate histories are included, the source of each, and how reset dates (for example annual MCLR resets) are captured. | Benchmark table; Phase 1 gate | Start with the RBI repo rate plus MCLR/Base Rate histories of a short list of large lenders; ask the customer for the reset frequency, and carry forward (Estimated) where unknown. |
 
 ### 8.3 Needed before public launch of Release 1.0 (not blocking the engine)
@@ -252,7 +255,7 @@ Answered by the approval: product direction (D-01 to D-04), language (R-04), acc
 
 | Earlier proposal | Conflict | Required change |
 |---|---|---|
-| Engine stores money as integer paise, rounding interest to the paisa | A-02 requires full internal precision; B-01 approved "decimal.js + integer paise" | Full-precision decimal.js for calculation; role of integer paise pending B-06. |
+| Engine stores money as integer paise, rounding interest to the paisa | A-02 originally required full internal precision | Resolved by B-06: A-02 amended to paisa rounding; the original proposal stands. |
 | Four labels (Actual / Modelled / Estimated / Illustrative) | S-01 lists six categories | Two-part label: kind (Actual, Modelled, Estimated, Illustrative) plus source (Bank-confirmed, Customer-provided, Public benchmark, Calculated). |
 | v1 spreadsheet as the validation oracle | v1 follows old A-02, A-03, A-05, A-06, A-07 | Spreadsheet v2 must be built to the approved rules; v1 retired as a reference for those rules. |
 | Historical rate research deferred to 1.2 | A-05 needs benchmark rates in 1.0 | A bundled, versioned public benchmark table moves into Release 1.0 (Phase 1). Lender-specific reconstruction stays in 1.2. |
@@ -269,3 +272,4 @@ Answered by the approval: product direction (D-01 to D-04), language (R-04), acc
 | 22 Nov 2026 | Architecture P-01 to P-10 proposed. | AI architect |
 | 22 Nov 2026 | Consolidated approval: website-first with spreadsheet support (D-01 to D-04), calculation rules A-01 to A-08, Release 1.0 constraints R-01 to R-06, safeguards S-01 to S-07. Supersedes the earlier assumed conventions. | Product owner (Praveen Sudhakaran) |
 | 22 Nov 2026 | Decisions on B-01 to B-05 (stack with database/auth deferred; EMI-to-EMI period; benchmark by loan type; final EMI; date convention). Documentation commit approved. | Product owner (Praveen Sudhakaran) |
+| 22 Nov 2026 | B-06: round every monetary amount to the paisa (A-02 amended). Phase plan approved; `main` branch created from the documentation commit; Phase 0 started. | Product owner (Praveen Sudhakaran) |
