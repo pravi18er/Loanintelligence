@@ -9,7 +9,7 @@
 - **Proposed** — recommended by the architect (status shown as Pending until approved).
 - **Pending** — a detail or decision not yet approved. Written down so it can be approved or corrected; not treated as decided.
 
-Last updated: 22 November 2026 (consolidated approval for Release 1.0; decisions B-01 to B-06 and B-08; B-07 partly decided; documentation commit; phase plan approved).
+Last updated: 22 November 2026 (consolidated approval for Release 1.0; decisions B-01 to B-08; B-09 pending; documentation commit; phase plan approved).
 
 ---
 
@@ -80,8 +80,8 @@ The approved rules above are final. The details below explain how each rule is a
   | Loan's benchmark | Illustrative estimate |
   |---|---|
   | Repo-linked (external benchmark) | Historical RBI repo rate + applicable spread |
-  | MCLR-linked | Historical MCLR + applicable spread |
-  | Base Rate-linked | Historical Base Rate + applicable spread |
+  | MCLR-linked | No automatic estimate (B-07): the customer enters each past rate; the bundled SBI and Bank of Baroda MCLR history is shown beside the loan as a reference only |
+  | Base Rate-linked | No bundled Base Rate history in Release 1.0 (B-07); the customer enters past rates |
   | BPLR-linked (older loans) | Needs its own contractual reference; no public estimate is assumed |
   | Not known | Repo linkage is **not** assumed |
 
@@ -89,7 +89,7 @@ The approved rules above are final. The details below explain how each rule is a
 - Where no reliable benchmark information is available (benchmark unknown, BPLR without a reference, or no data for that lender and period), the **last known rate is carried forward** and the result is labelled **Estimated**, with the assumption stated.
 - Every figure that depends on a benchmark-derived rate is labelled **Illustrative**, with the benchmark, source and date shown.
 - **(Approved, B-08)** After a bank-revised EMI (A-04 option 3), the loan keeps its existing scheduled maturity, so any remainder is absorbed into the final EMI (B-04).
-- **(Partly decided, B-07)** Release 1.0 covers MCLR histories of five lenders: SBI, HDFC Bank, ICICI Bank, Bank of Baroda and Axis Bank. Loans from other lenders carry forward the last known rate, labelled Estimated. MCLR is set by each lender and these loans change rate only on their reset dates. **Pending:** whether Base Rate histories are also included, and how reset dates are captured.
+- **(Approved, B-07, 22 Nov 2026)** Release 1.0 bundles the official MCLR histories of **SBI and Bank of Baroda** only, copied from each bank's own website (`data/benchmarks/mclr/`). HDFC Bank, ICICI Bank and Axis Bank publish no official MCLR history, so none is bundled for them. MCLR resets are **not** modelled: the customer enters each past rate of an MCLR-linked loan, and the bundled history is shown beside the loan as a reference only. Any period without an entered rate carries forward the last known rate, labelled Estimated. Base Rate histories are not bundled (the answer named MCLR only).
 - Customer-entered or bank-documented rates always replace benchmark estimates for the periods they cover.
 - **This differs from the v1 spreadsheet**, which held the starting rate constant and labelled figures Estimated.
 
@@ -202,12 +202,13 @@ Known EMI checks still hold at displayed level: ₹50L at 8.5% for 20 years show
 | B-05 | Disbursement and EMI dates | Approved: full disbursement one calendar month before EMI 1; 29th–31st fall on the last day of shorter months, then return to the scheduled day. |
 | B-06 | Integer paise vs full precision | Approved: round every amount to the paisa ("go for round numbers"). A-02 amended accordingly. |
 | B-08 | Tenure after a bank-revised EMI | Approved: keep the existing maturity; any remainder is absorbed into the final EMI. |
+| B-07 | Benchmark coverage | Approved: official MCLR histories of SBI and Bank of Baroda only (HDFC, ICICI and Axis publish none), shown as a reference; customers enter each past MCLR rate; no MCLR reset modelling; no Base Rate table. RBI repo rate history for repo-linked loans per B-03. |
 
 ### 8.2 Still blocking (needed during Phase 1)
 
 | # | Decision needed | Blocks | Architect's suggestion (not decided) |
 |---|---|---|---|
-| B-07 | Benchmark coverage for Release 1.0. **Decided:** MCLR histories of SBI, HDFC Bank, ICICI Bank, Bank of Baroda and Axis Bank. **Pending:** whether Base Rate is also covered, the source of each, and how reset dates (for example annual MCLR resets) are captured. | Benchmark table; Phase 1 gate | Start with the RBI repo rate plus MCLR/Base Rate histories of a short list of large lenders; ask the customer for the reset frequency, and carry forward (Estimated) where unknown. |
+| B-09 | Repo-linked loans: when does an RBI repo change reach the loan's rate for the estimate? Banks reset at different intervals (RBI requires at least once every three months) and some pass changes on from the next month. | The repo + spread estimate for unknown past rates (A-05, B-03); the repo table and lookup are built | Ask the customer for their reset frequency (default quarterly) and apply each repo change from the next reset date, labelled Illustrative; if unknown, carry forward the last known rate, labelled Estimated. |
 
 ### 8.3 Needed before public launch of Release 1.0 (not blocking the engine)
 
@@ -278,3 +279,4 @@ Answered by the approval: product direction (D-01 to D-04), language (R-04), acc
 | 22 Nov 2026 | Decisions on B-01 to B-05 (stack with database/auth deferred; EMI-to-EMI period; benchmark by loan type; final EMI; date convention). Documentation commit approved. | Product owner (Praveen Sudhakaran) |
 | 22 Nov 2026 | B-06: round every monetary amount to the paisa (A-02 amended). Phase plan approved; `main` branch created from the documentation commit; Phase 0 started. | Product owner (Praveen Sudhakaran) |
 | 22 Nov 2026 | B-08: keep the existing maturity after a bank-revised EMI. B-07 partly decided: MCLR histories of SBI, HDFC Bank, ICICI Bank, Bank of Baroda and Axis Bank; Base Rate and reset capture still pending. | Product owner (Praveen Sudhakaran) |
+| 22 Nov 2026 | B-07 decided: SBI and Bank of Baroda MCLR histories only, shown as a reference; customers enter each past MCLR rate; no reset modelling. | Product owner (Praveen Sudhakaran) |

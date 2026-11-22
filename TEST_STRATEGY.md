@@ -68,7 +68,7 @@ EMIs due on the 5th of each month. A calculation period runs from one EMI date t
 | ID | Case | Expected |
 |---|---|---|
 | T-A05-1 | Repo-linked loan, past rates unknown | Missing periods = historical repo rate + estimated spread (B-03), labelled Illustrative |
-| T-A05-1b | MCLR-linked loan | Uses that lender's historical MCLR + spread, changing only on reset dates (coverage per B-07) |
+| T-A05-1b | MCLR-linked loan | No automatic estimate: entered rates are used, gaps carry forward labelled Estimated; the SBI or Bank of Baroda MCLR on a date is available as a labelled reference (B-07) |
 | T-A05-1c | Base Rate-linked loan | Uses that lender's historical Base Rate + spread |
 | T-A05-1d | Benchmark unknown | Repo linkage is **not** assumed; last known rate carried forward, labelled Estimated |
 | T-A05-1e | BPLR-linked loan without a contractual reference | No public estimate; last known rate carried forward, labelled Estimated |
@@ -127,7 +127,7 @@ Three independent implementations must agree to the paisa for every month: TypeS
 | G-12 | Unknown past rates filled from the benchmark table (A-05) |
 | G-12b | Two rate changes inside one period with different choices (only the later applies), then keep tenure after the tenure was moving |
 | G-13 | EMI due on the 31st: 31 Jan, 28 Feb, 31 Mar, 30 Apr, 31 May (B-05) |
-| G-14 | MCLR-linked loan with unknown past rates, annual resets (B-03, B-07) |
+| G-14 | MCLR-linked loan with some past rates not entered: carry-forward, labelled Estimated (B-07) |
 
 The v1 workbook is not an approved calculation reference. Spreadsheet v2 becomes a reference only after it passes these scenarios against the Python reference.
 

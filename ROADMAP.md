@@ -17,7 +17,7 @@ Goal: a safe place to build, with the accuracy benchmark in place before any fea
 - Continuous integration on every pull request.
 - Independent Python reference implementing A-01 to A-08, and the first golden scenarios (TEST_STRATEGY.md section 2).
 
-**Gate:** CI green. (B-08 decided 22 Nov 2026; the rest of B-07 must be decided before the Phase 1 gate.)
+**Gate:** CI green. (B-07 and B-08 decided 22 Nov 2026.)
 
 ## Phase 1 — Calculation engine and spreadsheet v2 (no website yet)
 
@@ -25,11 +25,11 @@ Goal: one set of approved rules, implemented twice, proven identical.
 
 - Engine: decimal.js with every amount rounded to the paisa (A-02 as amended), monthly interest (A-01), rate changes by period (A-03), three EMI/tenure options (A-04), dated and sourced bank figures as projection starting points with differences kept (A-06), exact final EMI (A-07), fully disbursed loans only (A-08).
 - Two-part labels on every figure (S-01) and validation, including EMI not covering interest (S-05).
-- Bundled, versioned public benchmark table: repo rate, MCLR and Base Rate by loan type, plus estimated spread (A-05, B-03); carry-forward labelled Estimated where no reliable benchmark; lender coverage per B-07.
+- Bundled, versioned public benchmark table: RBI repo rate plus estimated spread for repo-linked loans (A-05, B-03); official SBI and Bank of Baroda MCLR histories shown as a reference beside MCLR loans, whose past rates the customer enters (B-07); carry-forward labelled Estimated where no rate is known.
 - **Spreadsheet v2** (built; matches all golden scenarios), generated from a script in the repository, implementing the same rules and using the same benchmark table (D-04, S-06). The v1 workbook is not an approved reference; v2 becomes the reference only after it is validated.
 - Plain-English explanation text returned with results.
 
-**Gate:** B-07 decided; every golden scenario agrees on every displayed rupee across engine, spreadsheet v2 and Python reference; property tests pass; product owner reviews explanation text.
+**Gate:** every golden scenario agrees on every displayed rupee across engine, spreadsheet v2 and Python reference; property tests pass; product owner reviews explanation text.
 
 ## Phase 2 — Release 1.0 "Home Loan Reality Check" website
 

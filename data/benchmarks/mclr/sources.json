@@ -1,0 +1,47 @@
+{
+  "table_version": "2026-11-22",
+  "benchmark": "MCLR",
+  "note": "Official MCLR histories as published by each bank, copied without rounding or gap-filling. Rates are percent per annum. A blank cell means the bank published no rate for that tenor on that date. HDFC Bank, ICICI Bank and Axis Bank publish no official MCLR history, so their loans carry forward the last known rate, labelled Estimated (B-07, 22 Nov 2026).",
+  "series": [
+    {
+      "id": "sbi",
+      "name": "State Bank of India",
+      "file": "sbi.csv",
+      "source_url": "https://sbi.bank.in/web/interest-rates/interest-rates/mclr-historical-data",
+      "retrieved": "2026-11-22",
+      "source_last_updated": "2026-11-16",
+      "covers": ["2016-04-01", "2026-10-15"],
+      "tenors": [
+        "overnight",
+        "one_month",
+        "three_month",
+        "six_month",
+        "one_year",
+        "two_year",
+        "three_year"
+      ]
+    },
+    {
+      "id": "bank_of_baroda",
+      "name": "Bank of Baroda",
+      "file": "bank_of_baroda.csv",
+      "source_url": "https://bankofbaroda.bank.in/interest-rate-and-service-charges/retail-loans-interest-rates/mclr-historical-data",
+      "retrieved": "2026-11-22",
+      "source_last_updated": null,
+      "covers": ["2016-04-07", "2026-09-12"],
+      "tenors": [
+        "overnight",
+        "one_month",
+        "three_month",
+        "six_month",
+        "one_year",
+        "three_year",
+        "five_year"
+      ],
+      "caveats": [
+        "The page shows dates as DD-MM-YYYY without labelling the format; the sequence of rows confirms day-month-year.",
+        "The page's last-updated field is blank; the latest row is 12 Sep 2026."
+      ]
+    }
+  ]
+}

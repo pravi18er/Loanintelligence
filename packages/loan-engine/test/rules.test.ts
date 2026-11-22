@@ -244,3 +244,18 @@ describe("S-05 invalid repayment scenarios are flagged", () => {
     expect(validateLoan(base({ annualRatePercent: "0.085" }))[0]?.severity).toBe("check");
   });
 });
+
+describe("A-07 rounding can close a small, long loan a month early", () => {
+  it("Rs 10,000.19 at 14.92% over 478 months closes in month 477 with a smaller final EMI", () => {
+    const s = amortise({
+      principal: paise(1_000_019),
+      annualRatePercent: "14.92",
+      tenureMonths: 478,
+      firstEmiDate: "2005-01-01",
+    });
+    expect(s.rows).toHaveLength(477);
+    expect(s.rows[0]?.payment).toBe(12_468);
+    expect(s.rows.at(-1)?.payment).toBe(10_757);
+    expect(s.closed).toBe(true);
+  });
+});
